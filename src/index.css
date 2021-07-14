@@ -3,3 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.router-link-exact-active{
+  color: rgba(129, 140, 248, 1);
+}

@@ -4,21 +4,23 @@
        <NavHeader/>
    </header>
 
-   <div class="flex-1 w-full mx-auto p-4 sm:p-8 -mt-44 max-w-7xl">
+   <div class="flex-1 w-full mx-auto p-4 sm:p-8 -mt-44 max-w-7xl pb-20 md:pb-0">
       <router-view/>
    </div>
-   <footer class="text-sm text-color-gray-darker p-3 text-center">
+   <footer class="text-sm hidden sm:block text-color-gray-darker p-3 pb-5 text-center">
       &copy;Exoapp Corporation {{new Date().getFullYear()}}
    </footer>
+   <NavBottom/>
 </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import NavBottom from '../components/NavBottom.vue'
 import NavHeader from '../components/NavHeader.vue'
 
 export default defineComponent({
-  components: { NavHeader },
+  components: { NavHeader, NavBottom },
    setup () {
       
 

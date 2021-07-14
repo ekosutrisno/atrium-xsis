@@ -1,7 +1,7 @@
 <template>
   <div class="flex lg:space-x-4 w-full">
    <div class="p-4 flex-1 bg-color-dark-gray-darker shadow-xl rounded-lg">
-      <header class="border-b border-color-gray-darkest flex justify-between p-2">
+      <header class="border-b border-color-gray-darkest flex justify-between py-2">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Statistic</span> 
             <span>
@@ -13,8 +13,8 @@
          </div>
          <div class="text-color-gray-default hidden sm:block text-sm">Performance {{currentYear}} (Year-To-Date)</div>
       </header>
-      <p class="p-2 py-3 text-color-gray-default">Your statistic info</p>
-      <div class="grid gap-4 p-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <p class="py-3 text-color-gray-default">Your statistic info</p>
+      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
          <StatisticCard 
             v-for=" stat in statistics"
             :stat="stat"
@@ -28,7 +28,7 @@
   </div>
   <div class="flex w-full mt-5">
    <div class="p-4 flex-1 lg:max-w-lg bg-color-dark-gray-darker shadow-xl rounded-lg">
-       <header class="border-b border-color-gray-darkest flex justify-between p-2">
+       <header class="border-b border-color-gray-darkest flex justify-between py-2">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Total</span> 
             <span>
@@ -37,7 +37,7 @@
                </svg>
             </span>
          </div></header>
-      <p class="p-2 py-3 text-color-gray-default">Your performance in {{ currentYear }}</p>
+      <p class="py-3 text-color-gray-default">Performance {{currentYear}}</p>
       
       <StatisticCard 
          :stat="statistic"
@@ -48,7 +48,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import StatisticCard, { IStatistic } from '../components/cards/StatisticCard.vue'
+import StatisticCard from '../components/cards/StatisticCard.vue'
+import { IStatistic } from '../types/InterfaceType';
 const statisticList:IStatistic[] = [
             {
                id: 1,
