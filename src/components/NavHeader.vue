@@ -21,7 +21,7 @@
           <!-- Profile dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
             <div>
-              <MenuButton class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              <MenuButton class="dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span class="sr-only">Open user menu</span>
                 <img class="h-8 w-8 rounded-full" src="https://res.cloudinary.com/ekosutrisno/image/upload/v1625803063/avatars/MyAvatar_taylrm.png" alt="profile-avatar" />
               </MenuButton>
@@ -32,7 +32,7 @@
                   <router-link to="/" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Your Profile</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <router-link to="/" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Settings</router-link>
+                  <router-link to="/u/0/settings" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Settings</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <router-link to="/" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Sign out</router-link>

@@ -1,8 +1,12 @@
 import { RouteRecordRaw } from "vue-router";
 
+// Views
 import Home from '../views/Home.vue';
 import Project from '../views/Project.vue';
 import Timesheet from '../views/Timesheet.vue';
+import Settings from '../views/Settings.vue';
+
+// Layouts
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -33,6 +37,14 @@ const routes: RouteRecordRaw[] = [
             component: Timesheet,
             meta: {
                title: 'Timesheet'
+            }
+         },
+         {
+            path: '/u/0/settings',
+            name: 'Settings',
+            component: Settings,
+            meta: {
+               title: 'Settings'
             }
          }
       ]
