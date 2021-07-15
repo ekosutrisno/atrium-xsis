@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="flex-1 flex items-center sm:items-stretch sm:justify-start">
-          <div class="flex-shrink-0 font-semibold text-indigo-400 flex items-center text-2xl">
+          <div class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
              ATRIUM
           </div>
           <div class="hidden sm:block sm:ml-6">

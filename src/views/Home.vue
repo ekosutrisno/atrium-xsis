@@ -1,8 +1,8 @@
 <template>
   <div class="flex lg:space-x-4 w-full">
-   <div class="p-4 flex-1 bg-color-dark-gray-darker shadow-xl rounded-lg">
-      <header class="border-b border-color-gray-darkest flex justify-between py-2">
-         <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
+   <div class="p-4 flex-1 bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow dark:shadow-xl rounded-lg">
+      <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">
+         <div class="text-2xl inline-flex items-center space-x-1 text-color-dark-gray-darker dark:text-color-gray-light font-semibold">
             <span>Statistic</span> 
             <span>
                <svg xmlns="http://www.w3.org/2000/svg" area-hidden="true" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -11,9 +11,9 @@
                </svg>
             </span>
          </div>
-         <div class="text-color-gray-default hidden sm:block text-sm">Performance {{currentYear}} (Year-To-Date)</div>
+         <div class="text-color-gray-darker dark:text-color-gray-default hidden sm:block text-sm">Performance {{currentYear}} (Year-To-Date)</div>
       </header>
-      <p class="py-3 text-color-gray-default">Your statistic info</p>
+      <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Your statistic info</p>
       <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
          <StatisticCard 
             v-for=" stat in statistics"
@@ -22,14 +22,14 @@
          />
       </div>
    </div>
-   <div class="flex-shrink-0 hidden lg:flex xl:items-center justify-center rounded-lg hover:bg-color-dark-gray-dark">
-      <img class="h-52 w-5h-52 rounded-full" src="https://res.cloudinary.com/ekosutrisno/image/upload/v1625803063/avatars/MyAvatar_taylrm.png" alt="profile">
+   <div class="flex-shrink-0 p-2 hidden lg:flex xl:items-center justify-center rounded-lg bg-color-gray-lightest shadow dark:bg-color-dark-gray-dark">
+      <PieCart class="w-52"/>
    </div>
   </div>
   <div class="flex w-full mt-5">
-   <div class="p-4 flex-1 lg:max-w-lg bg-color-dark-gray-darker shadow-xl rounded-lg">
-       <header class="border-b border-color-gray-darkest flex justify-between py-2">
-         <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
+   <div class="p-4 flex-1 lg:max-w-lg bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow-xl rounded-lg">
+       <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">
+         <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-dark dark:text-color-gray-light font-semibold">
             <span>Total</span> 
             <span>
                <svg xmlns="http://www.w3.org/2000/svg" area-hidden="true" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -37,7 +37,7 @@
                </svg>
             </span>
          </div></header>
-      <p class="py-3 text-color-gray-default">Performance {{currentYear}}</p>
+      <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Performance {{currentYear}}</p>
       
       <StatisticCard 
          :stat="statistic"
@@ -49,6 +49,7 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
+import PieCart from '../components/chart/PieCart.vue';
 import { IStatistic } from '../types/InterfaceType';
 const statisticList:IStatistic[] = [
             {
@@ -84,7 +85,7 @@ const statisticTotal: IStatistic = {
 };
 
 export default defineComponent({
-  components: { StatisticCard },
+  components: { StatisticCard, PieCart },
    setup () {
 
       const state = reactive({

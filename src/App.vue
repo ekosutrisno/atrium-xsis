@@ -3,13 +3,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { togleDarkLightMode } from './utils/helperFunction';
+import { defineComponent, onMounted} from 'vue';
+import { useUtilityStore } from './services/useUtilityStore';
 
 export default defineComponent({
   name: 'App',
-  beforeMount(){
-    togleDarkLightMode();
+  setup(){
+    const utilityStore = useUtilityStore();
+    onMounted(()=> utilityStore.wathThemeSelected());
   }
+
 })
 </script>
