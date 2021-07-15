@@ -29,7 +29,8 @@ export default defineComponent({
               spacing: 2,
               offset: 3,
               borderRadius:3,
-              borderWidth: 1.5
+              borderWidth: 1.5,
+              hoverOffset: 6
             },
           ],
         },

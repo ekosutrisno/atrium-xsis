@@ -1,6 +1,6 @@
 <template>
   <div class="flex lg:space-x-4 w-full">
-   <div class="p-4 flex-1 bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow dark:shadow-xl rounded-lg">
+   <div class="p-4 flex-1 bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow-md dark:shadow-xl rounded-lg">
       <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-dark-gray-darker dark:text-color-gray-light font-semibold">
             <span>Statistic</span> 
@@ -14,22 +14,22 @@
          <div class="text-color-gray-darker dark:text-color-gray-default hidden sm:block text-sm">Performance {{currentYear}} (Year-To-Date)</div>
       </header>
       <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Your statistic info</p>
-      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-         <StatisticCard 
-            v-for=" stat in statistics"
-            :stat="stat"
-            :key="stat.id"
-         />
-      </div>
+      <ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+         <li  v-for=" stat in statistics" :key="stat.id">
+            <StatisticCard 
+               :stat="stat"
+            />
+         </li>
+      </ul>
    </div>
-   <div class="flex-shrink-0 p-2 hidden lg:flex xl:items-center justify-center rounded-lg bg-color-gray-lightest shadow dark:bg-color-dark-gray-dark">
+   <div class="flex-shrink-0 p-2 hidden lg:flex xl:items-center justify-center rounded-lg bg-color-gray-lightest shadow-md dark:bg-color-dark-gray-dark">
       <PieCart class="w-52"/>
    </div>
   </div>
   <div class="flex w-full mt-5">
-   <div class="p-4 flex-1 lg:max-w-lg bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow-xl rounded-lg">
+   <div class="p-4 flex-1 lg:max-w-lg bg-color-gray-lightest dark:bg-color-dark-gray-darker shadow-md dark:shadow-xl rounded-lg">
        <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">
-         <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-dark dark:text-color-gray-light font-semibold">
+         <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-darkest dark:text-color-gray-light font-semibold">
             <span>Total</span> 
             <span>
                <svg xmlns="http://www.w3.org/2000/svg" area-hidden="true" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,54 +47,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
 import PieCart from '../components/chart/PieCart.vue';
-import { IStatistic } from '../types/InterfaceType';
-const statisticList:IStatistic[] = [
-            {
-               id: 1,
-               progress: 49.329,
-               title: 'Absensi',
-               to: '#'
-            },
-            {
-               id: 2,
-               progress: 47.030,
-               title: 'Placement Productivity',
-               to: '#'
-            },
-            {
-               id: 3,
-               progress: 33.331,
-               title: 'Timesheet Collection',
-               to: '#'
-            },
-            {
-               id: 4,
-               progress: 27.778,
-               title: 'Penilaian User',
-               to: '#'
-            },
-];
-const statisticTotal: IStatistic = {
-      id: 0,
-      progress: 43.165,
-      title: 'Total Performance',
-      to: '#'
-};
+import { useStatisticStore } from '../services/useStatisticStore';
 
 export default defineComponent({
   components: { StatisticCard, PieCart },
    setup () {
+      const statisticStore = useStatisticStore()
 
       const state = reactive({
-         statistics: statisticList,
-         statistic: statisticTotal, 
+         statistics: computed(()=> statisticStore.statisticList),
+         statistic: computed(()=> statisticStore.statisticTotal), 
          currentYear: new Date().getFullYear()
       })
       
-
       return {
          ...toRefs(state)
       }

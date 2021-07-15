@@ -37,11 +37,10 @@ export default defineComponent({
       
       const downloadPdf = (dateFrom: string, dateTo: string) =>{
          var url = 'http://atrium.xsis.co.id/api/timesheet/retrieve-data/2021-7-13/2021-7-14'
-         
-         // let link = document.createElement('a')
-         // link.href = url;
-         // link.download = 'Results.pdf'
-         // link.click()
+         let link = document.createElement('a')
+         link.href = url;
+         link.download = 'Results.pdf'
+         link.click()
          console.log(url);
       }
 
