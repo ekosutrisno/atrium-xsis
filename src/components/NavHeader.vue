@@ -27,18 +27,15 @@
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-              <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg pt-1 bg-color-dark-gray-dark ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                  <router-link to="/" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Your Profile</router-link>
+                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <router-link to="/u/0/settings" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Settings</router-link>
-                </MenuItem>
-                <MenuItem v-slot="{ active }">
-                  <router-link to="/" :class="[active ? 'bg-color-dark-gray-darker' : '', 'block px-4 py-2 text-sm text-color-gray-light']">Sign out</router-link>
+                  <router-link to="/" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</router-link>
                 </MenuItem>
                 <MenuItem>
-                  <router-link to="/" :class="['px-4 py-2 mt-5 flex flex-col bg-color-dark-gray-darkest rounded-b-md text-color-gray-light']">
+                  <router-link to="/" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
                      <span class="text-xs">Eko Sutrisno</span>
                      <span class="text-[11px]">eko.sutrisno@xsis.co.id</span>
                   </router-link>

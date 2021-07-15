@@ -1,6 +1,6 @@
 <template>
-<div class="flex antialiased h-full flex-col space-y-2 w-full bg-color-gray-light dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl md:hover:ring-1 md:hover:ring-indigo-400 md:hover:ring-opacity-75 transition-all border border-gray-300 dark:border-color-gray-darkest rounded-md p-4">
-   <div class="flex items-center justify-between border-b pb-2 border-gray-300 dark:border-color-gray-darkest">
+<div class="flex antialiased h-full flex-col space-y-2 w-full bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl md:hover:ring-1 md:hover:ring-indigo-400 md:hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4">
+   <div class="flex items-center justify-between border-b pb-2 border-gray-100 dark:border-color-gray-darkest">
       <p>Project</p>
       <div class="inline-flex space-x-2">
          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-color-gray-default dark:text-color-gray-darkest transition-all hover:text-red-400 dark:hover:text-red-400" viewBox="0 0 20 20" fill="currentColor">

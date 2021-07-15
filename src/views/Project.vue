@@ -24,7 +24,7 @@
          </li>
       </ul>
    </div>
-   <button type="button" class="p-3.5 sm:hidden fixed right-5 shadow-xl bottom-[4.5rem] cursor-default text-color-gray-light rounded-full bg-indigo-400">
+   <button type="button" class="p-3.5 sm:hidden fixed right-5 shadow-xl bottom-[4.5rem] cursor-default text-color-gray-light rounded-full hover:bg-indigo-500 bg-indigo-400">
      <svg xmlns="http://www.w3.org/2000/svg" area-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
       </svg>
@@ -34,48 +34,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 import ProjectCard from '../components/cards/ProjectCard.vue'
-import { IProject } from '../types/InterfaceType'
-
-const projects: IProject[] = [
-   {
-      projectId:"68ae85d0-300f-472b-aee1-fe8d5c9f7c73",
-      clientName:'Azec Indonesia Management Service',
-      location:'Gedong Panjang',
-      department:'IT Architect',
-      namaUser:'Alfa Irawan',
-      projectName:'Auth Service',
-      startProject: new Date(),
-      endProject: new Date(),
-      role: 'Developer',
-      projectPhase: 'Development',
-      projectDescription: 'Testing and Create Auth Service for Client using OAuth2 Security Flow',
-      projectTechologi: ['Java', 'Spring Boot', 'PostgreSQL', 'Spring Cloud Eureka', 'Microservice'],
-      mainTask:'Create Full auth with user and client dinamic from DB'
-   },
-   {
-      projectId:"41a4a112-b7a1-4621-8ece-e5b3d74ef171",
-      clientName:'Azec Indonesia Management Service',
-      location:'Erajaya Plaza',
-      department:'IT Architect',
-      namaUser:'Christiawan Aprilianto',
-      projectName:'Basic Promotion Service',
-      startProject: new Date(),
-      endProject: new Date(),
-      role: 'Developer',
-      projectPhase: 'Development',
-      projectDescription: 'Testing and Create Auth Service for Client using OAuth2 Security Flow',
-      projectTechologi: ['Microservices', 'Spring Cloud Eureka'],
-      mainTask:'Create Full auth with user and client dinamic from DB'
-   },
-]
-
+import { useProjectStore } from '../services/useProjectStore';
 export default defineComponent({
   components: { ProjectCard },
    setup () {
+      const projectStore =  useProjectStore();
       const state = reactive({
-         projects: projects
+         projects: computed(()=> projectStore.projects)
       })
 
       return {

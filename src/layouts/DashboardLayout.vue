@@ -1,5 +1,5 @@
 <template>
-<div class="h-full antialiased font-quicksand flex min-h-screen flex-col justify-between bg-color-dark-gray-lightest dark:bg-color-dark-black-darker">
+<div class="h-full antialiased font-quicksand flex min-h-screen flex-col justify-between bg-color-gray-lighter dark:bg-color-dark-black-darker">
    <header class="w-full bg-color-dark-black-default h-64 p-4">
        <NavHeader/>
    </header>
