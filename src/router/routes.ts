@@ -20,7 +20,8 @@ const routes: RouteRecordRaw[] = [
             name: 'Home',
             component: Home,
             meta: {
-               title: 'Home'
+               title: 'Home',
+               requiresAuth: true
             }
          },
          {
@@ -28,7 +29,8 @@ const routes: RouteRecordRaw[] = [
             name: 'Project',
             component: Project,
             meta: {
-               title: 'Project'
+               title: 'Project',
+               requiresAuth: true
             }
          },
          {
@@ -36,7 +38,8 @@ const routes: RouteRecordRaw[] = [
             name: 'Timesheet',
             component: Timesheet,
             meta: {
-               title: 'Timesheet'
+               title: 'Timesheet',
+               requiresAuth: true
             }
          },
          {
@@ -44,7 +47,8 @@ const routes: RouteRecordRaw[] = [
             name: 'Settings',
             component: Settings,
             meta: {
-               title: 'Settings'
+               title: 'Settings',
+               requiresAuth: true
             }
          }
       ]

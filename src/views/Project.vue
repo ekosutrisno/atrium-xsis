@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full">
    <div class="flex-1 rounded-lg">
-      <header class="p-4 pt-[18px] sticky -top-1 bg-color-dark-gray-darker flex justify-between">
+      <header class="p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Projects</span> 
             <span>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import ProjectCard from '../components/cards/ProjectCard.vue'
-import { useProjectStore } from '../services/useProjectStore';
+import { useProjectStore } from '../services';
 export default defineComponent({
   components: { ProjectCard },
    setup () {

@@ -22,8 +22,8 @@
          </li>
       </ul>
    </div>
-   <div class="flex-shrink-0 p-2 hidden lg:flex xl:items-center justify-center rounded-lg bg-color-gray-lightest shadow-md dark:bg-color-dark-gray-dark">
-      <PieCart class="w-52"/>
+   <div class="flex-shrink-0 p-2 max-h-60 hidden lg:flex xl:items-center justify-center rounded-lg bg-color-gray-lightest shadow-md dark:bg-color-dark-gray-dark">
+      <PieCart class="w-52 max-h-60"/>
    </div>
   </div>
   <div class="flex w-full mt-5">
@@ -50,7 +50,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
 import PieCart from '../components/chart/PieCart.vue';
-import { useStatisticStore } from '../services/useStatisticStore';
+import { useStatisticStore } from '../services';
 
 export default defineComponent({
   components: { StatisticCard, PieCart },

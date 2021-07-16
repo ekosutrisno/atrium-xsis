@@ -1,6 +1,6 @@
 <template>
 <router-link :to="stat.to">
-   <div class="card flex flex-col shadow h-20 p-3 dark:hover:bg-opacity-60 hover:bg-color-gray-lighter dark:text-color-gray-light text-color-dark-gray-dark rounded-md border-t-[6px] dark:border-color-dark-gray-default border-[#d3adf7] dark:bg-color-dark-gray-dark bg-color-gray-lightest">
+   <div class="card flex flex-col shadow h-28 p-4 dark:hover:bg-opacity-60 hover:bg-color-gray-lighter dark:text-color-gray-light text-color-dark-gray-dark rounded-md border-t-[6px] dark:border-color-dark-gray-default border-[#ede1f8] dark:bg-color-dark-gray-dark bg-color-gray-lightest">
       <h3 class="text-sm font-medium mb-1.5"> {{stat.title}} </h3>
       <h1>
          <span class="text-xl font-semibold dark:text-color-dark-gray-lightest">{{stat.progress}}%</span>

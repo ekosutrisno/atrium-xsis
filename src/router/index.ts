@@ -9,7 +9,7 @@ const router = createRouter({
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
    document.title = `Atrium - ${to.meta.title}`
-   next();
+   next()
 })
 
 export default router;

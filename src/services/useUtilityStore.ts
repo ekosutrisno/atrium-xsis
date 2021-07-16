@@ -3,10 +3,11 @@ import { defineStore } from 'pinia'
 export const useUtilityStore = defineStore({
    id: 'useUtilityStore',
    state: () => ({
-      theme: '',
+      theme: 'dark',
+      isLoggedIn: false
    }),
    actions: {
-      setTheme(theme: string) {
+      setToggleTheme(theme: string): void {
          localStorage.setItem('theme', theme);
          this.theme = theme;
 
@@ -19,9 +20,12 @@ export const useUtilityStore = defineStore({
             document.documentElement.classList.add('light')
          }
       },
-      wathThemeSelected() {
-         var classList = localStorage.getItem('theme');
-         document.documentElement.classList.add(classList ? classList : 'light')
+      wathcThemeSelected(): void {
+         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+         } else {
+            document.documentElement.classList.remove('dark')
+         }
       }
    },
 })
