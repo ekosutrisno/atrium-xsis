@@ -23,7 +23,7 @@
             <div>
               <MenuButton class="dark:bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://res.cloudinary.com/ekosutrisno/image/upload/v1625803063/avatars/MyAvatar_taylrm.png" alt="profile-avatar" />
+                <img class="h-8 w-8 rounded-full" :src="photoUrl" alt="profile-avatar" />
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -51,9 +51,10 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { BellIcon} from '@heroicons/vue/outline'
+import { BellIcon } from '@heroicons/vue/outline'
+import { useUserStore } from '../services'
 
 const navigation = [
   { name: 'Dashboard', href: '/u/0/dashboard', current: true },
@@ -73,9 +74,12 @@ export default {
     BellIcon,
   },
   setup() {
+    const userStore = useUserStore();
+
     const state = reactive({
       navigation: navigation,
-      open: false
+      open: false,
+      photoUrl:computed(()=> userStore.getPhotoUrl)
     })
 
     return {
