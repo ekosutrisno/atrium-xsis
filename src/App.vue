@@ -4,13 +4,13 @@
 
 <script lang="ts">
 import { defineComponent, onMounted} from 'vue';
-import { useUtilityStore } from './services/useUtilityStore';
+import { useUtilityStore } from './services';
 
 export default defineComponent({
   name: 'App',
   setup(){
     const utilityStore = useUtilityStore();
-    onMounted(()=> utilityStore.wathThemeSelected());
+    onMounted(()=> utilityStore.wathcThemeSelected());
   }
 
 })

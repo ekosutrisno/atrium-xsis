@@ -23,13 +23,10 @@ export default defineComponent({
               label: "My First Dataset",
               data: [49.329, (100 - 49.329)],
               backgroundColor: [
-                "#d3adf7",
-                "#b37feb"
+                "#b37feb",
+                "#ede1f8",
               ],
-              spacing: 2,
-              offset: 3,
-              borderRadius:3,
-              borderWidth: 1.5,
+              borderWidth: 0,
               hoverOffset: 6
             },
           ],
