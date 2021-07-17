@@ -6,7 +6,6 @@ export interface AnyObject {
 export interface Info {
    cretedDate?: Date | any
    lastModifiedDate?: Date | any
-   [propName: string]: any;
 }
 export interface IProject extends Info {
    projectId: string
@@ -20,15 +19,20 @@ export interface IProject extends Info {
    role?: string
    projectPhase?: string
    projectDescription?: string
-   projectTechologi?: string[]
+   projectTechologi?: string[] | any
    mainTask?: string
 }
 
 export interface IStatistic extends Info {
+   userId: string
+   total: IStatisticInfo
+   info: IStatisticInfo[]
+}
+export interface IStatisticInfo extends Info {
    id: number
    progress: number
    title: string
-   to: string
+   to?: string
 }
 
 export interface ITimesheet extends Info {
@@ -87,23 +91,24 @@ export interface IUser extends Info {
    userId: string
    eroId?: string
    isEro?: boolean
-   isForeign?: boolean
+   nationality?: string
    isActive: boolean
    email: string
    username?: string
    fullName?: string
    telephone?: string
    photoUrl?: string
-   gender?: Gender
+   gender?: Gender | string
    dob?: Date | any
    pob?: string
    hobby?: string
    joinAt: Date | any
-   religion?: Religion
+   religion?: Religion | string
    address?: IAddress[]
-   roleDeveloper?: IRoleDeveloper
-   clients?: IClient[]
+   roleDeveloper: string
+   clients: IClient[]
    userPreference?: IUserPreference
+   about?: string
 }
 
 export interface IUserPreference extends Info {
