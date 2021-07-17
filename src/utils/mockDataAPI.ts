@@ -1,9 +1,7 @@
 import { IProject, IStatistic, IUser } from "../types/InterfaceType";
 
-let userIdValue = 'aeaf1efc-31e1-4255-9002-9ffac69a6073';
-
 export const currentUser: IUser = {
-   userId: userIdValue,
+   userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
    eroId: 'fcf634fc-e0c0-4c34-85d4-ea13183b9d02',
    isEro: false,
    nationality: 'Indonesia',
@@ -19,10 +17,10 @@ export const currentUser: IUser = {
    hobby: 'Masak, Music',
    joinAt: '2020-11-11',
    religion: 'Islam',
-   about: 'Awalnya saya suka Desain Grafis seperti desain poster, banner, standing banner, dan cover buku. Tetapi pada akhir tahun 2019 saya mulai tertarik dengan dunia IT dan dari sanalah saya mulai belajar pemprograman. Pada awalnya saya belajar hanya CSS & HTML saja, ya cuma coba-coba desain landing page biasa tapi setelah dirasa mulai ada perkembangan saya putuskan belajar PHP dan Javascript agar website yang saya buat fungsionalitasnya berjalan.',
+   about: 'Awalnya saya suka Desain Grafis seperti desain poster, banner, standing banner, dan cover buku. Tetapi pada akhir tahun 2019 saya mulai tertarik dengan dunia IT dan dari sanalah saya mulai belajar pemprograman.',
    address: [
       {
-         userId: userIdValue,
+         userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
          jalan: 'Jl. Pedurenan Masjid IV',
          kota: 'Jakarta Selatan',
          provinsi: 'DKI Jakarta',
@@ -108,12 +106,16 @@ export const projects: IProject[] = [
 ]
 
 export const statistic: IStatistic = {
-   userId: userIdValue,
-   id: 0,
-   progress: 43.165,
-   title: 'Total Performance',
+   userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
+   total: {
+      id: 0,
+      progress: 43.165,
+      title: 'Total Performance',
+      to: '#'
+   },
    info: [
       {
+
          id: 1,
          progress: 49.329,
          title: 'Absensi',

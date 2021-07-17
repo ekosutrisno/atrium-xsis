@@ -4,116 +4,207 @@
     <GeneralProfileHeader 
       class="px-4 sm:px-6 "
       :info="{
-        title: 'General Information',
+        title: 'Personal Information',
         desc: 'Personal details and employee.'
       }"
+      :enableEdit="true"
     />
   <div>
     <dl>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 sm:col-span-1 dark:text-color-gray-default">
+      <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Full name
         </dt>
-        <dd class="mt-1 sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 flex items-center justify-between">
-           <label for="full-name" class="block sr-only text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="full-name" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
             <input 
               type="text" v-model="user.fullName" name="full-name" id="full-name" autocomplete="off"
-              :readonly="!currentEdit"
-              :class="[ currentEdit 
-                ? 'dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
-                : 'dark:appearance-none px-0 dark:border-none dark:bg-transparent dark:shadow-none dark:focus:ring-0'
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
               ]"
-              class="mt-1 dark:text-color-gray-lightest block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" 
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
             />
-            <svg @click="toggleEdit" v-if="currentEdit"  xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 ml-2 md:cursor-pointer text-color-gray-dark dark:text-color-gray-darker transition-all hover:text-indigo-100 dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-            <svg @click="toggleEdit" v-else-if="!currentEdit" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 ml-2 md:cursor-pointer text-color-gray-dark dark:text-color-gray-darker transition-all hover:text-indigo-100 dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-            </svg>
         </dd>
       </div>
-      <div class="bg-white dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-white group dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Role developer
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.roleDeveloper }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="role-developer" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.roleDeveloper" name="role-developer" id="role-developer" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Email address
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.email }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="email-address" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="email" v-model="user.email" name="email-address" id="email-address" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-white dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-white group dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Gender
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.gender }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="gender" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.gender" name="gender" id="gender" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Date of birth
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.dob }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="dob" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.dob" name="dob" id="dob" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-white dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-white group dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Place of birth
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.pob }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="pob" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.pob" name="pob" id="pob" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Hobby
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-            {{ currentUser.hobby}}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="hobby" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.hobby" name="hobby" id="hobby" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-white dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-white group dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Religion
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.religion }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="religion" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.religion" name="religion" id="religion" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+      <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           Nationality
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-            {{ currentUser.nationality}}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="nationality" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.nationality" name="nationality" id="nationality" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-white dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
-          Telephone
+      <div class="bg-white group dark:bg-color-dark-gray-darker px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
+          Contact number
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-          {{ currentUser.telephone }}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="phone-number" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Full name</label>
+            <input 
+              type="text" v-model="user.telephone" name="phone-number" id="phone-number" autocomplete="off"
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+              ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md" 
+            />
         </dd>
       </div>
-      <div class="bg-gray-50 dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500 dark:text-color-gray-default">
+       <div class="bg-gray-50 group dark:bg-color-dark-gray-darkest px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500 my-auto dark:text-color-gray-default">
           About
         </dt>
-        <dd class="mt-1 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0 sm:col-span-2">
-            {{ currentUser.about}}
+        <dd class="sm:col-span-2 text-sm text-color-dark-gray-darkest dark:text-color-gray-lighter sm:mt-0">
+           <label for="about" class="sr-only text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">About</label>
+            <textarea 
+              v-model="user.about" id="about" name="about" rows="5" maxlength="250" 
+              :readonly="!isOnEdit"
+              :class="[ isOnEdit 
+                  ? 'dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500' 
+                  : 'appearance-none p-0 border-none bg-transparent shadow-none focus:ring-0'
+                ]"
+              class="dark:text-color-gray-lightest w-full shadow-sm text-sm border-gray-300 rounded-md"
+            />
+            <span v-if="isOnEdit" class="text-xs dark:text-color-gray-default">Total caracter {{ aboutLength }}/250. </span>
         </dd>
       </div>
     </dl>
+     <div v-if="isOnEdit" class="px-4 py-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
+          <button type="button" @click="onSubmitAction" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Save
+          </button>
+        </div>
   </div>
 </div>
 
@@ -122,10 +213,9 @@
   <GeneralProfileHeader
     class="px-4 sm:px-6"
     :info="{
-      title: 'Personal Information',
+      title: 'Address Information',
       desc: 'Use a permanent address where you can receive mail.'
     }"
-    :enableEdit="true"
   />
   <div class="mt-5 md:mt-0 md:col-span-2">
     <form @submit.prevent="onSubmitAction">
@@ -134,22 +224,22 @@
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6">
               <label for="street-address" class="block text-sm font-medium text-gray-700 dark:text-color-gray-default">Street address</label>
-              <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-sm border-gray-300 rounded-md" />
             </div>
 
             <div class="col-span-6 sm:col-span-6 lg:col-span-2">
               <label for="city" class="block text-sm font-medium text-gray-700 dark:text-color-gray-default">City</label>
-              <input type="text" name="city" id="city" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              <input type="text" name="city" id="city" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-sm border-gray-300 rounded-md" />
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="state" class="block text-sm font-medium text-gray-700 dark:text-color-gray-default">State / Province</label>
-              <input type="text" name="state" id="state" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              <input type="text" name="state" id="state" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-sm border-gray-300 rounded-md" />
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="postal-code" class="block text-sm font-medium text-gray-700 dark:text-color-gray-default">ZIP / Postal</label>
-              <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+              <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 dark:bg-color-dark-gray-darkest dark:border-color-dark-gray-default dark:text-color-gray-lightest focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-sm border-gray-300 rounded-md" />
             </div>
           </div>
         </div>
@@ -272,7 +362,9 @@ export default defineComponent({
           pob: state.currentUser.pob,
           hobby: state.currentUser.hobby,
           religion: state.currentUser.religion,
+          roleDeveloper: state.currentUser.roleDeveloper,
           about: state.currentUser.about,
+          gender: state.currentUser.gender,
         })
 
       const onSubmitAction = ()=>{
@@ -280,10 +372,12 @@ export default defineComponent({
       }
 
       const toggleEdit = ()=> state.currentEdit = !state.currentEdit;
+      const aboutLength = computed(() => user.value.about?.length);
 
       return {
         ...toRefs(state),
         user,
+        aboutLength,
         toggleEdit,
         onSubmitAction
       }

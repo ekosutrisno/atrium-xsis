@@ -25,7 +25,7 @@
            <img class="h-12 w-12 sm:h-36 sm:w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
          <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
-           {{currentUser.roleDeveloper.roleDeveloperName}}
+           {{currentUser.roleDeveloper}}
          </div>
       </header>
       

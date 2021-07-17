@@ -40,7 +40,7 @@
       <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Performance {{currentYear}}</p>
       
       <StatisticCard 
-         :stat="statistic"
+         :stat="statistic.total"
       />
    </div>
   </div>

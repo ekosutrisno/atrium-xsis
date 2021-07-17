@@ -12,14 +12,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IStatistic } from '../../types/InterfaceType'
+import { IStatisticInfo } from '../../types/InterfaceType'
 
 
 
 export default defineComponent({
    props:{
       stat:{
-         type: Object as () => IStatistic,
+         type: Object as () => IStatisticInfo,
          required: true
       }
    },

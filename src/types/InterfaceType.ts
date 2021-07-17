@@ -25,9 +25,7 @@ export interface IProject extends Info {
 
 export interface IStatistic extends Info {
    userId: string
-   id: number
-   progress: number
-   title: string
+   total: IStatisticInfo
    info: IStatisticInfo[]
 }
 export interface IStatisticInfo extends Info {
