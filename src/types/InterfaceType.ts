@@ -49,7 +49,9 @@ export interface ITimesheet extends Info {
 
 export interface IAddress extends Info {
    userId: string
+   addressId: string
    jalan: string
+   isDomisili: boolean
    kota?: string
    provinsi?: string
    kodePos?: string
@@ -104,7 +106,7 @@ export interface IUser extends Info {
    hobby?: string
    joinAt: Date | any
    religion?: Religion | string
-   address?: IAddress[]
+   address: UserAddress
    roleDeveloper: string
    clients: IClient[]
    userPreference?: IUserPreference
@@ -113,4 +115,15 @@ export interface IUser extends Info {
 
 export interface IUserPreference extends Info {
    useThemeMode?: string
+   pushNotification?: number
+   sendToEmail: {
+      candidates: boolean
+      offers: boolean
+   }
 }
+
+export type UserAddress = {
+   userId: string
+   addressAsli: IAddress
+   addressDomisili: IAddress
+} & Info

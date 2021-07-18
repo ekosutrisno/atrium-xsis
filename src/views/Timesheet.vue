@@ -1,5 +1,5 @@
 <template>
-<div class="flex relative w-full">
+<div class="flex relative w-full with-transition">
    <div class="flex-1 shadow-xl rounded-lg">
       <header class="p-4 pt-[18px] sticky z-10 -top-1 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
@@ -11,15 +11,15 @@
             </span>
          </div>
          <div class="text-color-gray-lighter hidden sm:block text-sm">
-            <button type="button" class="p-3 rounded-md bg-indigo-400">
-               Cetak Timesheet
+            <button type="button" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               Send timesheet
             </button>
          </div>
       </header>
       <p class="py-3 px-2 text-color-gray-default">Timesheet List</p>
       <TimesheetTable/>
    </div>
-   <button type="button" class="p-3.5 sm:hidden fixed right-5 shadow-xl bottom-[4.5rem] cursor-default text-color-gray-light rounded-full bg-indigo-400">
+   <button type="button" class="sticky-btn">
       <svg xmlns="http://www.w3.org/2000/svg"  aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
          <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
       </svg>
