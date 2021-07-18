@@ -18,9 +18,12 @@ export const currentUser: IUser = {
    joinAt: '2020-11-11',
    religion: 'Islam',
    about: 'Awalnya saya suka Desain Grafis seperti desain poster, banner, standing banner, dan cover buku. Tetapi pada akhir tahun 2019 saya mulai tertarik dengan dunia IT dan dari sanalah saya mulai belajar pemprograman.',
-   address: [
-      {
+   address: {
+      userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
+      addressAsli:{
+         addressId: 'd7b79b48-e776-47e3-84f4-45b1548f3829',
          userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
+         isDomisili: false,
          jalan: 'Jl. Pedurenan Masjid IV',
          kota: 'Jakarta Selatan',
          provinsi: 'DKI Jakarta',
@@ -29,8 +32,25 @@ export const currentUser: IUser = {
          country: 'Indonesia',
          kabupaten: 'Jakarta Selatan',
          kecamatan: 'Setiabudi',
-      }
-   ],
+         cretedDate: '2020-12-11',
+         lastModifiedDate: '2021-07-12'
+      },
+      addressDomisili: {
+         addressId: '7cab0a93-16bd-45fc-b939-41348542b470',
+         userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
+         isDomisili: true,
+         jalan: 'Jl. Pedurenan Masjid IV',
+         kota: 'Jakarta Selatan',
+         provinsi: 'DKI Jakarta',
+         kodePos: '32173',
+         desa: 'Karet Kuningan',
+         country: 'Indonesia',
+         kabupaten: 'Jakarta Selatan',
+         kecamatan: 'Setiabudi',
+         cretedDate: '2020-12-11',
+         lastModifiedDate: '2021-07-12'
+      },
+   },
    roleDeveloper: 'Fullstack Developer',
    clients: [
       {
@@ -51,7 +71,12 @@ export const currentUser: IUser = {
       },
    ],
    userPreference: {
-      useThemeMode: 'dark'
+      useThemeMode: 'dark',
+      pushNotification: 3,
+      sendToEmail:{
+         candidates: true,
+         offers: true
+      }
    },
    cretedDate: '2020-11-11',
    lastModifiedDate: '2021-07-17'
@@ -109,7 +134,7 @@ export const statistic: IStatistic = {
    userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
    total: {
       id: 0,
-      progress: 43.165,
+      progress: 55.165,
       title: 'Total Performance',
       to: '#'
    },

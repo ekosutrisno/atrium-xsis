@@ -1,5 +1,5 @@
 <template>
-  <canvas id="planet-chart"></canvas>
+  <canvas id="planet-chart1"></canvas>
 </template>
 
 <script lang="ts">
@@ -12,7 +12,7 @@ export default defineComponent({
   setup() {
     const createChart = () => {
       const canvas = document.getElementById(
-        "planet-chart"
+        "planet-chart1"
       ) as HTMLCanvasElement;
       new Chart(canvas, {
         type: "doughnut",

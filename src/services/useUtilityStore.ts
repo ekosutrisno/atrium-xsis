@@ -5,7 +5,9 @@ export const useUtilityStore = defineStore({
    state: () => ({
       theme: '',
       isLoggedIn: false,
-      isOnEditUserData: false
+      isOnEditUserData: false,
+      isOnEditAddressData: false,
+      isOnEditAddressDataAsli: false
    }),
    actions: {
       setToggleTheme(theme: string): void {
@@ -35,6 +37,13 @@ export const useUtilityStore = defineStore({
 
       toggleIsOnEdit(value: boolean): void {
          this.isOnEditUserData = value;
+      },
+
+      toggleIsOnEditAddress(payload: { value: boolean, isDomisili: boolean }): void {
+         payload.isDomisili
+            ? this.isOnEditAddressData = payload.value
+            : this.isOnEditAddressDataAsli = payload.value
+
       }
    },
 })
