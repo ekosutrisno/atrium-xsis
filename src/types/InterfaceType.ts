@@ -45,6 +45,7 @@ export interface ITimesheet extends Info {
    overTimeMulai: string
    overTimeSelesai: string
    kegiatan: string
+   isDone: boolean
 }
 
 export interface IAddress extends Info {
@@ -111,6 +112,16 @@ export interface IUser extends Info {
    clients: IClient[]
    userPreference?: IUserPreference
    about?: string
+}
+
+export interface IJobVacancy extends Info {
+   vacancyId: string
+   vacancyName: string
+   vacancyCode: string
+   vacancyType: string
+   vacancyResponsibilities: string
+   vacancyRequirements: string
+   isOpen: boolean
 }
 
 export interface IUserPreference extends Info {

@@ -6,7 +6,7 @@
           <div class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
              ATRIUM
           </div>
-          <div class="hidden sm:block sm:ml-6">
+          <div class="hidden sm:block sm:ml-6 with-transition">
             <div class="flex space-x-4">
               <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[item.current ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
             </div>
@@ -36,8 +36,8 @@
                 </MenuItem>
                 <MenuItem>
                   <router-link to="/" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
-                     <span class="text-xs">Eko Sutrisno</span>
-                     <span class="text-[11px]">eko.sutrisno@xsis.co.id</span>
+                     <span class="text-sm">Eko Sutrisno</span>
+                     <span class="text-xs">eko.sutrisno@xsis.co.id</span>
                   </router-link>
                 </MenuItem>
                 
