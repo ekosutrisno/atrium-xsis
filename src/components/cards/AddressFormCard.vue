@@ -1,8 +1,9 @@
 <template>
 <form @submit.prevent="onSubmitAction">
-   <div :class="[!address.isDomisili ? 'bg-gray-50 dark:bg-color-dark-gray-darkest': 'bg-white dark:bg-color-dark-gray-darker']" class="shadow py-3 overflow-hidden sm:rounded-md">
+   <div :class="[!address.isDomisili ? 'bg-gray-50 dark:bg-color-dark-gray-darkest': 'bg-white dark:bg-color-dark-gray-darker']" class="shadow pt-3 overflow-hidden sm:rounded-md">
       <div class="px-2 py-1 ml-4 text-sm rounded bg-indigo-600 w-max dark:text-color-gray-lightest text-white" >
-         {{ address.isDomisili ? 'Alamat domisili' : 'Alamat asli' }}
+         {{ address.isDomisili ? 'Alamat Domisili' : 'Alamat KTP' }}
+         <span class="block text-[11px] text-gray-200">Last updated {{ formatDateFromNow(address.lastModifiedDate) }}</span>
       </div>
       <div class="px-4 py-5 sm:p-6">
          <div class="grid grid-cols-6 gap-6">
@@ -86,7 +87,7 @@
       </div>
       <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
          <button v-if="!isOnEdit" type="button" @click="toggleEditAction(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            {{ address.isDomisili ? 'Edit address domisili': 'Edit address' }}
+            Edit
          </button>
          <button v-if="isOnEdit" type="button" @click="toggleEditAction(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-gray-darkest hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             Cancel
@@ -103,6 +104,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useUtilityStore } from '../../services'
 import { IAddress } from '../../types/InterfaceType';
+import { formatDateFromNow } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -120,7 +122,7 @@ export default defineComponent({
       })
 
       const onSubmitAction = ()=>{
-        console.log(props.address);
+         props.address.lastModifiedDate = Date.now();
       }
 
       /** Togle Action base on state isDomisili */
@@ -133,7 +135,8 @@ export default defineComponent({
       return {
          ...toRefs(state),
          onSubmitAction,
-         toggleEditAction
+         toggleEditAction,
+         formatDateFromNow
       }
    }
 })

@@ -34,7 +34,7 @@
       </div>
    <div>
       <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Role</span>
-      <span class="p-0.5 px-2 rounded-full text-color-gray-lightest text-xs bg-indigo-400">{{ project.role }}</span>
+      <span class="p-0.5 px-2 rounded-full text-color-gray-lightest text-xs bg-indigo-600">{{ project.role }}</span>
    </div>
    <div class="w-full">
       <span class="text-xs block mb-1 text-color-gray-dark dark:text-color-gray-default">Technology</span>

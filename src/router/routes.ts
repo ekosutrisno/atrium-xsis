@@ -4,7 +4,7 @@ import { RouteRecordRaw } from "vue-router";
 import Home from '../views/Home.vue';
 import Project from '../views/Project.vue';
 import Timesheet from '../views/Timesheet.vue';
-import Settings from '../views/Settings.vue';
+import UserSettings from '../views/UserSettings.vue';
 
 // Layouts
 import DashboardLayout from '../layouts/DashboardLayout.vue';
@@ -44,10 +44,10 @@ const routes: RouteRecordRaw[] = [
          },
          {
             path: '/u/0/settings',
-            name: 'Settings',
-            component: Settings,
+            name: 'UserSettings',
+            component: UserSettings,
             meta: {
-               title: 'Settings',
+               title: 'UserSettings',
                requiresAuth: true
             }
          }

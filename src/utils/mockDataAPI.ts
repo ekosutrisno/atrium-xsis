@@ -1,4 +1,5 @@
-import { IProject, IStatistic, IUser } from "../types/InterfaceType";
+import { StatusAbsensi } from "../types/EnumType";
+import { IJobVacancy, IProject, IStatistic, ITimesheet, IUser } from "../types/InterfaceType";
 
 export const currentUser: IUser = {
    userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
@@ -20,7 +21,7 @@ export const currentUser: IUser = {
    about: 'Awalnya saya suka Desain Grafis seperti desain poster, banner, standing banner, dan cover buku. Tetapi pada akhir tahun 2019 saya mulai tertarik dengan dunia IT dan dari sanalah saya mulai belajar pemprograman.',
    address: {
       userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
-      addressAsli:{
+      addressAsli: {
          addressId: 'd7b79b48-e776-47e3-84f4-45b1548f3829',
          userId: 'aeaf1efc-31e1-4255-9002-9ffac69a6073',
          isDomisili: false,
@@ -73,7 +74,7 @@ export const currentUser: IUser = {
    userPreference: {
       useThemeMode: 'dark',
       pushNotification: 3,
-      sendToEmail:{
+      sendToEmail: {
          candidates: true,
          offers: true
       }
@@ -166,3 +167,42 @@ export const statistic: IStatistic = {
       },
    ]
 }
+
+export const vacancies: IJobVacancy[] = [
+   {
+      vacancyId: '8758206e-6444-4a50-b7ab-eeb2f0218f31',
+      vacancyCode: 'BA-XMU',
+      vacancyName: 'Business Analyst',
+      vacancyType: 'MGM',
+      vacancyRequirements: 'Must possess at least a Diploma, Bachelor s Degree, Computer Science/ Information Technology, Engineering(Computer / Telecommunication) or equivalent At least 1 year(s) of working experience as Business Analyst(Finance Industry is preferred) Minimum 1 years experience in IT Project Management Experience Required skill(s): documenting user needs, flowchart, basic programming, basic database Detailed understanding of Information System, System Analysis & Programming, Data Processing Have strong analytical and problem solving skill Have good communication, interpersonal skills and high attention to detail',
+      vacancyResponsibilities: 'Handling Backend WEB',
+      isOpen: true
+   }
+]
+
+export const timehseets: ITimesheet[] = [
+   {
+      absensiId: '5de2313d-9f20-455a-8bd6-71c7c591a1ab',
+      tanggalAbsensi: '2021-07-18',
+      statusAbsensi: StatusAbsensi.MASUK,
+      client: 'PT Azec Management Service',
+      jamKerjaMulai: '08:00',
+      jamKerjaSelesai: '17:00',
+      overTimeMulai: '',
+      overTimeSelesai: '',
+      kegiatan: 'Mencoba Test Service',
+      isDone: true
+   },
+   {
+      absensiId: '3d1d7fb8-9d69-43c1-bdb4-63a9645f0a13',
+      tanggalAbsensi: '2021-07-19',
+      statusAbsensi: StatusAbsensi.MASUK,
+      client: 'PT Telkom Indonesia',
+      jamKerjaMulai: '08:00',
+      jamKerjaSelesai: '17:00',
+      overTimeMulai: '',
+      overTimeSelesai: '',
+      kegiatan: 'Reafactor User Service',
+      isDone: false
+   },
+]

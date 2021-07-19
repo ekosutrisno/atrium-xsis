@@ -1,6 +1,13 @@
+const path = require("path");
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   mode: "jit",
-  purge: ["./public/**/*.html", "./src/**/*.{js,jsx,ts,tsx,vue}"],
+  purge: [
+    "./public/**/*.html",
+    "./src/**/*.{js,jsx,ts,tsx,vue}",
+    path.resolve(__dirname, "./node_modules/litepie-datepicker/**/*.js"),
+  ],
   darkMode: "class",
   theme: {
     extend: {
@@ -25,6 +32,9 @@ module.exports = {
 
         "color-dark-black-darker": "#021117",
         "color-dark-black-default": "#0e1e25",
+
+        "litepie-primary": colors.lightBlue, // color system for light mode
+        "litepie-secondary": colors.coolGray, // color system for dark mode
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
