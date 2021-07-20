@@ -13,17 +13,33 @@
          </div>
          <div class="text-color-gray-lighter hidden sm:block text-sm">
             <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               Send project
+               Send timehseet
             </button>
          </div>
       </header>
-      <p class="py-3 px-2 text-color-gray-default">Timesheet List</p>
-      <div class="flex my-3">
-         <litepie-datepicker
-            v-model="dateValue"
-            as-single
-       />
+
+      <!-- Lite Date -->
+      <div class="card-wrapper-no-rounded rounded-t-lg mt-3">
+         <div class="flex items-center justify-between">
+            <p class="py-3 px-2 text-color-gray-default">Timesheet List</p>
+            <button @click="isOnFilter = !isOnFilter" type="button" class="p-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+               </svg>
+            </button>
+         </div>
+         <div v-if="isOnFilter" class="xl:flex hidden max-w-sm mx-auto">
+            <litepie-datepicker
+               v-model="dateValue"
+               :formatter="formater"
+               use-range
+               overlay
+               placeholder="Date range"
+               separator=" to "
+            />
+         </div>
       </div>
+      <!-- End Lite Date -->
       <TimesheetTable/> 
    </div>
    <button type="button" class="sticky-btn with-transition">
@@ -35,28 +51,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref, toRefs } from 'vue'
 import TimesheetTable from '../components/TimesheetTable.vue'
 import LitepieDatepicker from 'litepie-datepicker';
 
 export default defineComponent({
   components: { TimesheetTable, LitepieDatepicker },
    setup () {
-      
-      const downloadPdf = (dateFrom: string, dateTo: string) =>{
-         var url = 'http://atrium.xsis.co.id/api/timesheet/retrieve-data/2021-7-13/2021-7-14'
-         let link = document.createElement('a')
-         link.href = url;
-         link.download = 'Results.pdf'
-         link.click()
-         console.log(url);
-      }
 
-      const dateValue = ref([]);
+      const state = reactive({
+         dateValue: [],
+         formater: {
+            date: 'DD MMM YYYY',
+            month: 'MMM'
+         },
+         isOnFilter: false
+      }) ;
 
       return {
-         downloadPdf,
-         dateValue
+         ...toRefs(state)
       }
    }
 })

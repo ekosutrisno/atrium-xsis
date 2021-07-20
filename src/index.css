@@ -59,6 +59,10 @@
       @apply  p-4 bg-white dark:bg-color-dark-gray-darker shadow rounded-lg;
     }
 
+    .card-wrapper-no-rounded{
+      @apply  p-4 bg-white dark:bg-color-dark-gray-darker shadow;
+    }
+
     .card-wrapper-general-theme{
       @apply bg-white dark:bg-color-dark-gray-darker shadow rounded-lg;
     }

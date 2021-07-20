@@ -37,15 +37,23 @@ export interface IStatisticInfo extends Info {
 
 export interface ITimesheet extends Info {
    absensiId: string
-   tanggalAbsensi: Date | any
-   statusAbsensi: StatusAbsensi
-   client: string
-   jamKerjaMulai: string
-   jamKerjaSelesai: string
-   overTimeMulai: string
-   overTimeSelesai: string
+   jamOTTotal?: number | string
+   jamKerjaTotal?: number | string
+   tanggalAsDate: Date | any
+   statusAbsensi?: StatusAbsensi | string
+   day: number
+   month: number
+   year: number
+   user?: string | IUser
+   placement?: IClient
+   jamKerjaMulai?: string
+   jamKerjaSelesai?: string
+   jamOTMulai?: string
+   jamOTSelesai?: string
    kegiatan: string
    isDone: boolean
+   template?: boolean
+   __v?: number
 }
 
 export interface IAddress extends Info {
