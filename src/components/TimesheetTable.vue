@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col w-full">
-   <ul class="space-y-1">
-     <li v-for="ts in days" :key="ts">
-       <TimesheetCard :date="ts" :timesheet="timesheets"/>
+   <ul class="">
+     <li ref="target" v-for="ts in timesheets" :key="ts.absensiId">
+       <TimesheetCard :timesheet="ts"/>
      </li>
    </ul>
   </div>
@@ -19,12 +19,13 @@ export default defineComponent({
   setup() {
      const timesheetStore = useTimesheetStore();
      const state = reactive({
-        timesheets: timesheetStore.timehseets[0],
-        days: dayjs().daysInMonth()
+        timesheets: timesheetStore.timehseets,
+        days: dayjs().daysInMonth(),
+        isOnExpand: false
      })
 
     return {
-      ...toRefs(state)
+      ...toRefs(state),
     }
   },
 })
