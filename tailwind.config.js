@@ -33,7 +33,7 @@ module.exports = {
         "color-dark-black-darker": "#021117",
         "color-dark-black-default": "#0e1e25",
 
-        "litepie-primary": colors.lightBlue, // color system for light mode
+        "litepie-primary": colors.sky, // color system for light mode
         "litepie-secondary": colors.coolGray, // color system for dark mode
       },
       fontFamily: {
