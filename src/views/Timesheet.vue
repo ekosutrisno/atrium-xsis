@@ -28,16 +28,6 @@
                </svg>
             </button>
          </div>
-         <div v-if="isOnFilter" class="xl:flex hidden max-w-sm mx-auto">
-            <litepie-datepicker
-               v-model="dateValue"
-               :formatter="formater"
-               use-range
-               overlay
-               placeholder="Date range"
-               separator=" to "
-            />
-         </div>
       </div>
       <!-- End Lite Date -->
       <TimesheetTable/> 
@@ -51,12 +41,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue'
-import TimesheetTable from '../components/TimesheetTable.vue'
-import LitepieDatepicker from 'litepie-datepicker';
+import { defineComponent, reactive, toRefs } from 'vue';
+import TimesheetTable from '../components/TimesheetTable.vue';
 
 export default defineComponent({
-  components: { TimesheetTable, LitepieDatepicker },
+  components: { TimesheetTable },
    setup () {
 
       const state = reactive({
@@ -65,8 +54,9 @@ export default defineComponent({
             date: 'DD MMM YYYY',
             month: 'MMM'
          },
-         isOnFilter: false
+         isOnFilter: false,
       }) ;
+
 
       return {
          ...toRefs(state)
