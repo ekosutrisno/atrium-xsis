@@ -4,10 +4,10 @@
      <h3>Project</h3>
       <div class="inline-flex space-x-3">
          <div class="p-0.5 px-2 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest"> {{ project.projectPhase }} </div>
-         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-gray-300 dark:text-color-gray-darkest transition-all hover:text-red-400 dark:hover:text-red-400" viewBox="0 0 20 20" fill="currentColor">
+         <svg @click="onDeleteProject" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-gray-300 dark:text-color-gray-darkest transition-all hover:text-red-400 dark:hover:text-red-400" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
          </svg>
-         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-color-gray-default dark:text-color-gray-darker transition-all hover:text-indigo-600 dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
+         <svg @click="gotToEditAction(project.projectId)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-color-gray-default dark:text-color-gray-darker transition-all hover:text-indigo-600 dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
       </div>
@@ -49,13 +49,17 @@
       </div>
    </div>
 </div>
+ <DeleteProjectModal :open="open" @close-modal="onDeleteProject"/>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router';
 import { IProject } from '../../types/InterfaceType';
+import DeleteProjectModal from '../modal/DeleteProjectModal.vue';
 
 export default defineComponent({
+  components: { DeleteProjectModal },
    props:{
       project:{
          type: Object as ()=> IProject,
@@ -63,9 +67,27 @@ export default defineComponent({
       }
    },
    setup () {
-      
+      const router = useRouter();
+      const state = reactive({
+         open: false
+      })
 
-      return {}
+      const onDeleteProject = () : boolean =>{
+        return state.open = !state.open;
+      }
+
+      const gotToEditAction = (projectId: IProject['projectId']): void =>{
+         router.push({
+            name: 'ProjectEdit', 
+            params:{ projectId: projectId }
+         });
+      }
+
+      return {
+         ...toRefs(state),
+         onDeleteProject,
+         gotToEditAction
+      }
    }
 })
 </script>

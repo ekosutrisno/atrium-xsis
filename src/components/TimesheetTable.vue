@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full">
-   <ul class="">
+   <ul class="space-y-1">
      <li ref="target" v-for="ts in timesheets" :key="ts.absensiId">
        <TimesheetCard :timesheet="ts"/>
      </li>
