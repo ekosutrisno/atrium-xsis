@@ -23,11 +23,11 @@
    <div class="grid grid-cols-2">
       <div>
          <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Start project</span>
-         <span class="text-sm"> {{ project.startProject.toLocaleDateString() }} </span>
+         <span class="text-sm"> {{ formatDateWithMonth(project.startProject) }} </span>
       </div>
       <div>
          <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">End project</span>
-         <span v-if="project.endProject" class="text-sm">{{ project.endProject.toLocaleDateString()}}</span>
+         <span v-if="project.endProject" class="text-sm">{{ formatDateWithMonth(project.endProject)}}</span>
          <span v-else class="p-0.5 px-2 rounded-full text-xs border border-opacity-50 hover:text-color-gray-light border-green-300 hover:bg-green-500">On Progress</span>
 
       </div>
@@ -57,6 +57,7 @@ import { defineComponent, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router';
 import { IProject } from '../../types/InterfaceType';
 import DeleteProjectModal from '../modal/DeleteProjectModal.vue';
+import { formatDateWithMonth } from '../../utils/helperFunction';
 
 export default defineComponent({
   components: { DeleteProjectModal },
@@ -86,7 +87,8 @@ export default defineComponent({
       return {
          ...toRefs(state),
          onDeleteProject,
-         gotToEditAction
+         gotToEditAction,
+         formatDateWithMonth
       }
    }
 })

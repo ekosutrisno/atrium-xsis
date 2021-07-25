@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
             }
          },
          {
-            path: '/u/0/project/:projectId/edit',
+            path: '/u/0/project/:projectId/detail',
             name: 'ProjectEdit',
             component: ProjectEdit,
             meta: {

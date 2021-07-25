@@ -9,6 +9,9 @@ export const useUserStore = defineStore({
    getters: {
       getPhotoUrl(state) {
          return state.currentUser.photoUrl;
+      },
+      getUserClient(state){
+         return state.currentUser.clients;
       }
    }
 })
