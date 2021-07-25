@@ -3,6 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 // Views
 import Home from '../views/Home.vue';
 import Project from '../views/Project.vue';
+import ProjectEdit from '../views/ProjectEdit.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
 
@@ -30,6 +31,15 @@ const routes: RouteRecordRaw[] = [
             component: Project,
             meta: {
                title: 'Project',
+               requiresAuth: true
+            }
+         },
+         {
+            path: '/u/0/project/:projectId/edit',
+            name: 'ProjectEdit',
+            component: ProjectEdit,
+            meta: {
+               title: 'Project Edit',
                requiresAuth: true
             }
          },

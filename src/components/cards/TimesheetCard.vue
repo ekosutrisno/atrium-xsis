@@ -1,8 +1,11 @@
 <template>
-<div :class="[isEdit ? 'scale-105 rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border']" class="grid space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl hover:ring-1 hover:scale-105 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
-   <div class="text-sm md:col-span-3">
-      <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
-      <p class="text-gray-500 dark:text-color-gray-light"> {{ formatDate(timesheet.tanggalAsDate) }} </p>
+<div :class="[isEdit ? 'scale-105 rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
+   <div class="text-sm md:col-span-3 flex flex-col justify-between items-start">
+      <div>
+         <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
+         <p class="text-gray-500 dark:text-color-gray-light"> {{ formatDateWithMonth(timesheet.tanggalAsDate) }} </p>
+      </div>
+      <span class="block text-[11px] text-color-gray-darkest dark:text-color-gray-default italic">Last updated {{ formatDateFromNow(timesheet.lastModifiedDate) }}</span>
    </div>
    <div class="md:col-span-9 relative">
       <div class="grid sm:grid-cols-3">
@@ -109,16 +112,18 @@
       <!-- Kegiatan -->
       <div class="text-sm mt-2">
          <label class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Kegiatan</label>
-         <dd :class="[isEdit ? 'mt-1.5': '']" class="input-custom-dd">
+         <dd v-if="isEdit" :class="[isEdit ? 'mt-1.5': '']" class="input-custom-dd">
             <textarea 
-              v-model="timesheet.kegiatan" name="kegiatan" rows="auto" 
+              v-model="timesheet.kegiatan" name="kegiatan" rows="5" maxlength="250" 
               :readonly="!isEdit"
               :class="[ isEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default text-sm"
             />
+            <span class="text-xs dark:text-color-gray-default">Total caracter {{ kegiatanLength }}/250. </span>
          </dd>
+         <p v-else>{{ timesheet.kegiatan }}</p>
       </div>
-
+      
       <!-- Actions -->
       <div class="inline-flex space-x-3 absolute top-0 right-0 items-start justify-end">
          <div class="p-0.5 px-2 h-5 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest hover:text-purple-400 dark:hover:text-purple-400"> {{ timesheet.isDone ? 'done' : 'active' }} </div>
@@ -131,7 +136,7 @@
          <button type="button" @click="onEdit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-gray-darkest hover:text-purple-400 dark:hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             Cancel
          </button>
-         <button type="button" @click="onEdit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+         <button type="button" @click="onSave" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Save
          </button>
       </div>
@@ -141,8 +146,9 @@
 
 <script lang="ts">
 import dayjs from 'dayjs'
-import { defineComponent, reactive, toRefs } from 'vue'
-import { ITimesheet } from '../../types/InterfaceType'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { ITimesheet } from '../../types/InterfaceType';
+import { formatDateFromNow, formatDateWithMonth } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -151,31 +157,37 @@ export default defineComponent({
          required: true
       },
    },
-   setup() {
+   setup(props) {
       const state = reactive({
-         isExpand: false,
          isEdit: false
 
       })
 
-      const formatDate = (value: number) =>{
-        return dayjs(value)
-            .format('LL')
-      }
+      // onMounted(()=>{
+      //    console.log(dayjs(Date.now()).date());
+      //    console.log(dayjs(Date.now()).month());
+      //    console.log(dayjs(Date.now()).year());
+      // })
 
-      const onExpand = () =>{
-        return state.isExpand = !state.isExpand
-      }
-
-      const onEdit = () =>{
+      const onEdit = (): boolean =>{
         return state.isEdit = !state.isEdit
       }
 
+      const onSave = (): void =>{
+         props.timesheet.lastModifiedDate = Date.now();
+         console.log(props.timesheet);
+         onEdit();
+      }
+
+      const kegiatanLength = computed(() => props.timesheet.kegiatan?.length);
+
       return {
          ...toRefs(state),
-         formatDate,
-         onExpand,
-         onEdit
+         kegiatanLength,
+         onEdit,
+         onSave,
+         formatDateFromNow,
+         formatDateWithMonth,
       }
    }
 })

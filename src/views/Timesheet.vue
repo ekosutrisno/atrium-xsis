@@ -1,5 +1,5 @@
 <template>
-<div class="flex relative w-full">
+<div class="flex relative w-full pb-20 md:pb-0">
    <div class="flex-1 rounded-lg">
       <header class="p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
@@ -19,12 +19,12 @@
       </header>
 
       <!-- Lite Date -->
-      <div class="card-wrapper-no-rounded rounded-t-lg mt-3">
+      <div class="card-wrapper-no-rounded rounded-t-lg my-3">
          <div class="flex items-center justify-between">
             <p class="py-3 px-2 text-color-gray-default">Timesheet List</p>
             <button @click="isOnFilter = !isOnFilter" type="button" class="p-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                </svg>
             </button>
          </div>
