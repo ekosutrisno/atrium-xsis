@@ -199,6 +199,30 @@ export const vacancies: IJobVacancy[] = [
       "Must possess at least a Diploma, Bachelor s Degree, Computer Science/ Information Technology, Engineering(Computer / Telecommunication) or equivalent At least 1 year(s) of working experience as Business Analyst(Finance Industry is preferred) Minimum 1 years experience in IT Project Management Experience Required skill(s): documenting user needs, flowchart, basic programming, basic database Detailed understanding of Information System, System Analysis & Programming, Data Processing Have strong analytical and problem solving skill Have good communication, interpersonal skills and high attention to detail",
     vacancyResponsibilities: "Handling Backend WEB",
     isOpen: true,
+    minSalaryOffer: 4500,
+    maxSalaryOffer: 7000,
+    cretedDate: '2021-04-11',
+    lastModifiedDate: '2021-06-25',
+    offerEndDate: '2021-08-30',
+    isFullTimeJob: true,
+    isRemoteJob: false
+  },
+  {
+    vacancyId: "ce2d1682-ddf5-457b-90b3-ef456fc6cc39",
+    vacancyCode: "JSE-XMU",
+    vacancyName: "Java Software Enginer",
+    vacancyType: "MGM",
+    vacancyRequirements:
+      "Must possess at least a Diploma, Bachelor s Degree, Computer Science/ Information Technology, Engineering(Computer / Telecommunication) or equivalent At least 1 year(s) of working experience as Business Analyst(Finance Industry is preferred) Minimum 1 years experience in IT Project Management Experience Required skill(s): documenting user needs, flowchart, basic programming, basic database Detailed understanding of Information System, System Analysis & Programming, Data Processing Have strong analytical and problem solving skill Have good communication, interpersonal skills and high attention to detail",
+    vacancyResponsibilities: "Handling Backend WEB and Create Microservice Application",
+    isOpen: true,
+    minSalaryOffer: 7000,
+    maxSalaryOffer: 9500,
+    cretedDate: '2021-07-11',
+    lastModifiedDate: '2021-07-25',
+    offerEndDate: '2021-07-30',
+    isFullTimeJob: true,
+    isRemoteJob: true
   },
 ];
 
@@ -258,7 +282,7 @@ export const timehseets: ITimesheet[] = [
       clientCountry: "Indonesia",
     },
     template: true,
-    isDone: false, 
+    isDone: false,
     lastModifiedDate: '2021-07-22 10:11:00'
   }
 ];

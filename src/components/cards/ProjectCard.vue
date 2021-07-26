@@ -79,7 +79,7 @@ export default defineComponent({
 
       const gotToEditAction = (projectId: IProject['projectId']): void =>{
          router.push({
-            name: 'ProjectEdit', 
+            name: 'ProjectDetail', 
             params:{ projectId: projectId }
          });
       }

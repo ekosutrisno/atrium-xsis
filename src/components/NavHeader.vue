@@ -50,8 +50,8 @@
   </Disclosure>
 </template>
 
-<script>
-import { computed, reactive, toRefs } from 'vue'
+<script lang="ts">
+import { computed, reactive, toRefs, defineComponent } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { BellIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '../services'
@@ -59,10 +59,11 @@ import { useUserStore } from '../services'
 const navigation = [
   { name: 'Dashboard', href: '/u/0/dashboard', current: true },
   { name: 'Projects', href: '/u/0/project', current: false },
-  { name: 'Timesheets', href: '/u/0/timesheet', current: false }
+  { name: 'Timesheets', href: '/u/0/timesheet', current: false },
+  { name: 'Vacancy', href: '/u/0/vacancy', current: false },
 ]
 
-export default {
+export default defineComponent({
   components: {
     Disclosure,
     DisclosureButton,
@@ -86,5 +87,5 @@ export default {
       ...toRefs(state)
     }
   },
-}
+})
 </script>
