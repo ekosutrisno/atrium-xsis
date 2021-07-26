@@ -10,6 +10,11 @@
       color: rgba(129, 140, 248, 1);
     }
 
+    .custom-backdrop {
+      -webkit-backdrop-filter: blur(2.5px);
+      backdrop-filter: blur(2.5px);
+    }
+
     .with-scroll {
       scrollbar-width: thin; /* Firefox */
       -ms-overflow-style: none; /* IE 10+ */
@@ -95,12 +100,6 @@
 
 body {
   overflow: overlay;
-}
-
-.custom-backdrop {
-  -webkit-backdrop-filter: blur(2.5px);
-  backdrop-filter: blur(2.5px);
-  /* background-color: hsla(0, 0%, 100%, 0.7); */
 }
 
 .custom-scroll {

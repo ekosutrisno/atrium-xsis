@@ -3,3 +3,6 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+declare module '@heroicons/vue/solid';
+declare module '@heroicons/vue/outline';

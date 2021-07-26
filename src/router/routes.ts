@@ -3,9 +3,11 @@ import { RouteRecordRaw } from "vue-router";
 // Views
 import Home from '../views/Home.vue';
 import Project from '../views/Project.vue';
-import ProjectEdit from '../views/ProjectEdit.vue';
+import ProjectDetail from '../views/ProjectDetail.vue';
+import VacancyDetail from '../views/VacancyDetail.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
+import Vacancy from '../views/Vacancy.vue';
 
 // Layouts
 import DashboardLayout from '../layouts/DashboardLayout.vue';
@@ -36,10 +38,28 @@ const routes: RouteRecordRaw[] = [
          },
          {
             path: '/u/0/project/:projectId/detail',
-            name: 'ProjectEdit',
-            component: ProjectEdit,
+            name: 'ProjectDetail',
+            component: ProjectDetail,
             meta: {
-               title: 'Project Edit',
+               title: 'Project Detail',
+               requiresAuth: true
+            }
+         },
+         {
+            path: '/u/0/vacancy',
+            name: 'Vacancy',
+            component: Vacancy,
+            meta: {
+               title: 'Vacancy',
+               requiresAuth: true
+            }
+         },
+         {
+            path: '/u/0/vacancy/:vacancyId/detail',
+            name: 'VacancyDetail',
+            component: VacancyDetail,
+            meta: {
+               title: 'Vacancy Detail',
                requiresAuth: true
             }
          },

@@ -127,9 +127,14 @@ export interface IJobVacancy extends Info {
    vacancyName: string
    vacancyCode: string
    vacancyType: string
-   vacancyResponsibilities: string
-   vacancyRequirements: string
+   vacancyResponsibilities?: string
+   vacancyRequirements?: string
    isOpen: boolean
+   isRemoteJob: boolean
+   isFullTimeJob: boolean
+   minSalaryOffer?: string | number
+   maxSalaryOffer?: string | number
+   offerEndDate?: string | any
 }
 
 export interface IUserPreference extends Info {
