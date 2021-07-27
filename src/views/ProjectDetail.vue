@@ -19,9 +19,9 @@
       </header>
       <p class="py-3 px-2 text-color-gray-default">Project Details</p>
 
-      <div class="md:grid-cols-4 gap-5 grid w-full">
-         <div class="md:col-span-1 space-y-6">
-             <div class="card-wrapper-custom md:sticky top-24 max-h-48 pt-[18px]">
+      <div class="lg:grid-cols-4 gap-5 grid w-full">
+         <div class="lg:col-span-1 space-y-6">
+             <div class="card-wrapper-custom md:sticky top-24 h-auto pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                   <h1 class="text-lg font-medium">Project Metadata</h1>
                   <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -38,7 +38,7 @@
                </div>
             </div>
          </div>
-         <div class="md:col-span-3 space-y-6">
+         <div class="lg:col-span-3 space-y-6">
             <div class="card-wrapper-general-theme overflow-hidden">
                <div class="py-5 border-b relative p-6 border-gray-200 dark:border-color-gray-darkest">
                   <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
