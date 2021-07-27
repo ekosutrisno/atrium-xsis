@@ -18,8 +18,8 @@
       </header>
       <p class="py-3 px-2 text-color-gray-default">Vacancy Details</p>
 
-      <div class="md:grid-cols-4 gap-5 grid w-full">
-         <div class="md:col-span-1 space-y-6">
+      <div class="lg:grid-cols-4 gap-5 grid w-full">
+         <div class="lg:col-span-1 space-y-6">
              <div class="card-wrapper-custom md:sticky top-24 max-h-48 pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                   <h1 class="text-lg font-medium">Vacancy Metadata</h1>
@@ -37,7 +37,7 @@
                </div>
             </div>
          </div>
-         <div class="md:col-span-3 space-y-6">
+         <div class="lg:col-span-3 space-y-6">
             <div class="card-wrapper-general-theme overflow-hidden">
                <div class="py-5 border-b relative p-6 border-gray-200 dark:border-color-gray-darkest">
                   <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
@@ -100,7 +100,7 @@
                   </div>
                   <div class="input-custom-wrapper-white">
                      <dt class="input-custom-dt">
-                        Vacancy min salary
+                        Vacancy min salary Rp(K)
                      </dt>
                      <dd class="input-custom-dd">
                         <label for="vacancy-min-salary" class="input-custom-label">Vacancy min salary</label>
@@ -114,7 +114,7 @@
                   </div>
                   <div class="input-custom-wrapper-gray">
                      <dt class="input-custom-dt">
-                        Vacancy max salary
+                        Vacancy max salary Rp(K)
                      </dt>
                      <dd class="input-custom-dd">
                         <label for="vacancy-max-salary" class="input-custom-label">Vacancy max salary</label>
@@ -134,7 +134,7 @@
                         <div class="mt-4 space-y-4">
                            <div class="flex items-start">
                               <div class="flex items-center h-5">
-                                 <input id="fulltime" v-model="vacancy.isFullTimeJob" name="fulltime" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
+                                 <input id="fulltime" :disabled="!isOnEdit" v-model="vacancy.isFullTimeJob" name="fulltime" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
                               </div>
                               <div class="ml-3 text-sm">
                                  <label for="fulltime" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Fulltime</label>
@@ -143,7 +143,7 @@
                            </div>
                            <div class="flex items-start">
                               <div class="flex items-center h-5">
-                                 <input id="remote" v-model="vacancy.isRemoteJob" name="remote" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
+                                 <input id="remote" :disabled="!isOnEdit" v-model="vacancy.isRemoteJob" name="remote" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
                               </div>
                               <div class="ml-3 text-sm">
                                  <label for="remote" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Remote</label>

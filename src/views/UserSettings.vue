@@ -33,9 +33,9 @@
         <p class="text-2xl font-medium dark:text-color-gray-lighter text-color-dark-gray-darker">Profile</p>
         <p class="text-sm dark:text-color-gray-default text-color-gray-darker">Your personal information</p>
       </div>
-      <div class="md:grid-cols-4 gap-5 grid w-full">
+      <div class="lg:grid-cols-4 gap-5 grid w-full">
         <!-- Left Column -->
-        <div class="md:col-span-1 space-y-6">
+        <div class="lg:col-span-1 space-y-6">
           
           <div class="card-wrapper-custom-default overflow-hidden md:sticky top-6 max-h-48">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
@@ -81,7 +81,8 @@
                 </div>
             </div>
           </div>
-          <div class="card-wrapper-custom h-auto pt-[18px]">
+
+          <div class="card-wrapper-custom md:sticky top-[18.5rem] h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Connected accounts</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -98,7 +99,7 @@
         </div>
 
         <!-- Right Column -->
-        <div class="md:col-span-3 space-y-6">
+        <div class="lg:col-span-3 space-y-6">
           <GeneralProfileInfo v-if="currentTabs === 'General'"/>
           <CredentialProfileInfo v-else/>
         </div>

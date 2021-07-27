@@ -1,7 +1,8 @@
 import { RouteRecordRaw } from "vue-router";
 
 // Views
-import Home from '../views/Home.vue';
+import Dashboard from '../views/Dashboard.vue';
+import HomePage from '../views/HomePage.vue';
 import Project from '../views/Project.vue';
 import ProjectDetail from '../views/ProjectDetail.vue';
 import VacancyDetail from '../views/VacancyDetail.vue';
@@ -21,6 +22,15 @@ const routes: RouteRecordRaw[] = [
       name: 'WebLayout',
       component: WebLayout,
       children:[
+         {
+            path: '/',
+            name: 'HomePage',
+            component: HomePage,
+            meta: {
+               title: 'Home Page',
+               requiresAuth: false
+            }
+         },
          {
             path: '/user/login',
             name: 'LoginPage',
@@ -48,10 +58,10 @@ const routes: RouteRecordRaw[] = [
       children:[
          {
             path: '/u/0/dashboard',
-            name: 'Home',
-            component: Home,
+            name: 'Dashboard',
+            component: Dashboard,
             meta: {
-               title: 'Home',
+               title: 'Dashboard',
                requiresAuth: true
             }
          },

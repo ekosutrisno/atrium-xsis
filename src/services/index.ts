@@ -4,6 +4,7 @@ import { useStatisticStore } from './useStatisticStore';
 import { useUserStore } from './useUserStore';
 import { useTimesheetStore } from './useTimesheetStore';
 import { useVacancyStore } from './useVacancyStore';
+import { useAuthStore } from './useAuthStore';
 
 export {
    useProjectStore,
@@ -11,5 +12,6 @@ export {
    useUtilityStore,
    useUserStore,
    useTimesheetStore,
-   useVacancyStore
+   useVacancyStore,
+   useAuthStore
 }

@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div class="font-quicksand">
       <router-view/>
    </div>
 </template>
