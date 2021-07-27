@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { IUser } from '../types/InterfaceType';
 import { currentUser } from '../utils/mockDataAPI';
 
 export const useUserStore = defineStore({
@@ -7,10 +8,19 @@ export const useUserStore = defineStore({
       currentUser: currentUser
    }),
    getters: {
-      getPhotoUrl(state) {
+      /**
+       * @param  {} state
+       * @returns IUser.photoUrl
+       */
+      getPhotoUrl(state): IUser['photoUrl'] {
          return state.currentUser.photoUrl;
       },
-      getUserClient(state){
+      
+      /**
+       * @param  {} state
+       * @returns IUser.clients
+       */
+      getUserClient(state): IUser['clients'] {
          return state.currentUser.clients;
       }
    }

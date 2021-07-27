@@ -80,6 +80,10 @@
       @apply dark:bg-color-dark-gray-darkest shadow-sm dark:border-color-dark-gray-default focus:ring-indigo-500 focus:border-indigo-500;
     }
 
+    .card-wrapper-custom-default {
+      @apply bg-white dark:bg-color-dark-gray-darker shadow rounded-lg;
+    }
+
     .card-wrapper-custom {
       @apply p-4 bg-white dark:bg-color-dark-gray-darker shadow rounded-lg;
     }
@@ -96,6 +100,11 @@
       @apply p-4 sm:hidden fixed right-9 shadow-xl bottom-20 cursor-default text-color-gray-light rounded-full hover:bg-indigo-700 bg-indigo-600;
     }
   }
+}
+
+.toast-style {
+  @apply bg-color-dark-gray-darker !important;
+  @apply border border-color-dark-gray-default shadow-xl;
 }
 
 body {

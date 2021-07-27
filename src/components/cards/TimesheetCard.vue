@@ -11,7 +11,7 @@
       <div class="grid sm:grid-cols-3">
          <!-- Jam Kerja -->
          <div class="text-sm flex flex-col">
-            <label :class="[isEdit ? 'mb-1.5': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Over Time</label>
+            <label :class="[isEdit ? 'mb-1.5 sm:mb-0': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Jam kerja</label>
             <div v-if="isEdit" class="inline-flex items-center justify-start space-x-2">
                <div class="w-24">
                   <input
@@ -38,8 +38,8 @@
          </div>
 
          <!-- Jam Lembur -->
-         <div class="text-sm flex flex-col mt-2 lg:mt-0">
-            <label :class="[isEdit ? 'mb-1.5': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Over Time</label>
+         <div class="text-sm flex flex-col mt-2 sm:mt-0">
+            <label :class="[isEdit ? 'mb-1.5 sm:mb-0': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Over Time</label>
             <div v-if="isEdit" class="inline-flex items-center justify-start space-x-2">
                <div class="w-24">
                   <input
@@ -66,7 +66,7 @@
          </div>
 
          <!-- Status Absensi -->
-         <div class="text-sm mt-2 lg:mt-0">
+         <div class="text-sm mt-2 sm:mt-0">
             <p class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Status</p>
             <p class="text-gray-500 dark:text-color-gray-light"> 
                {{ timesheet.statusAbsensi }}

@@ -33,10 +33,27 @@
         <p class="text-2xl font-medium dark:text-color-gray-lighter text-color-dark-gray-darker">Profile</p>
         <p class="text-sm dark:text-color-gray-default text-color-gray-darker">Your personal information</p>
       </div>
-      <div class="md:grid-cols-3 gap-5 grid w-full">
+      <div class="md:grid-cols-4 gap-5 grid w-full">
         <!-- Left Column -->
         <div class="md:col-span-1 space-y-6">
-          <div class="card-wrapper-custom md:sticky top-6 max-h-44 pt-[18px]">
+          
+          <div class="card-wrapper-custom-default overflow-hidden md:sticky top-6 max-h-48">
+            <div class="text-color-dark-black-default dark:text-color-gray-lightest">
+              <div class="text-color-gray-darkest w-full dark:text-color-gray-default flex flex-col text-sm">
+                <button 
+                  @click="switchTab(menu.current)" 
+                  v-for="menu in menuTabs" :key="menu.id" 
+                  :class="[currentTabs === menu.current ? 'border-indigo-600 font-semibold bg-indigo-50 dark:bg-color-gray-darkest': 'dark:hover:bg-color-gray-darkest']" 
+                  type="button" 
+                  class="px-4 py-2 w-full text-gray-700 dark:text-color-gray-lighter inline-flex items-center cursor-default sm:cursor-pointer border-l-4 transition-opacity border-transparent"
+                >
+                  {{ menu.text }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-wrapper-custom md:sticky top-[7.5rem] max-h-44 pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Appearance</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -64,7 +81,7 @@
                 </div>
             </div>
           </div>
-          <div class="card-wrapper-custom md:sticky top-[12.5rem] max-h-48 pt-[18px]">
+          <div class="card-wrapper-custom h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Connected accounts</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -81,8 +98,9 @@
         </div>
 
         <!-- Right Column -->
-        <div class="md:col-span-2 space-y-6">
-          <GeneralProfileInfo/>
+        <div class="md:col-span-3 space-y-6">
+          <GeneralProfileInfo v-if="currentTabs === 'General'"/>
+          <CredentialProfileInfo v-else/>
         </div>
       </div>
    </div>
@@ -92,12 +110,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue";
+import CredentialProfileInfo from "../components/CredentialProfileInfo.vue";
 import GeneralProfileInfo from "../components/GeneralProfileInfo.vue";
 import GoogleIcon from "../components/svg/GoogleIcon.vue";
 import { useProjectStore, useUserStore, useUtilityStore } from '../services';
 
 export default defineComponent({
-  components: { GeneralProfileInfo, GoogleIcon},
+  components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo},
   setup() {
     const utilityStore = useUtilityStore();
     const projectStore = useProjectStore();
@@ -106,21 +125,39 @@ export default defineComponent({
     const state = reactive({
       projectTotal: computed(()=> projectStore.projectTotal),
       theme: computed(()=> utilityStore.theme),
-      currentUser: computed(()=> userStore.currentUser)
+      currentUser: computed(()=> userStore.currentUser),
+      menuTabs:[
+        {
+          id: 1,
+          current: 'General',
+          text: 'General'
+        },
+        {
+          id: 2,
+          current: 'Credential',
+          text: 'Credential'
+        },
+      ],
+      currentTabs: 'General'
     })
 
     const togleDarkLightMode = (value: string): void => {
       utilityStore.setToggleTheme(value);
     };
 
-    const loginWithGoogle = ()=>{
+    const loginWithGoogle = () => {
       console.log("loginWithGoogle on Dev");
+    }
+
+    const switchTab = (current: string): void => {
+      state.currentTabs = current;
     }
 
     return {
       ...toRefs(state),
       togleDarkLightMode,
-      loginWithGoogle
+      loginWithGoogle,
+      switchTab
     };
   },
 });

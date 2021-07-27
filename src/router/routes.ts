@@ -8,11 +8,39 @@ import VacancyDetail from '../views/VacancyDetail.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
 import Vacancy from '../views/Vacancy.vue';
+import LoginPage from '../views/LoginPage.vue';
+import RegisterPage from '../views/RegisterPage.vue';
 
 // Layouts
 import DashboardLayout from '../layouts/DashboardLayout.vue';
+import WebLayout from '../layouts/WebLayout.vue';
 
 const routes: RouteRecordRaw[] = [
+   {
+      path: '/',
+      name: 'WebLayout',
+      component: WebLayout,
+      children:[
+         {
+            path: '/user/login',
+            name: 'LoginPage',
+            component: LoginPage,
+            meta: {
+               title: 'Login',
+               requiresAuth: false
+            }
+         },
+         {
+            path: '/user/register',
+            name: 'RegisterPage',
+            component: RegisterPage,
+            meta: {
+               title: 'Register',
+               requiresAuth: false
+            }
+         },
+      ]
+   },
    {
       path: '/',
       name: 'DashboardLayout',
