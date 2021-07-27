@@ -7,7 +7,11 @@ export const useProjectStore = defineStore({
       projects: projects
    }),
    getters:{
-      projectTotal(state){
+      /**
+       * @param  {} state
+       * @returns number
+       */
+      projectTotal(state): number{
          return state.projects.length
       }
    }

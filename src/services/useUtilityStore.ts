@@ -1,10 +1,13 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export const useUtilityStore = defineStore({
    id: 'useUtilityStore',
    state: () => ({
       theme: '',
-      isLoggedIn: false,
+      isLoggedIn: true,
       isOnEditUserData: false,
       isOnEditAddressData: false,
       isOnEditAddressDataAsli: false
@@ -22,6 +25,8 @@ export const useUtilityStore = defineStore({
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light')
          }
+
+         toast.success(`Use Preference ${theme} mode.`)
       },
       wathcThemeSelected(): void {
          if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

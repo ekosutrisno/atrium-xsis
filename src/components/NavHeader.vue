@@ -8,7 +8,16 @@
           </div>
           <div class="hidden sm:block sm:ml-6 with-transition">
             <div class="flex space-x-4">
-              <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[item.current ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
+              <router-link 
+                  v-for="item in navigation" 
+                  :key="item.name" 
+                  :to="item.href" 
+                  @click="setCurrentActiveNav(item.currentId)"
+                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
+                  :aria-current="item.currentId === currentNav ? 'page' : undefined"
+              >
+              {{ item.name }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -32,10 +41,10 @@
                   <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <router-link to="/" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</router-link>
+                  <router-link to="/user/login" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</router-link>
                 </MenuItem>
                 <MenuItem>
-                  <router-link to="/" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
+                  <router-link to="#" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
                      <span class="text-sm">Eko Sutrisno</span>
                      <span class="text-xs">eko.sutrisno@xsis.co.id</span>
                   </router-link>
@@ -57,10 +66,10 @@ import { BellIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '../services'
 
 const navigation = [
-  { name: 'Dashboard', href: '/u/0/dashboard', current: true },
-  { name: 'Projects', href: '/u/0/project', current: false },
-  { name: 'Timesheets', href: '/u/0/timesheet', current: false },
-  { name: 'Vacancy', href: '/u/0/vacancy', current: false },
+  { name: 'Dashboard', href: '/u/0/dashboard', currentId: 1 },
+  { name: 'Projects', href: '/u/0/project', currentId: 2 },
+  { name: 'Timesheets', href: '/u/0/timesheet', currentId: 3 },
+  { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 },
 ]
 
 export default defineComponent({
@@ -79,12 +88,18 @@ export default defineComponent({
 
     const state = reactive({
       navigation: navigation,
+      currentNav: 1,
       open: false,
       photoUrl:computed(()=> userStore.getPhotoUrl)
     })
 
+    const setCurrentActiveNav = (current: number): void => {
+      state.currentNav = current;
+    }
+
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      setCurrentActiveNav
     }
   },
 })
