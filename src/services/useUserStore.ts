@@ -1,13 +1,16 @@
 import { defineStore } from 'pinia';
 import { IUser } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
-import { doc, DocumentData, getDoc, setDoc, } from 'firebase/firestore';
+import { doc, getDoc, setDoc, } from 'firebase/firestore';
 import { db } from '../services/useFirebaseService';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export const useUserStore = defineStore({
    id: 'useUserStore',
    state: () => ({
-      currentUser: userMock as DocumentData
+      currentUser: userMock
    }),
    actions: {
       async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
@@ -82,10 +85,20 @@ export const useUserStore = defineStore({
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
          if (docSnap.exists()) {
-            const data: DocumentData = docSnap.data();
+            const data: any = docSnap.data();
             this.currentUser = data;
          }
+      },
 
+      async updateCurrentUserData(user: IUser) {
+         var userId = user.userId;
+
+         const docRef = doc(db, "tbl_users", userId);
+         setDoc(docRef, user, { merge: true })
+            .then(() => {
+               this.fetchCurrentUser(userId);
+               toast.info(`Your data up to date now.`)
+            });
       }
    },
    getters: {
