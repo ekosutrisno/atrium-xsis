@@ -58,7 +58,7 @@ export interface ITimesheet extends Info {
 
 export interface IAddress extends Info {
    userId: string
-   addressId: string
+   addressId?: string
    jalan: string
    isDomisili: boolean
    kota?: string
@@ -104,7 +104,7 @@ export interface IUser extends Info {
    isEro?: boolean
    nationality?: string
    isActive: boolean
-   email: string
+   email: string | null
    username?: string
    fullName?: string
    telephone?: string

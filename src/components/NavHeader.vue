@@ -41,7 +41,7 @@
                   <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <router-link to="/user/login" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</router-link>
+                  <button @click="onLogoutAction" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex w-full px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</button>
                 </MenuItem>
                 <MenuItem>
                   <router-link to="#" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
@@ -63,7 +63,8 @@
 import { computed, reactive, toRefs, defineComponent } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { BellIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '../services'
+import { useAuthStore, useUserStore } from '../services'
+import { useRouter } from 'vue-router'
 
 const navigation = [
   { name: 'Dashboard', href: '/u/0/dashboard', currentId: 1 },
@@ -85,6 +86,8 @@ export default defineComponent({
   },
   setup() {
     const userStore = useUserStore();
+    const authStore = useAuthStore();
+    const router = useRouter();
 
     const state = reactive({
       navigation: navigation,
@@ -97,9 +100,16 @@ export default defineComponent({
       state.currentNav = current;
     }
 
+    const onLogoutAction = () => {
+      localStorage.removeItem('_uid');
+      authStore.onLogoutAction();
+      router.replace('/user/login');
+    }
+
     return {
       ...toRefs(state),
-      setCurrentActiveNav
+      setCurrentActiveNav,
+      onLogoutAction
     }
   },
 })
