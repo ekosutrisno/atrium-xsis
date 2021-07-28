@@ -5,8 +5,7 @@ module.exports = {
   mode: "jit",
   purge: [
     "./public/**/*.html",
-    "./src/**/*.{js,jsx,ts,tsx,vue}",
-    path.resolve(__dirname, "./node_modules/litepie-datepicker/**/*.js"),
+    "./src/**/*.{js,jsx,ts,tsx,vue}"
   ],
   darkMode: "class",
   theme: {
@@ -31,10 +30,7 @@ module.exports = {
         "color-dark-gray-lightest": "#eaebec",
 
         "color-dark-black-darker": "#021117",
-        "color-dark-black-default": "#0e1e25",
-
-        "litepie-primary": colors.sky, // color system for light mode
-        "litepie-secondary": colors.coolGray, // color system for dark mode
+        "color-dark-black-default": "#0e1e25"
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
@@ -42,11 +38,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: {
-      cursor: ["disabled"],
-      textOpacity: ["disabled"],
-      textColor: ["disabled"],
-    },
+    extend: {},
   },
   plugins: [require("@tailwindcss/forms")],
 };

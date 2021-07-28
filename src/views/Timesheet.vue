@@ -18,10 +18,38 @@
       </header>
 
       <!-- Lite Date -->
-      <div class="card-wrapper-no-rounded rounded-t-lg my-3">
-         <div class="flex items-center justify-between">
-            <p class="py-3 px-2 text-color-gray-default">Timesheet List</p>
-            <button @click="isOnFilter = !isOnFilter" type="button" class="p-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white">
+      <div class="card-wrapper-no-rounded rounded-lg my-3">
+         <div class="flex relative flex-col sm:flex-row items-start sm:items-center justify-between">
+            <p class="py-3 px-2 text-color-gray-darkest dark:text-color-gray-default">Timesheet List</p>
+            <div class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
+               <dd v-if="isOnFilter"  class="input-custom-dd with-transition w-full">
+                  <label for="search-from" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">From</label>
+                  <input
+                     type="date" v-model="search.from" name="search-from" id="search-from" autocomplete="off"
+                     :readonly="!isOnFilter"
+                     :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
+                     class="input-custom-default" 
+                  />
+               </dd>
+               <dd v-if="isOnFilter"  class="input-custom-dd with-transition w-full">
+                  <label for="seacrh-to" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">To</label>
+                  <input
+                     type="date" v-model="search.to" name="seacrh-to" id="seacrh-to" autocomplete="off"
+                     :readonly="!isOnFilter"
+                     :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
+                     class="input-custom-default" 
+                  />
+               </dd>
+              <div class="inline-flex items-center justify-end space-x-3">
+                  <button v-if="isOnFilter" @click="toggleSearch" type="button" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                     Cancel
+                  </button>
+                  <button v-if="isOnFilter" @click="onSearchAction" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                     Search
+                  </button>
+              </div>
+            </div>
+            <button v-if="!isOnFilter"  @click="toggleSearch" type="button" class="p-2 rounded-full absolute top-0 right-0 bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                </svg>
@@ -48,17 +76,27 @@ export default defineComponent({
    setup () {
 
       const state = reactive({
-         dateValue: [],
-         formater: {
-            date: 'DD MMM YYYY',
-            month: 'MMM'
-         },
          isOnFilter: false,
+         search:{
+            from: '',
+            to: '',
+         }
+
       }) ;
+
+      const onSearchAction = ()=> {
+         console.log(state.search);
+      }
+
+      const toggleSearch = ()=> {
+         state.isOnFilter = !state.isOnFilter;
+      }
 
 
       return {
-         ...toRefs(state)
+         ...toRefs(state),
+         onSearchAction,
+         toggleSearch
       }
    }
 })

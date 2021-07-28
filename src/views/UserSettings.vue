@@ -5,7 +5,7 @@
          <div class="text-color-dark-black-default dark:text-color-gray-light">
             <h1 class="text-2xl font-semibold"> {{ currentUser.fullName }}</h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
-            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{currentUser.joinAt.toLocaleString()}}</p>
+            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{formatDateWithMonth(currentUser.jointAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects. <br class="sm:hidden"> Work on {{ currentUser.clients.length }} client.</p>
             <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-2.5 text-sm">
               <span>Current Clients</span>
@@ -91,7 +91,7 @@
                         <button @click="loginWithGoogle" type="button" class="">
                           <GoogleIcon class="w-7 mr-2"/>
                         </button>
-                        <p class="text-color-dark-gray-darker dark:text-color-gray-light">Not connected</p>
+                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ providedId ? providedId : 'Not connected' }} </p>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,8 @@ import { computed, defineComponent, reactive, toRefs } from "vue";
 import CredentialProfileInfo from "../components/CredentialProfileInfo.vue";
 import GeneralProfileInfo from "../components/GeneralProfileInfo.vue";
 import GoogleIcon from "../components/svg/GoogleIcon.vue";
-import { useProjectStore, useUserStore, useUtilityStore } from '../services';
+import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
+import { useAuthStore, useProjectStore, useUserStore, useUtilityStore } from '../services';
 
 export default defineComponent({
   components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo},
@@ -122,11 +123,13 @@ export default defineComponent({
     const utilityStore = useUtilityStore();
     const projectStore = useProjectStore();
     const userStore = useUserStore();
+    const authStore = useAuthStore();
 
     const state = reactive({
       projectTotal: computed(()=> projectStore.projectTotal),
       theme: computed(()=> utilityStore.theme),
       currentUser: computed(()=> userStore.currentUser),
+      providedId: computed(()=> authStore.currentUserSession.providedId),
       menuTabs:[
         {
           id: 1,
@@ -158,7 +161,9 @@ export default defineComponent({
       ...toRefs(state),
       togleDarkLightMode,
       loginWithGoogle,
-      switchTab
+      switchTab,
+      formatDateFromNow,
+      formatDateWithMonth
     };
   },
 });

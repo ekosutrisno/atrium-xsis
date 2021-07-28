@@ -2,16 +2,15 @@
   <div class="min-h-screen font-quicksand flex items-center justify-center bg-white bg-gradient-to-br dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div>
-        <img class="mx-auto h-16 w-auto" src="/icons/apple-icon-114x114.png" alt="atrium" />
         <h2 class="mt-6 text-center text-3xl font-extrabold text-color-dark-gray-darker dark:text-color-gray-lighter">
-          Sign in to your account
+          Login
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600 dark:text-color-gray-light">
           Or
-          {{ ' ' }}
-          <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
-            sign up for free
-          </a>
+          {{ ' ' }} Not register yet?
+          <router-link to="/user/register" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+            Create an Account
+          </router-link>
         </p>
       </div>
       <form class="mt-8 space-y-6" @submit.prevent="onLoginAction">
@@ -56,10 +55,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
 import { useAuthStore } from '../services';
 import { useRouter } from 'vue-router';
+import { signInWithEmailAndPassword } from '@firebase/auth';
+import { useToast } from 'vue-toastification';
+import { auth } from '../services/useFirebaseService';
 
 export default defineComponent({
    components: {
@@ -68,6 +70,7 @@ export default defineComponent({
    setup () {
       const router = useRouter();
       const authStore = useAuthStore();
+      const toast = useToast();
 
       const state = reactive({
          auth:{
@@ -77,9 +80,31 @@ export default defineComponent({
       })
 
       const onLoginAction = () =>{
-        authStore.onLoginAction(state.auth)
-        .then(()=> router.push('/u/0/dashboard'));
+        
+        signInWithEmailAndPassword(auth, state.auth.email, state.auth.password)
+          .then((userCredential) => {
+              router.replace('/u/0/dashboard');
+              const user = userCredential.user;
+              authStore.onLoginAction(user);
+              toast.success("You succesfuly logged in " + user.email);
+          })
+          .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+
+              authStore.$patch(state => state.error = {
+                errorCode: errorCode,
+                errorMessage: errorMessage
+              });
+
+              console.log(`${errorCode} => ${errorMessage}`);
+          });
       }
+
+      onMounted(()=>{
+        if (localStorage.getItem('_uid')) 
+          router.push('/u/0/dashboard');
+      })
       
 
       return {
