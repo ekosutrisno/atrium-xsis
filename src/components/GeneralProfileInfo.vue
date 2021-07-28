@@ -15,7 +15,7 @@
         <dd class="input-custom-dd">
            <label for="full-name" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.fullName" name="full-name" id="full-name" autocomplete="off"
+              type="text" v-model="currentUser.fullName" name="full-name" id="full-name" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -29,7 +29,7 @@
         <dd class="input-custom-dd">
            <label for="role-developer" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.roleDeveloper" name="role-developer" id="role-developer" autocomplete="off"
+              type="text" v-model="currentUser.roleDeveloper" name="role-developer" id="role-developer" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -43,7 +43,7 @@
         <dd class="input-custom-dd">
            <label for="email-address" class="input-custom-label">Full name</label>
             <input 
-              type="email" v-model="user.email" name="email-address" id="email-address" autocomplete="off"
+              type="email" v-model="currentUser.email" name="email-address" id="email-address" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -57,7 +57,7 @@
         <dd class="input-custom-dd">
            <label for="gender" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.gender" name="gender" id="gender" autocomplete="off"
+              type="text" v-model="currentUser.gender" name="gender" id="gender" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -71,7 +71,7 @@
         <dd class="input-custom-dd">
            <label for="dob" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.dob" name="dob" id="dob" autocomplete="off"
+              type="text" v-model="currentUser.dob" name="dob" id="dob" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -85,7 +85,7 @@
         <dd class="input-custom-dd">
            <label for="pob" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.pob" name="pob" id="pob" autocomplete="off"
+              type="text" v-model="currentUser.pob" name="pob" id="pob" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -99,7 +99,7 @@
         <dd class="input-custom-dd">
            <label for="hobby" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.hobby" name="hobby" id="hobby" autocomplete="off"
+              type="text" v-model="currentUser.hobby" name="hobby" id="hobby" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -113,7 +113,7 @@
         <dd class="input-custom-dd">
            <label for="religion" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.religion" name="religion" id="religion" autocomplete="off"
+              type="text" v-model="currentUser.religion" name="religion" id="religion" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -127,7 +127,7 @@
         <dd class="input-custom-dd">
            <label for="nationality" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.nationality" name="nationality" id="nationality" autocomplete="off"
+              type="text" v-model="currentUser.nationality" name="nationality" id="nationality" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -141,7 +141,7 @@
         <dd class="input-custom-dd">
            <label for="phone-number" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="user.telephone" name="phone-number" id="phone-number" autocomplete="off"
+              type="text" v-model="currentUser.telephone" name="phone-number" id="phone-number" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
@@ -155,7 +155,7 @@
         <dd class="input-custom-dd">
            <label for="about" class="input-custom-label">About</label>
             <textarea 
-              v-model="user.about" id="about" name="about" rows="5" maxlength="250" 
+              v-model="currentUser.about" id="about" name="about" rows="5" maxlength="250" 
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default"
@@ -272,7 +272,6 @@ export default defineComponent({
       const state = reactive({
         currentUser: computed(() => userStore.currentUser),
         isOnEdit: computed(() => utilityStore.isOnEditUserData),
-        currentEdit: false
       })
 
       const userPreferences =  ref<IUserPreference>({
@@ -283,33 +282,21 @@ export default defineComponent({
         }
       })
 
-      const user = ref({
-          nationality: state.currentUser.nationality,
-          email: state.currentUser.email,
-          fullName: state.currentUser.fullName,
-          telephone: state.currentUser.telephone,
-          dob: state.currentUser.dob,
-          pob: state.currentUser.pob,
-          hobby: state.currentUser.hobby,
-          religion: state.currentUser.religion,
-          roleDeveloper: state.currentUser.roleDeveloper,
-          about: state.currentUser.about,
-          gender: state.currentUser.gender
-        })
-
       const onSubmitAction = ()=>{
-        console.log(user.value);
+        userStore.updateCurrentUserData(state.currentUser)
+        .then(()=> toggleEditAction(false));
       }
 
       const toggleEditAction = (val: boolean): void => {
-         utilityStore.$patch((state)=>state.isOnEditUserData = val);
+        var userId = localStorage.getItem('_uid') as string;
+        userStore.fetchCurrentUser(userId);
+        utilityStore.$patch((state)=>state.isOnEditUserData = val);
       }
 
-      const aboutLength = computed(() => user.value.about?.length);
+      const aboutLength = computed(() => state.currentUser.about?.length);
 
       return {
         ...toRefs(state),
-        user,
         userPreferences,
         aboutLength,
         onSubmitAction,

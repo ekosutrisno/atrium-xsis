@@ -5,7 +5,7 @@
          <div class="text-color-dark-black-default dark:text-color-gray-light">
             <h1 class="text-2xl font-semibold"> {{ currentUser.fullName }}</h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
-            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{formatDateWithMonth(currentUser.jointAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
+            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{formatDateWithMonth(currentUser.joinAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects. <br class="sm:hidden"> Work on {{ currentUser.clients.length }} client.</p>
             <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-2.5 text-sm">
               <span>Current Clients</span>
