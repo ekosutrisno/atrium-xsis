@@ -6,6 +6,9 @@
       :info="{ title: 'Personal Information', desc: 'Personal details and employee.'}"
       :enableEdit="true"
     />
+    <div class="px-2 py-1 ml-4 sm:ml-6 my-2 text-sm rounded bg-indigo-600 w-max dark:text-color-gray-lightest text-white" >
+        <span class="block text-[11px] text-gray-200">Last updated {{ formatDateFromNow(currentUser.lastModifiedDate) }}</span>
+    </div>
   <div>
     <dl>
       <div class="input-custom-wrapper-gray">
@@ -262,6 +265,7 @@ import { useUserStore, useUtilityStore } from '../services';
 import { IUserPreference } from '../types/InterfaceType';
 import AddressFormCard from './cards/AddressFormCard.vue';
 import GeneralProfileHeader from './GeneralProfileHeader.vue';
+import { formatDateFromNow } from '../utils/helperFunction';
 
 export default defineComponent({
   components: { GeneralProfileHeader, AddressFormCard },
@@ -300,7 +304,8 @@ export default defineComponent({
         userPreferences,
         aboutLength,
         onSubmitAction,
-        toggleEditAction
+        toggleEditAction,
+        formatDateFromNow
       }
    }
 })

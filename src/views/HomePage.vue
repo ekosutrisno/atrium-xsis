@@ -30,7 +30,14 @@
  * @author Eko Sutrisno
  */
 import { defineComponent } from 'vue';
-export default defineComponent({})
+import { useOnline } from '@vueuse/core';
+export default defineComponent({
+
+  setup(){
+    const isOnline = useOnline();
+    console.log(isOnline.value);
+  }
+})
 </script>
 
 <style scoped>

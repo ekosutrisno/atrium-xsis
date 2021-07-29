@@ -30,7 +30,7 @@
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-               <label :for="`country-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">State / Province</label>
+               <label :for="`country-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">State</label>
                <input 
                v-model="address.country"
                   type="text" :name="`country-${address.isDomisili}`" :id="`country-${address.isDomisili}`" 
@@ -63,7 +63,7 @@
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-               <label :for="`kecamatan-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">District</label>
+               <label :for="`kecamatan-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">District/Kecamatan</label>
                <input
                   v-model="address.kecamatan"
                   type="text" :name="`kecamatan-${address.isDomisili}`" :id="`kecamatan-${address.isDomisili}`" autocomplete="off"
@@ -74,10 +74,10 @@
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-               <label :for="`kabupaten-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">Province</label>
+               <label :for="`provinsi-${address.isDomisili}`" class="block text-sm font-medium text-gray-400 dark:text-color-gray-default">Province</label>
                <input
-                  v-model="address.kabupaten"
-                  type="text" :name="`kabupaten-${address.isDomisili}`" :id="`kabupaten-${address.isDomisili}`" autocomplete="off"
+                  v-model="address.provinsi"
+                  type="text" :name="`provinsi-${address.isDomisili}`" :id="`provinsi-${address.isDomisili}`" autocomplete="off"
                   :readonly="!isOnEdit"
                   :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
                   class="input-custom-default mt-1 sm:mt-0"
@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useUtilityStore } from '../../services'
+import { useUserStore, useUtilityStore } from '../../services'
 import { IAddress } from '../../types/InterfaceType';
 import { formatDateFromNow } from '../../utils/helperFunction';
 
@@ -115,14 +115,19 @@ export default defineComponent({
    },
    setup (props) {
       const utilityStore = useUtilityStore();
+      const userStore = useUserStore();
+
       const state = reactive({
          isOnEdit: props.address.isDomisili 
             ? computed(()=> utilityStore.isOnEditAddressData) 
             : computed(()=> utilityStore.isOnEditAddressDataAsli)
       })
 
-      const onSubmitAction = ()=>{
+      const onSubmitAction = () => {
          props.address.lastModifiedDate = Date.now();
+         userStore.updateCurrentUserAddress(props.address);
+         toggleEditAction(false);
+            
       }
 
       /** Togle Action base on state isDomisili */
@@ -130,6 +135,8 @@ export default defineComponent({
         props.address.isDomisili 
             ? utilityStore.toggleIsOnEditAddress({value: val, isDomisili: true})
             : utilityStore.toggleIsOnEditAddress({value: val, isDomisili: false});
+
+        userStore.fetchCurrentUser(localStorage.getItem('_uid') as string);
       }
 
       return {

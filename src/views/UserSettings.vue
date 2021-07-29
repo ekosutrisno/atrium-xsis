@@ -1,7 +1,7 @@
 <template>
   <div class="flex relative w-full">
    <div class="flex-1">
-      <header class="card-wrapper-custom relative pt-[18px] max-w-2xl flex justify-between">
+      <header class="card-wrapper-custom relative pt-[18px] max-w-2xl flex flex-col-reverse sm:flex-row sm:justify-between">
          <div class="text-color-dark-black-default dark:text-color-gray-light">
             <h1 class="text-2xl font-semibold"> {{ currentUser.fullName }}</h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
@@ -16,13 +16,18 @@
                   </span>
                 </li>
               </ul>
-              <span v-if="!currentUser.clients"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
+              <span v-if="!currentUser.clients.length"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
                 IDLE
               </span>
             </div>
          </div>
-         <div class=" flex-shrink-0">
-           <img class="h-12 w-12 sm:h-36 sm:w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
+         <div class="flex-shrink-0 relative h-36 w-36 rounded-full overflow-hidden">
+           <div @click="onUpdateAvatar" class="absolute inset-0 flex items-center justify-center bg-gray-900 group bg-opacity-20 hover:bg-opacity-40">
+             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 md:cursor-pointer text-transparent group-hover:text-indigo-200 text-opacity-50 hover:text-opacity-100 transition-al" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+             </svg>
+           </div>
+           <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
          <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
            {{currentUser.roleDeveloper}}
@@ -156,12 +161,16 @@ export default defineComponent({
     const switchTab = (current: string): void => {
       state.currentTabs = current;
     }
+    const onUpdateAvatar = ()=> {
+      console.log('Update Avatar Actions');
+    }
 
     return {
       ...toRefs(state),
       togleDarkLightMode,
       loginWithGoogle,
       switchTab,
+      onUpdateAvatar,
       formatDateFromNow,
       formatDateWithMonth
     };
