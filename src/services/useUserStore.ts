@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { IUser } from '../types/InterfaceType';
+import { IAddress, IUser } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
-import { doc, getDoc, setDoc, } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore';
 import { db } from '../services/useFirebaseService';
 import { useToast } from 'vue-toastification';
 
@@ -97,8 +97,29 @@ export const useUserStore = defineStore({
          setDoc(docRef, user, { merge: true })
             .then(() => {
                this.fetchCurrentUser(userId);
-               toast.info(`Your data up to date now.`)
+               toast.info(`Your profile data up to date now.`)
             });
+      },
+
+      async updateCurrentUserAddress(address: IAddress) {
+         var userId = address.userId;
+         const docRef = doc(db, "tbl_users", userId);
+
+         if (address.isDomisili) {
+            updateDoc(docRef, {
+               "address.addressDomisili": address
+            }).then(() => {
+               this.fetchCurrentUser(userId);
+               toast.info(`Your Address Domisili up to date now.`)
+            });
+         } else {
+            updateDoc(docRef, {
+               "address.addressAsli": address
+            }).then(() => {
+               this.fetchCurrentUser(userId);
+               toast.info(`Your Address Asli up to date now.`)
+            });
+         }
       }
    },
    getters: {
