@@ -118,7 +118,7 @@ export interface IUser extends Info {
    address: UserAddress
    roleDeveloper: string
    clients: IClient[]
-   userPreference?: IUserPreference
+   userPreference: IUserPreference
    about?: string
 }
 

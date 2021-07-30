@@ -3,7 +3,14 @@
    <div class="flex-1">
       <header class="card-wrapper-custom relative pt-[18px] max-w-2xl flex flex-col-reverse sm:flex-row sm:justify-between">
          <div class="text-color-dark-black-default dark:text-color-gray-light">
-            <h1 class="text-2xl font-semibold"> {{ currentUser.fullName }}</h1>
+            <h1 class="text-2xl inline-flex font-semibold"> 
+              {{ currentUser.fullName }}
+              <span :class="[currentUser.isActive==true ? 'text-green-500' : 'text-gray-400']">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{formatDateWithMonth(currentUser.joinAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects. <br class="sm:hidden"> Work on {{ currentUser.clients.length }} client.</p>
@@ -17,16 +24,17 @@
                 </li>
               </ul>
               <span v-if="!currentUser.clients.length"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
-                IDLE
+                __IDLE__
               </span>
             </div>
          </div>
          <div class="flex-shrink-0 relative h-36 w-36 rounded-full overflow-hidden">
-           <div @click="onUpdateAvatar" class="absolute inset-0 flex items-center justify-center bg-gray-900 group bg-opacity-20 hover:bg-opacity-40">
+           <label for="file-upload" @click="onUpdateAvatar" class="absolute inset-0 flex items-center justify-center bg-gray-900 group bg-opacity-20 hover:bg-opacity-40">
              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 md:cursor-pointer text-transparent group-hover:text-indigo-200 text-opacity-50 hover:text-opacity-100 transition-al" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
              </svg>
-           </div>
+           </label>
+            <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="onUpdateAvatar">
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
          <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
@@ -91,10 +99,16 @@
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Connected accounts</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
-                    <span>Connect your Atrium account to Google providers to make logging in easier.</span>
-                      <div class="inline-flex items-center space-x-4 mt-3">
+                    <span>Your current logging provider.</span>
+                      <div v-if="providedId === 'google'" class="inline-flex items-center space-x-4 mt-3">
                         <button @click="loginWithGoogle" type="button" class="">
                           <GoogleIcon class="w-7 mr-2"/>
+                        </button>
+                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ providedId ? providedId : 'Not connected' }} </p>
+                      </div>
+                      <div v-if="providedId === 'firebase'" class="inline-flex items-center space-x-4 mt-3">
+                        <button @click="loginWithGoogle" type="button" class="">
+                          <img alt="firebase" src="/firebase.png" width="28" height="28" />
                         </button>
                         <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ providedId ? providedId : 'Not connected' }} </p>
                     </div>
@@ -121,6 +135,7 @@ import GeneralProfileInfo from "../components/GeneralProfileInfo.vue";
 import GoogleIcon from "../components/svg/GoogleIcon.vue";
 import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
 import { useAuthStore, useProjectStore, useUserStore, useUtilityStore } from '../services';
+import { useToast } from "vue-toastification";
 
 export default defineComponent({
   components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo},
@@ -129,6 +144,7 @@ export default defineComponent({
     const projectStore = useProjectStore();
     const userStore = useUserStore();
     const authStore = useAuthStore();
+    const toast = useToast();
 
     const state = reactive({
       projectTotal: computed(()=> projectStore.projectTotal),
@@ -161,8 +177,26 @@ export default defineComponent({
     const switchTab = (current: string): void => {
       state.currentTabs = current;
     }
-    const onUpdateAvatar = ()=> {
-      console.log('Update Avatar Actions');
+
+    const onUpdateAvatar = (event: any) => {
+      if (event.target.files && event.target.files[0]) {
+        const fileType = event.target.files[0].type.toString();
+        if(fileType.indexOf('image') != 0){
+            alert('Please Choose an Image')
+            return;
+        }
+        var newPhotoObject = event.target.files[0];
+        if(newPhotoObject.size > 2097152){
+           toast.warning(`Max photo size is 2Mb!`);
+        }else{
+          // Set Preview
+          state.currentUser.photoUrl = URL.createObjectURL(newPhotoObject);
+  
+          // Realtime updated
+          userStore.updateFotoProfile(newPhotoObject, state.currentUser.userId);
+        }
+
+      }
     }
 
     return {

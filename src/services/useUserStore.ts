@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
-import { IAddress, IUser } from '../types/InterfaceType';
+import { IAddress, IUser, IUserPreference } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
 import { doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore';
-import { db } from '../services/useFirebaseService';
+import { db, storage } from '../services/useFirebaseService';
 import { useToast } from 'vue-toastification';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 const toast = useToast();
 
@@ -73,6 +74,8 @@ export const useUserStore = defineStore({
                   candidates: true,
                   offers: true,
                },
+               cretedDate: Date.now(),
+               lastModifiedDate: Date.now()
             },
             cretedDate: Date.now(),
             lastModifiedDate: Date.now(),
@@ -119,6 +122,67 @@ export const useUserStore = defineStore({
                this.fetchCurrentUser(userId);
                toast.info(`Your Address Asli up to date now.`)
             });
+         }
+      },
+
+      async updateUserPreference(userId: IUser['userId'], userPreference: IUserPreference): Promise<void> {
+         const docRef = doc(db, "tbl_users", userId);
+
+         userPreference.lastModifiedDate = Date.now(),
+
+         updateDoc(docRef, {
+            "userPreference": userPreference
+         }).then(() => {
+            this.fetchCurrentUser(userId);
+            toast.info(`Your Notification preference up to date now.`)
+         });
+      },
+
+      async updateFotoProfile(photo: any, userId: IUser['userId']){
+         if (photo) {
+            const storageRef = ref(storage, `profiles/${userId}`);
+            const uploadTask = uploadBytesResumable(storageRef, photo);
+
+            uploadTask.on('state_changed',
+               (snapshot) => {
+                  const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  console.log('Upload is ' + progress + '% done');
+                  switch (snapshot.state) {
+                     case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                     case 'running':
+                        console.log('Upload is running');
+                        break;
+                  }
+               },
+               (error) => {
+                  switch (error.code) {
+                     case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+                     case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+                     case 'storage/unknown':
+                        // Unknown error occurred, inspect error.serverResponse
+                        break;
+                  }
+               },
+               () => {
+                  // Upload completed successfully, now we can get the download URL
+                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                     const docRef = doc(db, "tbl_users", userId);
+                        updateDoc(docRef, {
+                           "photoUrl": downloadURL,
+                           "lastModifiedDate": Date.now()
+                        }).then(() => {
+                           this.fetchCurrentUser(userId);
+                           toast.info(`Your profile photo has been updated.`)
+                        });
+                  });
+               }
+            );
          }
       }
    },

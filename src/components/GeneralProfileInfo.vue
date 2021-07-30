@@ -200,67 +200,65 @@
     :info="{ title: 'Notifications', desc: 'Decide which communications you did like to receive and how.'}"
   />
   <div class="mt-5 md:mt-0 md:col-span-2">
-    <form @submit.prevent="">
-      <div class="shadow overflow-hidden sm:rounded-md">
-        <div class="px-4 py-5 space-y-6 sm:p-6">
-          <fieldset>
-            <legend class="text-base font-medium text-gray-900 dark:text-color-gray-lightest">By Email</legend>
-            <div class="mt-4 space-y-4">
-              <div class="flex items-start">
-                <div class="flex items-center h-5">
-                  <input id="candidates" v-model="userPreferences.sendToEmail.candidates" name="candidates" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
-                </div>
-                <div class="ml-3 text-sm">
-                  <label for="candidates" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Candidates</label>
-                  <p class="text-gray-500 dark:text-color-gray-light">Get notified when a candidate applies for a job.</p>
-                </div>
+    <div class="shadow overflow-hidden sm:rounded-md">
+      <div class="px-4 py-5 space-y-6 sm:p-6">
+        <fieldset>
+          <legend class="text-base font-medium text-gray-900 dark:text-color-gray-lightest">By Email</legend>
+          <div class="mt-4 space-y-4">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input @change="updatePreference" id="candidates" v-model="currentUser.userPreference.sendToEmail.candidates" name="candidates" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
               </div>
-              <div class="flex items-start">
-                <div class="flex items-center h-5">
-                  <input id="offers" v-model="userPreferences.sendToEmail.offers" name="offers" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
-                </div>
-                <div class="ml-3 text-sm">
-                  <label for="offers" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Offers</label>
-                  <p class="text-gray-500 dark:text-color-gray-light">Get notified when a candidate accepts or rejects an offer.</p>
-                </div>
+              <div class="ml-3 text-sm">
+                <label for="candidates" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Candidates</label>
+                <p class="text-gray-500 dark:text-color-gray-light">Get notified when a candidate applies for a job.</p>
               </div>
             </div>
-          </fieldset>
-          <fieldset>
-            <div>
-              <legend class="text-base font-medium text-gray-900 dark:text-color-gray-lightest">Push Notifications</legend>
-              <p class="text-sm text-gray-500 dark:text-color-gray-light">These are delivered via SMS to your mobile phone.</p>
-            </div>
-            <div class="mt-4 space-y-4">
-              <div class="flex items-center">
-                <input id="push-everything" name="push-notifications" v-model.number="userPreferences.pushNotification" :value="1" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
-                <label for="push-everything" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
-                  Everything
-                </label>
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input @change="updatePreference" id="offers" v-model="currentUser.userPreference.sendToEmail.offers" name="offers" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
               </div>
-              <div class="flex items-center">
-                <input id="push-email" name="push-notifications" v-model.number="userPreferences.pushNotification" :value="2" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
-                <label for="push-email" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
-                  Same as email
-                </label>
-              </div>
-              <div class="flex items-center">
-                <input id="push-nothing" name="push-notifications" v-model.number="userPreferences.pushNotification" :value="3" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
-                <label for="push-nothing" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
-                  No push notifications
-                </label>
+              <div class="ml-3 text-sm">
+                <label for="offers" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Offers</label>
+                <p class="text-gray-500 dark:text-color-gray-light">Get notified when a candidate accepts or rejects an offer.</p>
               </div>
             </div>
-          </fieldset>
-        </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div>
+            <legend class="text-base font-medium text-gray-900 dark:text-color-gray-lightest">Push Notifications</legend>
+            <p class="text-sm text-gray-500 dark:text-color-gray-light">These are delivered via SMS to your mobile phone.</p>
+          </div>
+          <div class="mt-4 space-y-4">
+            <div class="flex items-center">
+              <input @change="updatePreference" id="push-everything" name="push-notifications" v-model.number="currentUser.userPreference.pushNotification" :value="1" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
+              <label for="push-everything" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
+                Everything
+              </label>
+            </div>
+            <div class="flex items-center">
+              <input @change="updatePreference" id="push-email" name="push-notifications" v-model.number="currentUser.userPreference.pushNotification" :value="2" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
+              <label for="push-email" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
+                Same as email
+              </label>
+            </div>
+            <div class="flex items-center">
+              <input @change="updatePreference" id="push-nothing" name="push-notifications" v-model.number="currentUser.userPreference.pushNotification" :value="3" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
+              <label for="push-nothing" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
+                No push notifications
+              </label>
+            </div>
+          </div>
+        </fieldset>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRefs } from 'vue';
+import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { useUserStore, useUtilityStore } from '../services';
 import { IUserPreference } from '../types/InterfaceType';
 import AddressFormCard from './cards/AddressFormCard.vue';
@@ -278,17 +276,18 @@ export default defineComponent({
         isOnEdit: computed(() => utilityStore.isOnEditUserData),
       })
 
-      const userPreferences =  ref<IUserPreference>({
-        pushNotification: 2,
-        sendToEmail: {
-          candidates: false,
-          offers: true
-        }
-      })
-
       const onSubmitAction = ()=>{
+        /* Set new lastModifieddate */
+        state.currentUser.lastModifiedDate = Date.now();
+        
         userStore.updateCurrentUserData(state.currentUser)
         .then(()=> toggleEditAction(false));
+      }
+
+      const updatePreference = ()=>{
+        var preference = state.currentUser.userPreference as IUserPreference;
+        preference.useThemeMode = utilityStore.theme;
+        userStore.updateUserPreference(state.currentUser.userId, preference);
       }
 
       const toggleEditAction = (val: boolean): void => {
@@ -301,11 +300,11 @@ export default defineComponent({
 
       return {
         ...toRefs(state),
-        userPreferences,
         aboutLength,
         onSubmitAction,
         toggleEditAction,
-        formatDateFromNow
+        formatDateFromNow,
+        updatePreference
       }
    }
 })
