@@ -1,5 +1,5 @@
 <template>
-<div :class="[isEdit ? 'scale-105 rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
+<div :class="[isEdit ? 'scale-105 rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid with-transition-fast space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
    <div class="text-sm md:col-span-3 flex flex-col justify-between items-start">
       <div>
          <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
@@ -145,34 +145,60 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { useTimesheetStore } from '../../services';
 import { ITimesheet } from '../../types/InterfaceType';
 import { formatDateFromNow, formatDateWithMonth } from '../../utils/helperFunction';
 
 export default defineComponent({
-   props:{
-      timesheet: {
-         type: Object as ()=> ITimesheet,
-         required: true
-      },
-   },
-   setup(props) {
+   setup(_, ctx) {
+      const timesheetStore = useTimesheetStore();
       const state = reactive({
-         isEdit: false
-
+         isEdit: true,
+         timesheet: {
+            absensiId: Date.now().toString(),
+            jamOTTotal: "",
+            jamKerjaTotal: "",
+            tanggalAsDate: Date.now(),
+            day: dayjs(Date.now()).date(),
+            month: dayjs(Date.now()).month(),
+            year:dayjs(Date.now()).year(),
+            user: localStorage.getItem('_uid') as string,
+            kegiatan:"",
+            statusAbsensi: "Masuk",
+            __v: 0,
+            jamKerjaMulai: "08:00",
+            jamKerjaSelesai: "17:00",
+            jamOTMulai: "",
+            jamOTSelesai: "",
+            placement: {
+               clientId: "27b24c1b-52af-41d1-8ca4-0a84087b376e",
+               clientName: "PT Azec Management Service",
+               clientAddress: "Jl. Gedong Panjang, Bandengan",
+               clientKota: "Jakarta Barat",
+               clientProvinsi: "DKI Jakarta",
+               clientCountry: "Indonesia",
+            },
+            template: true,
+            isDone: false,
+            cretedDate: Date.now(),
+            lastModifiedDate: Date.now()
+         } as ITimesheet
       })
 
       const onEdit = (): boolean =>{
-        return state.isEdit = !state.isEdit
+         ctx.emit('after-save');
+         return state.isEdit = !state.isEdit
       }
 
       const onSave = (): void =>{
-         props.timesheet.lastModifiedDate = Date.now();
-         console.log(props.timesheet);
-         onEdit();
+         timesheetStore
+            .addTimesheet(state.timesheet)
+            .then(()=>  onEdit());
       }
 
-      const kegiatanLength = computed(() => props.timesheet.kegiatan?.length);
+      const kegiatanLength = computed(() => state.timesheet.kegiatan?.length);
 
       return {
          ...toRefs(state),

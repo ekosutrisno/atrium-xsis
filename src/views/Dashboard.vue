@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onBeforeMount, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
 import PieCart from '../components/chart/PieCart.vue';
 import PieCart1 from '../components/chart/PieCart1.vue';
@@ -128,6 +128,9 @@ export default defineComponent({
          clients: computed(()=> userStore.getUserClient),
          currentYear: new Date().getFullYear()
       })
+      onBeforeMount(()=> statisticStore
+         .getUserStatistic(localStorage.getItem('_uid') as string)
+      )
       
       return {
          ...toRefs(state)
