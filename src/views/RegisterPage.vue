@@ -45,7 +45,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useUserStore } from '../services';
+import { useAuthStore, useStatisticStore, useUserStore } from '../services';
 import { useRouter } from 'vue-router';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
@@ -59,6 +59,7 @@ export default defineComponent({
       const router = useRouter();
       const authStore = useAuthStore();
       const userStore =  useUserStore();
+      const statisticStore = useStatisticStore();
       const toast = useToast();
 
       const state = reactive({
@@ -80,10 +81,11 @@ export default defineComponent({
          if(validate){
             createUserWithEmailAndPassword(auth, state.auth.email, state.auth.password)
               .then((userCredential) => {
-                  router.replace('/u/0/dashboard');
-                  const user = userCredential.user;
+                const user = userCredential.user;
                   authStore.onLoginAction(user);
                   userStore.onRegisterUser({userId:user.uid, email: user.email})
+                  statisticStore.registerStatistic(user.uid);
+                  router.replace('/u/0/dashboard');
                   toast.success(`Welcome ${user.email} to Atrium.`);
               })
               .catch((error) => {

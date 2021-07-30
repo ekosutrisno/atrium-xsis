@@ -15,7 +15,20 @@
            <img class="h-32 w-auto mx-auto" src="/icons/android-icon-512x512.png" alt="atrium">
         </div>
 
-        <router-link to="/u/0/dashboard" class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500">Dashboard</router-link>
+        <router-link 
+          v-if="isLogin"
+          to="/u/0/dashboard" 
+          class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+        >
+        Dashboard
+        </router-link>
+        <router-link 
+          v-else
+          to="/user/login"
+          class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+        >
+        Sign In
+        </router-link>
 
       </div>
 
@@ -29,13 +42,15 @@
 /**
  * @author Eko Sutrisno
  */
-import { defineComponent } from 'vue';
-import { useOnline } from '@vueuse/core';
+import { computed, defineComponent } from 'vue';
 export default defineComponent({
 
   setup(){
-    const isOnline = useOnline();
-    console.log(isOnline.value);
+    const isLogin = computed(()=>localStorage.getItem('_uid'));
+
+    return{
+      isLogin
+    }
   }
 })
 </script>

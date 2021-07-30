@@ -217,35 +217,35 @@ export const projects: IProject[] = [
 ];
 
 export const statistic: IStatistic = {
-  userId: "aeaf1efc-31e1-4255-9002-9ffac69a6073",
+  userId: '',
   total: {
     id: 0,
-    progress: 55.165,
+    progress: 0,
     title: "Total Performance",
     to: "#",
   },
   info: [
     {
       id: 1,
-      progress: 49.329,
+      progress: 0,
       title: "Absensi",
       to: "#",
     },
     {
       id: 2,
-      progress: 47.03,
+      progress: 0,
       title: "Placement Productivity",
       to: "#",
     },
     {
       id: 3,
-      progress: 33.331,
+      progress: 0,
       title: "Timesheet Collection",
       to: "#",
     },
     {
       id: 4,
-      progress: 27.778,
+      progress: 0,
       title: "Penilaian User",
       to: "#",
     },

@@ -35,6 +35,10 @@
       border-radius: 4px;
     }
 
+    .with-transition-fast {
+      animation: 0.2s appear;
+    }
+
     .with-transition {
       animation: 0.5s appear;
     }
