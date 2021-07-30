@@ -104,7 +104,7 @@
 
 .toast-style {
   @apply bg-color-dark-gray-darker !important;
-  @apply border border-color-dark-gray-default shadow-xl;
+  @apply border-b sm:border border-color-gray-darkest shadow-xl;
 }
 
 body {
