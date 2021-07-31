@@ -30,7 +30,7 @@
           <!-- Profile dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
             <div>
-              <MenuButton class="dark:bg-gray-800 z-0 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+              <MenuButton class="dark:bg-gray-800 z-0 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
                 <span class="sr-only">Open user menu</span>
                 <img class="h-8 w-8 rounded-full" :src="photoUrl" alt="profile-avatar" />
               </MenuButton>

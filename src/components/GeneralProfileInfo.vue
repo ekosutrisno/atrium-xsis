@@ -47,7 +47,7 @@
            <label for="email-address" class="input-custom-label">Full name</label>
             <input 
               type="email" v-model="currentUser.email" name="email-address" id="email-address" autocomplete="off"
-              :readonly="!isOnEdit"
+              readonly
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
             />
@@ -59,12 +59,10 @@
         </dt>
         <dd class="input-custom-dd">
            <label for="gender" class="input-custom-label">Full name</label>
-            <input 
-              type="text" v-model="currentUser.gender" name="gender" id="gender" autocomplete="off"
-              :readonly="!isOnEdit"
-              :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
-              class="input-custom-default" 
-            />
+            <GenderList v-if="isOnEdit"/>
+            <span v-else>
+              {{ currentUser.gender }}
+            </span>
         </dd>
       </div>
       <div class="input-custom-wrapper-gray">
@@ -73,12 +71,16 @@
         </dt>
         <dd class="input-custom-dd">
            <label for="dob" class="input-custom-label">Full name</label>
-            <input 
-              type="text" v-model="currentUser.dob" name="dob" id="dob" autocomplete="off"
+            <input
+              v-if="isOnEdit" 
+              type="date" v-model="currentUser.dob" name="dob" id="dob" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
             />
+            <span v-else>
+              {{ formatDateWithMonth(currentUser.dob)}}
+            </span>
         </dd>
       </div>
       <div class="input-custom-wrapper-white">
@@ -144,8 +146,9 @@
         <dd class="input-custom-dd">
            <label for="phone-number" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="currentUser.telephone" name="phone-number" id="phone-number" autocomplete="off"
+              type="tel" v-model="currentUser.telephone" name="phone-number" id="phone-number" autocomplete="off"
               :readonly="!isOnEdit"
+              pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
             />
@@ -263,10 +266,11 @@ import { useUserStore, useUtilityStore } from '../services';
 import { IUserPreference } from '../types/InterfaceType';
 import AddressFormCard from './cards/AddressFormCard.vue';
 import GeneralProfileHeader from './GeneralProfileHeader.vue';
-import { formatDateFromNow } from '../utils/helperFunction';
+import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
+import GenderList from './input/GenderList.vue';
 
 export default defineComponent({
-  components: { GeneralProfileHeader, AddressFormCard },
+  components: { GeneralProfileHeader, AddressFormCard, GenderList },
    setup () {
       const userStore = useUserStore();
       const utilityStore = useUtilityStore();
@@ -279,6 +283,7 @@ export default defineComponent({
       const onSubmitAction = ()=>{
         /* Set new lastModifieddate */
         state.currentUser.lastModifiedDate = Date.now();
+        state.currentUser.gender = userStore.gender;
         
         userStore.updateCurrentUserData(state.currentUser)
         .then(()=> toggleEditAction(false));
@@ -304,6 +309,7 @@ export default defineComponent({
         onSubmitAction,
         toggleEditAction,
         formatDateFromNow,
+        formatDateWithMonth,
         updatePreference
       }
    }
