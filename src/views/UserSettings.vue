@@ -5,7 +5,7 @@
          <div class="text-color-dark-black-default dark:text-color-gray-light">
             <h1 class="text-2xl inline-flex font-semibold"> 
               {{ currentUser.fullName }}
-              <span :class="[currentUser.isActive==true ? 'text-green-500' : 'text-gray-400']">
+              <span :class="[currentUser.isActive==true ? 'text-[#25BDAE]' : 'text-gray-400']">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
@@ -29,15 +29,18 @@
             </div>
          </div>
          <div class="flex-shrink-0 relative h-36 w-36 rounded-full overflow-hidden">
-           <label for="file-upload" @click="onUpdateAvatar" class="absolute inset-0 flex items-center justify-center bg-gray-900 group bg-opacity-20 hover:bg-opacity-40">
-             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 md:cursor-pointer text-transparent group-hover:text-indigo-200 text-opacity-50 hover:text-opacity-100 transition-al" viewBox="0 0 20 20" fill="currentColor">
+           <label for="file-upload" @click="onUpdateAvatar" class="absolute inset-0 flex items-center justify-center bg-gray-900 group bg-opacity-0 hover:bg-opacity-30">
+             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-8 w-8 md:cursor-pointer text-transparent group-hover:text-indigo-100 text-opacity-0 hover:text-opacity-100 transition-al" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
              </svg>
            </label>
             <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="onUpdateAvatar">
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
-         <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
+         <div v-if="currentUser.isEro" class="absolute p-1 text-xs dark:bg-[#25BDAE] bg-[#25BDAE] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
+           Employee Realtionship Officer <!-- dark:bg-[#f18900] bg-yellow-500 -->
+         </div>
+         <div v-else class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
            {{currentUser.roleDeveloper}}
          </div>
       </header>

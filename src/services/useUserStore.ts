@@ -11,7 +11,8 @@ const toast = useToast();
 export const useUserStore = defineStore({
    id: 'useUserStore',
    state: () => ({
-      currentUser: userMock
+      currentUser: userMock,
+      gender: ''
    }),
    actions: {
       async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
