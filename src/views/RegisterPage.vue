@@ -1,5 +1,14 @@
 <template>
-  <div class="min-h-screen font-quicksand flex items-center justify-center bg-white bg-gradient-to-br dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-white bg-gradient-to-br dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+    <!-- State Loading -->
+    <div v-if="isRegisterProcess" class="fixed z-30 inset-0 custom-backdrop bg-gray-600 bg-opacity-50 transition-opacity flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <Spinner/>
+        <p class="font-semibold text-white">Register process</p>
+      </div>
+    </div>
+
+    <!-- main Form -->
     <div class="max-w-md w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-color-dark-gray-darker dark:text-color-gray-lighter">
@@ -39,35 +48,51 @@
         </div>
       </form>
     </div>
+
+    <!-- Toggle Dark Mode -->
+    <div class="absolute bottom-10 right-10">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"  v-if="theme == 'dark'" @click="togleDarkLightMode('light')" class="h-6 w-6 sm:cursor-pointer text-[#9a6fc3] hover:text-opacity-50 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" aria-hidden="true" @click="togleDarkLightMode('dark')" class="h-6 w-6 sm:cursor-pointer text-[#9a6fc3] hover:text-opacity-50 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useStatisticStore, useUserStore } from '../services';
+import { useAuthStore, useStatisticStore, useTimesheetStore, useUserStore, useUtilityStore } from '../services';
 import { useRouter } from 'vue-router';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
 import { auth } from '../services/useFirebaseService';
+import Spinner from '../components/modal/Spinner.vue';
 
 export default defineComponent({
    components: {
     LockClosedIcon,
+    Spinner,
   },
    setup () {
       const router = useRouter();
       const authStore = useAuthStore();
       const userStore =  useUserStore();
       const statisticStore = useStatisticStore();
+      const utilityStore = useUtilityStore();
+      const timesheetStore = useTimesheetStore();
       const toast = useToast();
 
       const state = reactive({
          auth:{
             email: '',
-            password: '123456',
-            confirmPassword: '123456'
-         }
+            password: '',
+            confirmPassword: ''
+         },
+         isRegisterProcess: false,
+         theme: computed(()=> utilityStore.theme)
       })
 
       const validate = computed(()=>{
@@ -78,14 +103,29 @@ export default defineComponent({
       })
 
       const onRegisterAction = () =>{
+         state.isRegisterProcess = true;
+
          if(validate){
             createUserWithEmailAndPassword(auth, state.auth.email, state.auth.password)
               .then((userCredential) => {
-                const user = userCredential.user;
+                  const user = userCredential.user;
+                  /** Set User Details Data. */
                   authStore.onLoginAction(user);
+
+                  /** Save User Details To tbl_users. */
                   userStore.onRegisterUser({userId:user.uid, email: user.email})
+
+                  /** Register Statistic storage. */
                   statisticStore.registerStatistic(user.uid);
+
+                  /** Register Timesheet storage. */
+                  timesheetStore.registerTimesheet(user.uid);
+
+                  /** Set isRegoster to false and Redirect to Dashboard page. */
+                  state.isRegisterProcess = false;
                   router.replace('/u/0/dashboard');
+
+                  /** Show Notification if login sucessfully. */
                   toast.success(`Welcome ${user.email} to Atrium.`);
               })
               .catch((error) => {
@@ -96,9 +136,12 @@ export default defineComponent({
                     errorCode: errorCode,
                     errorMessage: errorMessage
                   });
-    
+
+                  state.isRegisterProcess = false;
                   console.log(`${errorCode} => ${errorMessage}`);
               });
+         }else{
+           state.isRegisterProcess = false;
          }
       }
 
@@ -107,10 +150,14 @@ export default defineComponent({
           router.push('/u/0/dashboard');
       })
       
+      const togleDarkLightMode = (value: string): void => {
+        utilityStore.setToggleTheme(value);
+      };
 
       return {
          ...toRefs(state),
-         onRegisterAction
+         onRegisterAction,
+         togleDarkLightMode
       }
    }
 })

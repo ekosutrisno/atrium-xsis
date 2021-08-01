@@ -53,6 +53,7 @@
         <!-- Left Column -->
         <div class="lg:col-span-1 space-y-6">
           
+          <!-- Switch Tabs -->
           <div class="card-wrapper-custom-default overflow-hidden md:sticky top-6 max-h-48">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
               <div class="text-color-gray-darkest w-full dark:text-color-gray-default flex flex-col text-sm">
@@ -69,6 +70,7 @@
             </div>
           </div>
 
+          <!-- Appearance -->
           <div class="card-wrapper-custom md:sticky top-[7.5rem] max-h-44 pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Appearance</h1>
@@ -98,6 +100,7 @@
             </div>
           </div>
 
+          <!-- Connected Account -->
           <div class="card-wrapper-custom md:sticky top-[18.5rem] h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Connected accounts</h1>
@@ -118,6 +121,25 @@
                 </div>
             </div>
           </div>
+
+          <!-- Current Ero Detail -->
+          <div v-if="!currentUser.isEro" class="card-wrapper-custom md:sticky top-[27.70rem] max-h-48 pt-[18px]">
+               <div class="text-color-dark-black-default dark:text-color-gray-lightest">
+                  <h1 class="text-lg font-medium">Current ERO</h1>
+                  <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
+                     <span>Your current ERO details info</span>
+                      <div class="inline-flex items-center space-x-1 mt-3">
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.fullName}}</p>
+                      </div>
+                      <div class="inline-flex items-center space-x-1 mt-3">
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.email }}</p>
+                      </div>
+                      <div class="inline-flex items-center space-x-1 mt-3">
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.telephone }}</p>
+                      </div>
+                  </div>
+               </div>
+            </div>
         </div>
 
         <!-- Right Column -->
@@ -153,6 +175,7 @@ export default defineComponent({
       projectTotal: computed(()=> projectStore.projectTotal),
       theme: computed(()=> utilityStore.theme),
       currentUser: computed(()=> userStore.currentUser),
+      currentEro: computed(()=> userStore.currentEro),
       providedId: computed(()=> authStore.currentUserSession.providedId),
       menuTabs:[
         {

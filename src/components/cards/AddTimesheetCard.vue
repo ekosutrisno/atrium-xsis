@@ -157,10 +157,10 @@ export default defineComponent({
       const state = reactive({
          isEdit: true,
          timesheet: {
-            absensiId: Date.now().toString(),
+            absensiId: dayjs().format('YYYY-MM-DD'),
             jamOTTotal: "",
             jamKerjaTotal: "",
-            tanggalAsDate: Date.now(),
+            tanggalAsDate: dayjs().format('YYYY-MM-DD'),
             day: dayjs(Date.now()).date(),
             month: dayjs(Date.now()).month(),
             year:dayjs(Date.now()).year(),

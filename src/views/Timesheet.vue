@@ -11,7 +11,15 @@
             </span>
          </div>
          <div class="text-color-gray-lighter hidden sm:block text-sm">
-            <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button 
+               :disabled="timesheetSize == 0" 
+               type="button"
+               :class="[timesheetSize == 0 
+                  ? 'bg-gray-600 cursor-not-allowed hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' 
+                  : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
+               ]" 
+               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white"
+            >
                Send timehseet
             </button>
          </div>
@@ -68,19 +76,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+import { computed, defineComponent, reactive, toRefs } from 'vue';
 import TimesheetTable from '../components/TimesheetTable.vue';
+import { useTimesheetStore } from '../services';
 
 export default defineComponent({
   components: { TimesheetTable },
    setup () {
-
+      const timehseetStore = useTimesheetStore();
       const state = reactive({
          isOnFilter: false,
          search:{
             from: '',
             to: '',
-         }
+         },
+         timesheetSize: computed(()=> timehseetStore.timehseets.length)
 
       }) ;
 

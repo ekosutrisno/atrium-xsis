@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import {  onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useToast } from "vue-toastification";
 import { auth } from '../services/useFirebaseService';
 import { useUserStore } from "./useUserStore";
@@ -10,6 +10,7 @@ export const useAuthStore = defineStore({
    id: 'useAuthStore',
    state: () => ({
       isLoggedIn: false,
+      isRegisterProcess: false,
       currentUserSession: {
          displayName: '',
          phoneNumber: '',
