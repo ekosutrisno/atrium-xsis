@@ -56,6 +56,10 @@ export interface ITimesheet extends Info {
    __v?: number
 }
 
+export interface ITimesheetCollectionMeta extends Info{
+   userId: IUser['userId']
+}
+
 export interface IAddress extends Info {
    userId: string
    addressId?: string
@@ -120,6 +124,14 @@ export interface IUser extends Info {
    clients: IClient[]
    userPreference: IUserPreference
    about?: string
+}
+
+export interface ICurrentEro extends Info {
+   eroId: string
+   fullName: string
+   email: string
+   telephone?: string
+   asEroAt?: string | any
 }
 
 export interface IJobVacancy extends Info {

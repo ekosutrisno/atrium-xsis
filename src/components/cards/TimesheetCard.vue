@@ -146,6 +146,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { useTimesheetStore } from '../../services';
 import { ITimesheet } from '../../types/InterfaceType';
 import { formatDateFromNow, formatDateWithMonth } from '../../utils/helperFunction';
 
@@ -157,9 +158,9 @@ export default defineComponent({
       },
    },
    setup(props) {
+      const timesheetStore = useTimesheetStore();
       const state = reactive({
          isEdit: false
-
       })
 
       const onEdit = (): boolean =>{
@@ -168,8 +169,9 @@ export default defineComponent({
 
       const onSave = (): void =>{
          props.timesheet.lastModifiedDate = Date.now();
-         console.log(props.timesheet);
-         onEdit();
+         timesheetStore
+            .updateTimesheet(props.timesheet)
+            .then(()=>onEdit());
       }
 
       const kegiatanLength = computed(() => props.timesheet.kegiatan?.length);

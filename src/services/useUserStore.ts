@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { IAddress, IUser, IUserPreference } from '../types/InterfaceType';
+import { IAddress, ICurrentEro, IUser, IUserPreference } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
 import { doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore';
 import { db, storage } from '../services/useFirebaseService';
@@ -11,8 +11,14 @@ const toast = useToast();
 export const useUserStore = defineStore({
    id: 'useUserStore',
    state: () => ({
+      gender: '',
       currentUser: userMock,
-      gender: ''
+      currentEro: {
+         eroId: '',
+         email: '',
+         fullName: '',
+         telephone: ''
+      } as ICurrentEro,
    }),
    actions: {
       async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
@@ -89,8 +95,23 @@ export const useUserStore = defineStore({
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
          if (docSnap.exists()) {
-            const data: any = docSnap.data();
+            const data: IUser = docSnap.data() as IUser;
             this.currentUser = data;
+            this.fetchCurrentEro(data.eroId as IUser['userId']);
+         }
+      },
+
+      async fetchCurrentEro(userId: IUser['userId']) {
+         const docRef = doc(db, "tbl_users", userId);
+         const docSnap = await getDoc(docRef);
+         if (docSnap.exists()) {
+            const data: IUser = docSnap.data() as IUser;
+            this.currentEro = {
+               eroId: data.userId,
+               email: data.email as string,
+               fullName: data.fullName as string,
+               telephone: data.telephone
+            };
          }
       },
 
@@ -131,15 +152,15 @@ export const useUserStore = defineStore({
 
          userPreference.lastModifiedDate = Date.now(),
 
-         updateDoc(docRef, {
-            "userPreference": userPreference
-         }).then(() => {
-            this.fetchCurrentUser(userId);
-            toast.info(`Your Notification preference up to date now.`)
-         });
+            updateDoc(docRef, {
+               "userPreference": userPreference
+            }).then(() => {
+               this.fetchCurrentUser(userId);
+               toast.info(`Your Notification preference up to date now.`)
+            });
       },
 
-      async updateFotoProfile(photo: any, userId: IUser['userId']){
+      async updateFotoProfile(photo: any, userId: IUser['userId']) {
          if (photo) {
             const storageRef = ref(storage, `profiles/${userId}`);
             const uploadTask = uploadBytesResumable(storageRef, photo);
@@ -174,13 +195,13 @@ export const useUserStore = defineStore({
                   // Upload completed successfully, now we can get the download URL
                   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                      const docRef = doc(db, "tbl_users", userId);
-                        updateDoc(docRef, {
-                           "photoUrl": downloadURL,
-                           "lastModifiedDate": Date.now()
-                        }).then(() => {
-                           this.fetchCurrentUser(userId);
-                           toast.info(`Your profile photo has been updated.`)
-                        });
+                     updateDoc(docRef, {
+                        "photoUrl": downloadURL,
+                        "lastModifiedDate": Date.now()
+                     }).then(() => {
+                        this.fetchCurrentUser(userId);
+                        toast.info(`Your profile photo has been updated.`)
+                     });
                   });
                }
             );
@@ -202,6 +223,21 @@ export const useUserStore = defineStore({
        */
       getUserClient(state): IUser['clients'] {
          return state.currentUser ? state.currentUser.clients : [];
+      },
+
+      /**
+       * @param  {} state
+       * @param {IUser['username']} fullName
+       * @param  {IUser['email']} email
+       * @returns IUser
+       */
+      getLoginAsInfo(state): { fullName: IUser['username'], email: IUser['email'] } {
+         const loginAs = {
+            fullName: state.currentUser.fullName,
+            email: state.currentUser.email
+         }
+         return loginAs;
       }
+
    }
 })

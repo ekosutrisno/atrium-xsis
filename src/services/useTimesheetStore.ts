@@ -1,7 +1,7 @@
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
-import { ITimesheet, IUser } from '../types/InterfaceType';
+import { ITimesheet, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { db } from './useFirebaseService';
 import { formatDateWithMonth } from '../utils/helperFunction';
 
@@ -14,30 +14,63 @@ export const useTimesheetStore = defineStore({
    }),
 
    actions: {
+
+      async registerTimesheet(userId: IUser['userId']) {
+         const timesheetMetaCollection: ITimesheetCollectionMeta = {
+            userId: userId,
+            cretedDate: Date.now(),
+            lastModifiedDate: Date.now()
+         }
+         const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+         
+         await setDoc(docRef, timesheetMetaCollection);
+      },
+
       async addTimesheet(timesheet: ITimesheet) {
          var userId = timesheet.user;
+
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const docSnap = doc(collection(docRef, "timesheet"));
+         const docSnap = doc(docRef, 'timesheet', timesheet.absensiId);
 
-         setDoc(docSnap, timesheet)
-            .then(() => {
+         await setDoc(docSnap, timesheet);
+      },
 
-               this.getAllTimesheet(userId as IUser['userId']);
-               toast.success(`Timesheet created for ${formatDateWithMonth(timesheet.tanggalAsDate)}`);
-            });
+      async updateTimesheet(timesheet: ITimesheet) {
+         var userId = timesheet.user;
+
+         const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+         const docSnap = doc(docRef, 'timesheet', timesheet.absensiId);
+
+         await updateDoc(docSnap, timesheet);
       },
 
       async getAllTimesheet(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const querySnapshot = await getDocs(collection(docRef, `timesheet`));
+         const collRef = collection(docRef, `timesheet`);
 
-         const timehseetsStore: ITimesheet[] = [];
+         const q = query(collRef, where("isDone", "==", false));
 
-         querySnapshot.forEach((doc) => {
-            timehseetsStore.push(doc.data() as ITimesheet)
+         onSnapshot(q, (querySnapshot) => {
+
+            /** Listen a snapshot */
+            querySnapshot.docChanges().forEach((change) => {
+               if (change.type === "added") { }
+               if (change.type === "modified") {
+                  toast.info('Timesheet Modified.')
+               }
+               if (change.type === "removed") {
+                  toast.info('Timesheet has been sent to ERO.')
+               }
+            });
+
+            const timehseetsStore: ITimesheet[] = [];
+
+            querySnapshot.forEach((doc: any) => {
+               timehseetsStore.push(doc.data() as ITimesheet);
+            });
+
+            this.timehseets = timehseetsStore;
          });
-
-         this.timehseets = timehseetsStore;
       }
    }
 })

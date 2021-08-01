@@ -1,5 +1,14 @@
 <template>
-  <div class="min-h-screen font-quicksand flex items-center justify-center bg-white bg-gradient-to-br dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-gradient-to-br bg-indigo-50 dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+   <!-- Spinner and State Loading -->
+    <div v-if="isLoginProcess" class="fixed z-30 inset-0 custom-backdrop bg-gray-600 bg-opacity-50 transition-opacity flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <Spinner/>
+        <p class="font-semibold text-white">Login process</p>
+      </div>
+    </div>
+
+    <!-- Main Form -->
     <div class="max-w-md w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-color-dark-gray-darker dark:text-color-gray-lighter">
@@ -26,14 +35,7 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 border-gray-300 rounded" />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900 dark:text-indigo-400">
-              Remember me
-            </label>
-          </div>
-
+        <div class="flex items-center justify-end">
           <div class="text-sm">
             <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
               Forgot your password?
@@ -51,41 +53,58 @@
         </div>
       </form>
     </div>
+
+    <!-- Toggle Dark Mode -->
+    <div class="absolute bottom-10 right-10">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"  v-if="theme == 'dark'" @click="togleDarkLightMode('light')" class="h-6 w-6 sm:cursor-pointer text-[#9a6fc3] hover:text-opacity-50 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" aria-hidden="true" @click="togleDarkLightMode('dark')" class="h-6 w-6 sm:cursor-pointer text-[#9a6fc3] hover:text-opacity-50 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore } from '../services';
+import { useAuthStore, useUtilityStore } from '../services';
 import { useRouter } from 'vue-router';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
 import { auth } from '../services/useFirebaseService';
+import Spinner from '../components/modal/Spinner.vue';
 
 export default defineComponent({
    components: {
-    LockClosedIcon,
-  },
+      LockClosedIcon,
+      Spinner,
+    },
    setup () {
       const router = useRouter();
       const authStore = useAuthStore();
+      const utilityStore = useUtilityStore();
       const toast = useToast();
 
       const state = reactive({
          auth:{
             email: '',
             password: ''
-         }
+         },
+         isLoginProcess: false,
+         theme: computed(()=> utilityStore.theme)
       })
 
       const onLoginAction = () =>{
-        
+        state.isLoginProcess = true;
+
         signInWithEmailAndPassword(auth, state.auth.email, state.auth.password)
           .then((userCredential) => {
-              router.replace('/u/0/dashboard');
               const user = userCredential.user;
               authStore.onLoginAction(user);
+              state.isLoginProcess =  false;
+              router.replace('/u/0/dashboard');
               toast.success("You succesfuly logged in " + user.email);
           })
           .catch((error) => {
@@ -97,6 +116,7 @@ export default defineComponent({
                 errorMessage: errorMessage
               });
 
+              state.isLoginProcess =  false;
               console.log(`${errorCode} => ${errorMessage}`);
           });
       }
@@ -105,11 +125,15 @@ export default defineComponent({
         if (localStorage.getItem('_uid')) 
           router.push('/u/0/dashboard');
       })
-      
+
+      const togleDarkLightMode = (value: string): void => {
+        utilityStore.setToggleTheme(value);
+      };
 
       return {
          ...toRefs(state),
-         onLoginAction
+         onLoginAction,
+         togleDarkLightMode
       }
    }
 })

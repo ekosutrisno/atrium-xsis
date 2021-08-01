@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
             <span class="sr-only">View notifications</span>
             <BellIcon class="h-6 w-6" aria-hidden="true" />
           </button>
@@ -45,8 +45,8 @@
                 </MenuItem>
                 <MenuItem>
                   <router-link to="#" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
-                     <span class="text-sm">Eko Sutrisno</span>
-                     <span class="text-xs">eko.sutrisno@xsis.co.id</span>
+                     <span class="text-sm"> {{ loginAsInfo.fullName }} </span>
+                     <span class="text-xs"> {{ loginAsInfo.email }} </span>
                   </router-link>
                 </MenuItem>
                 
@@ -93,7 +93,8 @@ export default defineComponent({
       navigation: navigation,
       currentNav: 1,
       open: false,
-      photoUrl:computed(()=> userStore.getPhotoUrl)
+      photoUrl:computed(()=> userStore.getPhotoUrl),
+      loginAsInfo: computed(()=>userStore.getLoginAsInfo)
     })
 
     const setCurrentActiveNav = (current: number): void => {
