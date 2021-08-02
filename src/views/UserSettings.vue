@@ -38,7 +38,7 @@
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
          <div v-if="currentUser.isEro" class="absolute p-1 text-xs dark:bg-[#25BDAE] bg-[#25BDAE] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
-           Employee Realtionship Officer <!-- dark:bg-[#f18900] bg-yellow-500 -->
+           Employee Relation Officer
          </div>
          <div v-else class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
            {{currentUser.roleDeveloper}}
