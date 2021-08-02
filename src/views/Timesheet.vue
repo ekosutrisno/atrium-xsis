@@ -11,7 +11,8 @@
             </span>
          </div>
          <div class="text-color-gray-lighter hidden sm:block text-sm">
-            <button 
+            <button
+               @click="sendTimesheet" 
                :disabled="timesheetSize == 0" 
                type="button"
                :class="[timesheetSize == 0 
@@ -90,22 +91,27 @@ export default defineComponent({
             from: '',
             to: '',
          },
-         timesheetSize: computed(()=> timehseetStore.timehseets.length)
-
+         timesheetSize: computed(()=> timehseetStore.timehseets.length),
+         isSendProgress: computed(()=> timehseetStore.isSendProgress)
       }) ;
 
       const onSearchAction = ()=> {
          console.log(state.search);
       }
 
+      const sendTimesheet = ()=>{
+         timehseetStore
+            .sendTimesheet(localStorage.getItem('_uid') as string);
+      }
+
       const toggleSearch = ()=> {
          state.isOnFilter = !state.isOnFilter;
       }
 
-
       return {
          ...toRefs(state),
          onSearchAction,
+         sendTimesheet,
          toggleSearch
       }
    }

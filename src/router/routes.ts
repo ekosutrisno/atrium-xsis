@@ -57,65 +57,65 @@ const routes: RouteRecordRaw[] = [
       component: DashboardLayout,
       children:[
          {
-            path: '/u/0/dashboard',
-            name: 'Dashboard',
+            path: `/u/0/dashboard`,
+            name: `Dashboard`,
             component: Dashboard,
             meta: {
-               title: 'Dashboard',
+               title: `Dashboard`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/project',
-            name: 'Project',
+            path: `/u/0/project`,
+            name: `Project`,
             component: Project,
             meta: {
-               title: 'Project',
+               title: `Project`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/project/:projectId/detail',
-            name: 'ProjectDetail',
+            path: `/u/0/project/:projectId/detail`,
+            name: `ProjectDetail`,
             component: ProjectDetail,
             meta: {
-               title: 'Project Detail',
+               title: `Project Detail`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/vacancy',
-            name: 'Vacancy',
+            path: `/u/0/vacancy`,
+            name: `Vacancy`,
             component: Vacancy,
             meta: {
-               title: 'Vacancy',
+               title: `Vacancy`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/vacancy/:vacancyId/detail',
-            name: 'VacancyDetail',
+            path: `/u/0/vacancy/:vacancyId/detail`,
+            name: `VacancyDetail`,
             component: VacancyDetail,
             meta: {
-               title: 'Vacancy Detail',
+               title: `Vacancy Detail`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/timesheet',
-            name: 'Timesheet',
+            path: `/u/0/timesheet`,
+            name: `Timesheet`,
             component: Timesheet,
             meta: {
-               title: 'Timesheet',
+               title: `Timesheet`,
                requiresAuth: true
             }
          },
          {
-            path: '/u/0/settings',
-            name: 'UserSettings',
+            path: `/u/0/settings`,
+            name: `UserSettings`,
             component: UserSettings,
             meta: {
-               title: 'UserSettings',
+               title: `UserSettings`,
                requiresAuth: true
             }
          }

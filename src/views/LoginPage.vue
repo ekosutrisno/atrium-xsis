@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-gradient-to-br bg-indigo-50 dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-gradient-to-br bg-white dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
    <!-- Spinner and State Loading -->
     <div v-if="isLoginProcess" class="fixed z-30 inset-0 custom-backdrop bg-gray-600 bg-opacity-50 transition-opacity flex items-center justify-center">
       <div class="flex flex-col items-center">
@@ -97,14 +97,22 @@ export default defineComponent({
       })
 
       const onLoginAction = () =>{
+        /** Initial Loading. */
         state.isLoginProcess = true;
 
         signInWithEmailAndPassword(auth, state.auth.email, state.auth.password)
           .then((userCredential) => {
+              /** Get User Cred. */
               const user = userCredential.user;
+
+              /** Set User Detail to Context. */
               authStore.onLoginAction(user);
+
+              /** Stop Loading and Redirect in to Dashboard. */
               state.isLoginProcess =  false;
               router.replace('/u/0/dashboard');
+
+              /** Show notification login succesfully. */
               toast.success("You succesfuly logged in " + user.email);
           })
           .catch((error) => {
@@ -123,7 +131,7 @@ export default defineComponent({
 
       onMounted(()=>{
         if (localStorage.getItem('_uid')) 
-          router.push('/u/0/dashboard');
+          router.replace('/u/0/dashboard');
       })
 
       const togleDarkLightMode = (value: string): void => {

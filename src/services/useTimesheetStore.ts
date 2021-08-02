@@ -1,9 +1,10 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import dayjs from 'dayjs';
+import { collection, doc, getDoc, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { ITimesheet, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { db } from './useFirebaseService';
-import { formatDateWithMonth } from '../utils/helperFunction';
+import { useUserStore } from './useUserStore';
 
 const toast = useToast();
 
@@ -11,6 +12,8 @@ export const useTimesheetStore = defineStore({
    id: 'useTimesheetStore',
    state: () => ({
       timehseets: [] as ITimesheet[],
+      isSendProgress: false,
+      todayAbsentAlready: false
    }),
 
    actions: {
@@ -22,7 +25,7 @@ export const useTimesheetStore = defineStore({
             lastModifiedDate: Date.now()
          }
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         
+
          await setDoc(docRef, timesheetMetaCollection);
       },
 
@@ -32,7 +35,8 @@ export const useTimesheetStore = defineStore({
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const docSnap = doc(docRef, 'timesheet', timesheet.absensiId);
 
-         await setDoc(docSnap, timesheet);
+         setDoc(docSnap, timesheet)
+            .then(() => toast.info(`Timesheet ${timesheet.absensiId} has been added`));
       },
 
       async updateTimesheet(timesheet: ITimesheet) {
@@ -54,12 +58,16 @@ export const useTimesheetStore = defineStore({
 
             /** Listen a snapshot */
             querySnapshot.docChanges().forEach((change) => {
-               if (change.type === "added") { }
+               if (change.type === "added") {
+                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
+               }
                if (change.type === "modified") {
-                  toast.info('Timesheet Modified.')
+                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
+                  toast.info('Timesheet Modified.');
                }
                if (change.type === "removed") {
-                  toast.info('Timesheet has been sent to ERO.')
+                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
+                  toast.info('Timesheet has been sent to ERO.');
                }
             });
 
@@ -71,6 +79,48 @@ export const useTimesheetStore = defineStore({
 
             this.timehseets = timehseetsStore;
          });
+      },
+
+      sendTimesheet(userId: IUser['userId']) {
+
+         /** Loading State */
+         this.isSendProgress = true;
+
+         const userStore = useUserStore();
+         const eroId = userStore.currentEro.eroId;
+         const docRef = doc(db, `tbl_timesheet`, eroId);
+         const docSnap = doc(docRef, 'tbl_emp_timesheet', userId);
+
+         this.timehseets.forEach(async (timesheet) => {
+            /** Set isDone to True */
+            timesheet.isDone = true;
+
+            /** Update Employee Timesheet */
+            this.updateTimesheet(timesheet);
+
+            /** Sent in to tbl_emp_timesheet in ERO Collections Data */
+            const docSnapUser = doc(docSnap, 'timesheet', timesheet.absensiId);
+            await setDoc(docSnapUser, timesheet);
+         })
+
+         /** Off loading State*/
+         this.isSendProgress = true;
+
+         /** Notification */
+         toast.info(`Timesheet has been sent to ERO.`);
+      },
+
+      toDayTimesheet(userId: IUser['userId'], absensiId: ITimesheet['absensiId']) {
+         const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+         const docSnap = doc(docRef, 'timesheet', absensiId);
+
+         getDoc(docSnap).then((data) => {
+            if (data.exists())
+               this.todayAbsentAlready = true;
+            else
+               this.todayAbsentAlready = false;
+         })
       }
+
    }
 })
