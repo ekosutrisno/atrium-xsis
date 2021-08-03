@@ -4,7 +4,7 @@
     <Dialog as="div" static class="fixed z-10 inset-0 overflow-y-auto" @close="closeModal" :open="open">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-          <DialogOverlay class="fixed inset-0 custom-backdrop bg-gray-600 bg-opacity-70 transition-opacity" />
+          <DialogOverlay :class="[useBlur ? 'custom-backdrop' : '']" class="fixed inset-0 bg-gray-600  bg-opacity-70 transition-opacity" />
         </TransitionChild>
 
         <!-- This element is to trick the browser into centering the modal contents. -->
@@ -44,9 +44,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
+import { useUtilityStore } from '../../services'
 
 export default defineComponent({
   components: {
@@ -63,12 +64,19 @@ export default defineComponent({
         required: true
      }
   },
-  setup(props, ctx) {
+  setup(_, ctx) {
+    const utilityStore = useUtilityStore();
+
+    const state = reactive({
+      useBlur: computed(()=> utilityStore.useBlur)
+    });
+
     const closeModal = ()=>{
         ctx.emit('close-modal');
      }
 
     return {
+      ...toRefs(state),
       closeModal
     }
   },

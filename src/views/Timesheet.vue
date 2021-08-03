@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
    <div class="flex-1 rounded-lg">
-      <header class="custom-backdrop bg-opacity-90 shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Timesheet</span> 
             <span>
@@ -79,12 +79,14 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue';
 import TimesheetTable from '../components/TimesheetTable.vue';
-import { useTimesheetStore } from '../services';
+import { useTimesheetStore, useUtilityStore } from '../services';
 
 export default defineComponent({
   components: { TimesheetTable },
    setup () {
       const timehseetStore = useTimesheetStore();
+      const utilityStore = useUtilityStore();
+
       const state = reactive({
          isOnFilter: false,
          search:{
@@ -92,8 +94,9 @@ export default defineComponent({
             to: '',
          },
          timesheetSize: computed(()=> timehseetStore.timehseets.length),
-         isSendProgress: computed(()=> timehseetStore.isSendProgress)
-      }) ;
+         isSendProgress: computed(()=> timehseetStore.isSendProgress),
+         useBlur: computed(()=> utilityStore.useBlur),
+      });
 
       const onSearchAction = ()=> {
          console.log(state.search);
@@ -117,7 +120,3 @@ export default defineComponent({
    }
 })
 </script>
-
-<style scoped>
-
-</style>

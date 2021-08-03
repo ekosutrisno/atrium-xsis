@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-gradient-to-br bg-white dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
    <!-- Spinner and State Loading -->
-    <div v-if="isLoginProcess" class="fixed z-30 inset-0 custom-backdrop bg-gray-600 bg-opacity-50 transition-opacity flex items-center justify-center">
+    <div v-if="isLoginProcess" :class="[useBlur ? 'custom-backdrop bg-opacity-50' : 'bg-opacity-70']" class="fixed z-30 inset-0 bg-gray-600 transition-opacity flex items-center justify-center">
       <div class="flex flex-col items-center">
         <Spinner/>
         <p class="font-semibold text-white">Login process</p>
@@ -93,7 +93,8 @@ export default defineComponent({
             password: ''
          },
          isLoginProcess: false,
-         theme: computed(()=> utilityStore.theme)
+         theme: computed(()=> utilityStore.theme),
+         useBlur: computed(()=> utilityStore.useBlur)
       })
 
       const onLoginAction = () =>{

@@ -1,7 +1,7 @@
 <template>
    <div class="flex relative w-full pb-20 md:pb-0">
       <div class="flex-1 rounded-lg">
-         <header class="custom-backdrop bg-opacity-90 shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+         <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
             <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
                <span>Vacancy</span> 
                <span>
@@ -34,14 +34,17 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import InternalVacancyCard from '../components/cards/InternalVacancyCard.vue'
-import { useVacancyStore } from '../services'
+import { useUtilityStore, useVacancyStore } from '../services'
 
 export default defineComponent({
   components: { InternalVacancyCard },
    setup () {
       const vacancyStore = useVacancyStore();
+      const utilityStore = useUtilityStore();
+      
       const state = reactive({
-         vacancies: computed(()=>vacancyStore.vacancies)
+         vacancies: computed(()=>vacancyStore.vacancies),
+         useBlur: computed(()=> utilityStore.useBlur),
       })
 
       return {

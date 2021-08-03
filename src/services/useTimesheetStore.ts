@@ -77,7 +77,8 @@ export const useTimesheetStore = defineStore({
                timehseetsStore.push(doc.data() as ITimesheet);
             });
 
-            this.timehseets = timehseetsStore;
+            this.timehseets = timehseetsStore
+               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);
          });
       },
 

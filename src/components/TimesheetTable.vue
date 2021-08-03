@@ -1,13 +1,8 @@
 z<template>
   <div class="flex flex-col w-full">
-   <ul v-if="timesheets.length > 0" class="space-y-1">
-     <li v-for="ts in timesheets" :key="ts.absensiId">
-       <TimesheetCard :timesheet="ts"/>
-     </li>
-   </ul>
-   <ul v-if="isNewDay">
+     <ul v-if="isNewDay">
      <AddTimesheetCard @after-save="onCreate" v-if="isOnCreate"/>
-     <div v-if="!isOnCreate && isNewDay" class="flex flex-col with-transition space-y-3 mt-5 items-center justify-center">
+     <div v-if="!isOnCreate && isNewDay" class="flex flex-col with-transition space-y-3 my-5 items-center justify-center">
        <p class="text-color-gray-default text-sm text-center"> 
          You still don't have a timesheet pending, please create a timesheet for today by clicking the button below.
        </p>
@@ -35,7 +30,11 @@ z<template>
       </button>
      </div>
    </ul>
-
+   <ul v-if="timesheets.length > 0" class="space-y-1">
+     <li v-for="ts in timesheets" :key="ts.absensiId">
+       <TimesheetCard :timesheet="ts"/>
+     </li>
+   </ul>
   </div>
 </template>
 

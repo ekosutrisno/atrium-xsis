@@ -7,6 +7,7 @@ export const useUtilityStore = defineStore({
    id: 'useUtilityStore',
    state: () => ({
       theme: '',
+      useBlur: false,
       isOnEditUserData: false,
       isOnEditAddressData: false,
       isOnEditAddressDataAsli: false
