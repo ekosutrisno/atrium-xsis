@@ -128,6 +128,7 @@ export default defineComponent({
          clients: computed(()=> userStore.getUserClient),
          currentYear: new Date().getFullYear()
       })
+
       onBeforeMount(()=> statisticStore
          .getUserStatistic(localStorage.getItem('_uid') as string)
       )
