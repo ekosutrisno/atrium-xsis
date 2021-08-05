@@ -9,6 +9,7 @@ export interface Info {
 }
 export interface IProject extends Info {
    projectId: string
+   userId: string
    clientName: string
    location?: string
    department: string
