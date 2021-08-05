@@ -12,9 +12,9 @@
             </span>
          </div>
          <div class="text-color-gray-lighter hidden sm:block text-sm">
-            <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                Add project
-            </button>
+            </router-link>
          </div>
       </header>
       <p class="py-3 px-2 text-color-gray-default">Project List</p>
@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import ProjectCard from '../components/cards/ProjectCard.vue'
 import { useProjectStore, useUtilityStore } from '../services';
 export default defineComponent({
@@ -45,6 +45,10 @@ export default defineComponent({
       const state = reactive({
          projects: computed(()=> projectStore.projects),
          useBlur: computed(()=> utilityStore.useBlur),
+      })
+
+      onMounted(()=>{
+          projectStore.getListProject();
       })
 
       return {
