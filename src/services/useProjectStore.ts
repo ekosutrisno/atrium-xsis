@@ -24,6 +24,10 @@ export const useProjectStore = defineStore({
          getDocs(q).then((data) => {
             if (data.docs.length) {
                const projectId = data.docs[0].id;
+
+               /** Last Updated Date */
+               project.lastModifiedDate = Date.now();
+               
                updateDoc(doc(db, 'tbl_project', projectId), project)
                   .then(() => toast.info('Project has been update succesfully'));
             }

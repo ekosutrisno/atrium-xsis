@@ -16,3 +16,19 @@ export const formatDateWithMonth = (value: any): string => {
    return dayjs(value)
       .format('LL')
 }
+
+/**
+ * Get Year-Month format
+ * @returns string
+ */
+export const currentMonth = (): string => {
+   return `${dayjs().year()}-${dayjs().month() + 1}`
+}
+
+/**
+ * To Check is Weekend
+ * @returns boolean
+ */
+export const isWeekend = (date: any): boolean => {
+   return dayjs(date).day() === 0 || dayjs(date).day() === 6
+}

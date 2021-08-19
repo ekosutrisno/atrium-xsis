@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
-import { collection, doc, getDoc, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { ITimesheet, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
+import { currentMonth, isWeekend } from '../utils/helperFunction';
 import { db } from './useFirebaseService';
 import { useUserStore } from './useUserStore';
 
@@ -29,28 +30,42 @@ export const useTimesheetStore = defineStore({
          await setDoc(docRef, timesheetMetaCollection);
       },
 
-      async addTimesheet(timesheet: ITimesheet) {
+      async addTimesheet(timesheet: ITimesheet, options?: { isGenerated: boolean }) {
          var userId = timesheet.user;
 
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const docSnap = doc(docRef, 'timesheet', timesheet.absensiId);
+         const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
+         const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
 
+         /** Save to All Backup */
+         await setDoc(docSnapSearch, timesheet);
+
+         /** Save to specific month */
          setDoc(docSnap, timesheet)
-            .then(() => toast.info(`Timesheet ${timesheet.absensiId} has been added`));
+            .then(() => {
+               if (!options?.isGenerated) {
+                  toast.info(`Timesheet ${timesheet.tanggalAsDate} has been added`);
+               }
+            });
       },
 
       async updateTimesheet(timesheet: ITimesheet) {
          var userId = timesheet.user;
 
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const docSnap = doc(docRef, 'timesheet', timesheet.absensiId);
+         const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
+         const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
 
+         /** Update to specific month */
          await updateDoc(docSnap, timesheet);
+
+         /** Update to All Backup */
+         await updateDoc(docSnapSearch, timesheet);
       },
 
       async getAllTimesheet(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const collRef = collection(docRef, `timesheet`);
+         const collRef = collection(docRef, `TS-${currentMonth()}`);
 
          const q = query(collRef, where("isDone", "==", false));
 
@@ -77,8 +92,10 @@ export const useTimesheetStore = defineStore({
                timehseetsStore.push(doc.data() as ITimesheet);
             });
 
+
             this.timehseets = timehseetsStore
-               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);
+               .filter((ts: ITimesheet) => dayjs(ts.cretedDate).isBefore(dayjs()))
+               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);;
          });
       },
 
@@ -100,7 +117,7 @@ export const useTimesheetStore = defineStore({
             this.updateTimesheet(timesheet);
 
             /** Sent in to tbl_emp_timesheet in ERO Collections Data */
-            const docSnapUser = doc(docSnap, 'timesheet', timesheet.absensiId);
+            const docSnapUser = doc(docSnap, `TS-${currentMonth()}`, timesheet.absensiId);
             await setDoc(docSnapUser, timesheet);
          })
 
@@ -113,7 +130,7 @@ export const useTimesheetStore = defineStore({
 
       toDayTimesheet(userId: IUser['userId'], absensiId: ITimesheet['absensiId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const docSnap = doc(docRef, 'timesheet', absensiId);
+         const docSnap = doc(docRef, `TS-${currentMonth()}`, absensiId);
 
          getDoc(docSnap).then((data) => {
             if (data.exists())
@@ -121,6 +138,54 @@ export const useTimesheetStore = defineStore({
             else
                this.todayAbsentAlready = false;
          })
+      },
+
+      async generateTimesheetTemplate(userId: IUser['userId']) {
+         const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+         const querySnapshot = await getDocs(collection(docRef, `TS-${currentMonth()}`));
+
+         /** Check if specific Month collection exist or not */
+         if (querySnapshot.empty) {
+            let daysInMonth = dayjs().daysInMonth();
+
+            for (let index = 0; index < daysInMonth; index++) {
+               var dateId = `${currentMonth()}-${index + 1}`;
+               const timesheet = {
+                  absensiId: dayjs(dateId).format('YYYY-MM-DD'),
+                  jamOTTotal: "",
+                  jamKerjaTotal: "",
+                  tanggalAsDate: dayjs(dateId).format('YYYY-MM-DD'),
+                  day: dayjs(dateId).date(),
+                  month: dayjs(dateId).month() + 1,
+                  year: dayjs(dateId).year(),
+                  user: localStorage.getItem('_uid') as string,
+                  kegiatan: "",
+                  statusAbsensi: isWeekend(dateId) ? "Libur" : "-",
+                  __v: 0,
+                  jamKerjaMulai: "08:00",
+                  jamKerjaSelesai: "17:00",
+                  jamOTMulai: "",
+                  jamOTSelesai: "",
+                  placement: {
+                     clientId: "27b24c1b-52af-41d1-8ca4-0a84087b376e",
+                     clientName: "PT Azec Management Service",
+                     clientAddress: "Jl. Gedong Panjang, Bandengan",
+                     clientKota: "Jakarta Barat",
+                     clientProvinsi: "DKI Jakarta",
+                     clientCountry: "Indonesia",
+                  },
+                  template: true,
+                  isDone: false,
+                  cretedDate: new Date(dayjs(dateId).toDate()).getTime(),
+                  lastModifiedDate: new Date(dayjs(dateId).toDate()).getTime()
+               } as ITimesheet
+
+               this.addTimesheet(timesheet, { isGenerated: true });
+            }
+
+            toast.info(`Timesheet Template has been generated`);
+         }
+
       }
 
    }

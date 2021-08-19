@@ -71,7 +71,7 @@
           </div>
 
           <!-- Appearance -->
-          <div class="card-wrapper-custom md:sticky top-[7.5rem] max-h-44 pt-[18px]">
+          <div class="card-wrapper-custom md:sticky top-[7.5rem] max-h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Appearance</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -95,6 +95,17 @@
                         </button>
                         <p v-if="theme === 'dark'" class="text-color-gray-light">Dark theme enabled.</p>
                         <p v-else class="text-color-dark-gray-darker">Light theme enabled.</p>
+                    </div>
+                </div>
+                <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-3 text-sm">
+                    <span>Use blur effect</span>
+                    <div class="flex items-start mt-2">
+                      <div class="flex items-center h-5">
+                        <input id="use-blur" @change="useBlurToggle" v-model="useBlur" name="use-blur" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest rounded" />
+                      </div>
+                      <div class="ml-3 text-sm">
+                        <label for="use-blur" class="font-medium text-gray-700 dark:text-color-dark-gray-lighter">Use Blur</label>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -174,6 +185,7 @@ export default defineComponent({
     const state = reactive({
       projectTotal: computed(()=> projectStore.projectTotal),
       theme: computed(()=> utilityStore.theme),
+      useBlur: localStorage.getItem('blur') == 'true' ? true : false,
       currentUser: computed(()=> userStore.currentUser),
       currentEro: computed(()=> userStore.currentEro),
       providedId: computed(()=> authStore.currentUserSession.providedId),
@@ -189,7 +201,7 @@ export default defineComponent({
           text: 'Credential'
         },
       ],
-      currentTabs: 'General'
+      currentTabs: 'General',
     })
 
     const togleDarkLightMode = (value: string): void => {
@@ -202,6 +214,10 @@ export default defineComponent({
 
     const switchTab = (current: string): void => {
       state.currentTabs = current;
+    }
+
+    const useBlurToggle = () => {
+      utilityStore.toggleBlur();
     }
 
     const onUpdateAvatar = (event: any) => {
@@ -228,6 +244,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       togleDarkLightMode,
+      useBlurToggle,
       loginWithGoogle,
       switchTab,
       onUpdateAvatar,

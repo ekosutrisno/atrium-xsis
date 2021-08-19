@@ -13,7 +13,8 @@ const options: PluginOptions = {
    hideProgressBar: true,
    timeout: 3500,
    closeButton: false,
-   toastClassName: 'toast-style'
+   toastClassName: 'toast-style',
+   maxToasts: 3
 };
 
 // DayJs
