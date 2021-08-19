@@ -54,11 +54,11 @@ export const useAuthStore = defineStore({
 
          onAuthStateChanged(auth, (user) => {
             if (user) {
+               userStore.fetchCurrentUser(user.uid);
                this.isLoggedIn = true;
                this.onLoginAction(user);
                const uid = user.uid;
                localStorage.setItem('_uid', uid);
-               userStore.fetchCurrentUser(user.uid);
             } else {
                localStorage.removeItem('_uid');
                this.isLoggedIn = false;

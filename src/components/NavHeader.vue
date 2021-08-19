@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
+          <button class="bg-gray-800 p-1 rounded-full cursor-default sm:cursor-pointer text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
             <span class="sr-only">View notifications</span>
             <BellIcon class="h-6 w-6" aria-hidden="true" />
           </button>
@@ -30,13 +30,13 @@
           <!-- Profile dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
             <div>
-              <MenuButton class="dark:bg-gray-800 z-0 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
+              <MenuButton class="dark:bg-gray-800 z-0 flex cursor-default sm:cursor-pointer text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
                 <span class="sr-only">Open user menu</span>
                 <img class="h-8 w-8 rounded-full" :src="photoUrl" alt="profile-avatar" />
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-              <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-60 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
                   <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
                 </MenuItem>

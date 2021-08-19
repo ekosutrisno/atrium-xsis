@@ -42,6 +42,7 @@ z<template>
 import dayjs from 'dayjs';
 import {computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { useTimesheetStore } from '../services';
+import { isWeekend } from '../utils/helperFunction';
 import AddTimesheetCard from './cards/AddTimesheetCard.vue';
 import TimesheetCard from './cards/TimesheetCard.vue';
 
@@ -52,7 +53,8 @@ export default defineComponent({
     const state = reactive({
       timesheets: computed(()=> timesheetStore.timehseets),
       isOnCreate: false,
-      todayAbsentAlready: computed(()=> timesheetStore.todayAbsentAlready)
+      todayAbsentAlready: computed(()=> timesheetStore.todayAbsentAlready),
+      isWeekend: computed(()=> isWeekend())
     })
 
     const isNewDay = computed(()=> {
@@ -60,11 +62,6 @@ export default defineComponent({
       var checkTodayTimesheet = state.timesheets
         .filter((timesheet) => timesheet.tanggalAsDate === today).length;
       return checkTodayTimesheet === 0; 
-    })
-
-    const isWeekend = computed(()=>{
-      /** Day 0 is Sunday and Day 6 is Saturday */
-      return dayjs().day() === 0 || dayjs().day() === 6;
     })
 
     const onCreate = ()=>{
@@ -79,8 +76,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       onCreate,
-      isNewDay,
-      isWeekend
+      isNewDay
     }
   },
 })

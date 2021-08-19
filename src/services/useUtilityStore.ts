@@ -7,7 +7,7 @@ export const useUtilityStore = defineStore({
    id: 'useUtilityStore',
    state: () => ({
       theme: '',
-      useBlur: false,
+      useBlur: localStorage.getItem('blur') === 'true' ? true : false,
       isOnEditUserData: false,
       isOnEditAddressData: false,
       isOnEditAddressDataAsli: false
@@ -42,6 +42,21 @@ export const useUtilityStore = defineStore({
 
       toggleIsOnEdit(value: boolean): void {
          this.isOnEditUserData = value;
+      },
+
+      toggleBlur() {
+         var info = '';
+         if (localStorage.getItem('blur') === 'true') {
+            this.useBlur = false;
+            localStorage.setItem('blur', 'false');
+            info = 'inactive'
+         } else {
+            this.useBlur = true;
+            localStorage.setItem('blur', 'true');
+            info = 'active'
+         }
+
+         toast.success(`Use Blur ${info}.`)
       },
 
       toggleIsOnEditAddress(payload: { value: boolean, isDomisili: boolean }): void {
