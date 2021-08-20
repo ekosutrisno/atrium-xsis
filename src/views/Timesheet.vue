@@ -1,5 +1,13 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
+   <!-- Spinner and State Loading -->
+    <div v-if="onGenerateProcess" :class="[useBlur ? 'custom-backdrop bg-opacity-50' : 'bg-opacity-70']" class="fixed z-30 inset-0 bg-gray-600 transition-opacity flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <Spinner />
+        <p class="font-semibold text-white">Generating timesheet</p>
+      </div>
+    </div>
+
    <div class="flex-1 rounded-lg">
       <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
@@ -27,7 +35,7 @@
       </header>
 
       <!-- Lite Date -->
-      <div class="card-wrapper-no-rounded rounded-lg my-3">
+      <div class="card-wrapper-no-rounded rounded-lg mb-3 mt-6">
          <div class="flex relative flex-col sm:flex-row items-start sm:items-center justify-between">
             <p class="py-3 px-2 text-color-gray-darkest dark:text-color-gray-default">Timesheet List</p>
             <div class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
@@ -77,12 +85,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue';
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
+import Spinner from '../components/modal/Spinner.vue';
 import TimesheetTable from '../components/TimesheetTable.vue';
 import { useTimesheetStore, useUtilityStore } from '../services';
 
 export default defineComponent({
-  components: { TimesheetTable },
+  components: { TimesheetTable, Spinner },
    setup () {
       const timehseetStore = useTimesheetStore();
       const utilityStore = useUtilityStore();
@@ -96,7 +105,16 @@ export default defineComponent({
          timesheetSize: computed(()=> timehseetStore.timehseets.length),
          isSendProgress: computed(()=> timehseetStore.isSendProgress),
          useBlur: computed(()=> utilityStore.useBlur),
+         onGenerateProcess: computed(()=> timehseetStore.onGenerateProcess)
       });
+
+      /** Automaticly Generate Timesheet Template 
+       * to specific Month if does not exist 
+       * 
+      */
+      onMounted(()=> timehseetStore
+         .generateTimesheetTemplate(localStorage.getItem('_uid') as string)
+      );
 
       const onSearchAction = ()=> {
          console.log(state.search);

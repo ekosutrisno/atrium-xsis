@@ -17,8 +17,7 @@
             </router-link>
          </div>
       </header>
-      <p class="py-3 px-2 text-color-gray-default">Project List</p>
-      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
          <li v-for="project in projects" :key="project.projectId">
             <ProjectCard :project="project"/>
          </li>

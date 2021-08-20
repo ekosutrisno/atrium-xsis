@@ -101,7 +101,7 @@
     }
 
     .sticky-btn {
-      @apply p-4 sm:hidden fixed right-9 shadow-xl bottom-20 cursor-default text-color-gray-light rounded-full hover:bg-indigo-700 bg-indigo-600;
+      @apply p-4 sm:hidden fixed right-9 shadow-xl bottom-24 cursor-default text-color-gray-light rounded-full hover:bg-indigo-700 bg-indigo-600;
     }
   }
 }

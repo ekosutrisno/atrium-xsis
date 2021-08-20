@@ -16,9 +16,7 @@
             </button>
          </div>
       </header>
-      <p class="py-3 px-2 text-color-gray-default">Vacancy Details</p>
-
-      <div class="lg:grid-cols-4 gap-5 grid w-full">
+      <div class="lg:grid-cols-4 gap-5 grid w-full mt-6">
          <div class="lg:col-span-1 space-y-6">
              <div class="card-wrapper-custom md:sticky top-24 max-h-48 pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">

@@ -71,7 +71,7 @@
           </div>
 
           <!-- Appearance -->
-          <div class="card-wrapper-custom md:sticky top-[7.5rem] max-h-auto pt-[18px]">
+          <div class="card-wrapper-custom md:sticky top-[9.75rem] max-h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Appearance</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -112,7 +112,7 @@
           </div>
 
           <!-- Connected Account -->
-          <div class="card-wrapper-custom md:sticky top-[18.5rem] h-auto pt-[18px]">
+          <div class="card-wrapper-custom md:sticky top-[24.75rem] h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                 <h1 class="text-lg font-medium">Connected accounts</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -132,9 +132,15 @@
                 </div>
             </div>
           </div>
+          
+        </div>
 
+        <!-- Right Column -->
+        <div class="lg:col-span-3 space-y-6">
+          <GeneralProfileInfo v-if="currentTabs === 'General'"/>
+       
           <!-- Current Ero Detail -->
-          <div v-if="!currentUser.isEro" class="card-wrapper-custom md:sticky top-[27.70rem] max-h-48 pt-[18px]">
+          <div v-else-if="!currentUser.isEro && currentTabs === 'Ero_Client'" class="card-wrapper-custom with-transition max-h-48 pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">
                   <h1 class="text-lg font-medium">Current ERO</h1>
                   <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
@@ -150,12 +156,8 @@
                       </div>
                   </div>
                </div>
-            </div>
-        </div>
+          </div>
 
-        <!-- Right Column -->
-        <div class="lg:col-span-3 space-y-6">
-          <GeneralProfileInfo v-if="currentTabs === 'General'"/>
           <CredentialProfileInfo v-else/>
         </div>
       </div>
@@ -199,6 +201,11 @@ export default defineComponent({
           id: 2,
           current: 'Credential',
           text: 'Credential'
+        },
+        {
+          id: 3,
+          current: 'Ero_Client',
+          text: 'Ero and Client'
         },
       ],
       currentTabs: 'General',

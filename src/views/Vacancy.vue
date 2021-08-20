@@ -16,8 +16,7 @@
                </button>
             </div>
          </header>
-         <p class="py-3 px-2 text-color-gray-default">Vacancy List</p>
-         <ul class="grid gap-4 sm:gap-2">
+         <ul class="grid gap-4 sm:gap-2 mt-6">
             <li v-for="vacancy in vacancies" :key="vacancy.vacancyId">
                <InternalVacancyCard :vacancy="vacancy"/>
             </li>
