@@ -8,7 +8,7 @@
       <router-view />
    </div>
    <footer class="text-sm hidden sm:block text-color-gray-darker p-3 pb-5 text-center">
-      &copy;Exoapp Corporation {{new Date().getFullYear()}}
+      &copy;Eko Sutrisno {{new Date().getFullYear()}}
    </footer>
    <NavBottom/>
 </div>
@@ -22,8 +22,6 @@ import NavHeader from '../components/NavHeader.vue'
 export default defineComponent({
   components: { NavHeader, NavBottom },
    setup () {
-      
-
       return {}
    }
 })

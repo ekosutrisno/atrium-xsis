@@ -14,7 +14,8 @@ export const useTimesheetStore = defineStore({
    state: () => ({
       timehseets: [] as ITimesheet[],
       isSendProgress: false,
-      todayAbsentAlready: false
+      todayAbsentAlready: false,
+      onGenerateProcess: false
    }),
 
    actions: {
@@ -57,7 +58,8 @@ export const useTimesheetStore = defineStore({
          const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
 
          /** Update to specific month */
-         await updateDoc(docSnap, timesheet);
+         await updateDoc(docSnap, timesheet)
+            .then(() => toast.info('Timesheet Modified.'));
 
          /** Update to All Backup */
          await updateDoc(docSnapSearch, timesheet);
@@ -78,11 +80,9 @@ export const useTimesheetStore = defineStore({
                }
                if (change.type === "modified") {
                   this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
-                  toast.info('Timesheet Modified.');
                }
                if (change.type === "removed") {
                   this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
-                  toast.info('Timesheet has been sent to ERO.');
                }
             });
 
@@ -95,7 +95,7 @@ export const useTimesheetStore = defineStore({
 
             this.timehseets = timehseetsStore
                .filter((ts: ITimesheet) => dayjs(ts.cretedDate).isBefore(dayjs()))
-               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);;
+               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);
          });
       },
 
@@ -142,49 +142,57 @@ export const useTimesheetStore = defineStore({
 
       async generateTimesheetTemplate(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const querySnapshot = await getDocs(collection(docRef, `TS-${currentMonth()}`));
 
-         /** Check if specific Month collection exist or not */
-         if (querySnapshot.empty) {
-            let daysInMonth = dayjs().daysInMonth();
+         getDocs(collection(docRef, `TS-${currentMonth()}`))
+            .then(snapshot => {
 
-            for (let index = 0; index < daysInMonth; index++) {
-               var dateId = `${currentMonth()}-${index + 1}`;
-               const timesheet = {
-                  absensiId: dayjs(dateId).format('YYYY-MM-DD'),
-                  jamOTTotal: "",
-                  jamKerjaTotal: "",
-                  tanggalAsDate: dayjs(dateId).format('YYYY-MM-DD'),
-                  day: dayjs(dateId).date(),
-                  month: dayjs(dateId).month() + 1,
-                  year: dayjs(dateId).year(),
-                  user: localStorage.getItem('_uid') as string,
-                  kegiatan: "",
-                  statusAbsensi: isWeekend(dateId) ? "Libur" : "-",
-                  __v: 0,
-                  jamKerjaMulai: "08:00",
-                  jamKerjaSelesai: "17:00",
-                  jamOTMulai: "",
-                  jamOTSelesai: "",
-                  placement: {
-                     clientId: "27b24c1b-52af-41d1-8ca4-0a84087b376e",
-                     clientName: "PT Azec Management Service",
-                     clientAddress: "Jl. Gedong Panjang, Bandengan",
-                     clientKota: "Jakarta Barat",
-                     clientProvinsi: "DKI Jakarta",
-                     clientCountry: "Indonesia",
-                  },
-                  template: true,
-                  isDone: false,
-                  cretedDate: new Date(dayjs(dateId).toDate()).getTime(),
-                  lastModifiedDate: new Date(dayjs(dateId).toDate()).getTime()
-               } as ITimesheet
+               /** Check if specific Month collection exist or not */
+               if (snapshot.empty && localStorage.getItem('_uid')) {
+                  /** Set Loading State */
+                  this.onGenerateProcess = true;
 
-               this.addTimesheet(timesheet, { isGenerated: true });
-            }
+                  let daysInMonth = dayjs().daysInMonth();
 
-            toast.info(`Timesheet Template has been generated`);
-         }
+                  for (let index = 0; index < daysInMonth; index++) {
+                     var dateId = `${currentMonth()}-${index + 1}`;
+                     const timesheet = {
+                        absensiId: dayjs(dateId).format('YYYY-MM-DD'),
+                        jamOTTotal: "",
+                        jamKerjaTotal: "",
+                        tanggalAsDate: dayjs(dateId).format('YYYY-MM-DD'),
+                        day: dayjs(dateId).date(),
+                        month: dayjs(dateId).month() + 1,
+                        year: dayjs(dateId).year(),
+                        user: localStorage.getItem('_uid') as string,
+                        kegiatan: dayjs(dateId).day() === 0 ? "Minggu" : dayjs(dateId).day() === 6 ? 'Sabtu' : '',
+                        statusAbsensi: isWeekend(dateId) ? "Libur" : "-",
+                        __v: 0,
+                        jamKerjaMulai: "08:00",
+                        jamKerjaSelesai: "17:00",
+                        jamOTMulai: "",
+                        jamOTSelesai: "",
+                        placement: {
+                           clientId: "27b24c1b-52af-41d1-8ca4-0a84087b376e",
+                           clientName: "PT Azec Management Service",
+                           clientAddress: "Jl. Gedong Panjang, Bandengan",
+                           clientKota: "Jakarta Barat",
+                           clientProvinsi: "DKI Jakarta",
+                           clientCountry: "Indonesia",
+                        },
+                        template: true,
+                        isDone: false,
+                        cretedDate: new Date(dayjs(dateId).toDate()).getTime(),
+                        lastModifiedDate: new Date(dayjs(dateId).toDate()).getTime()
+                     } as ITimesheet
+
+                     this.addTimesheet(timesheet, { isGenerated: true });
+                  }
+                  setTimeout(() => {
+                     this.onGenerateProcess = false;
+                     toast.info(`Timesheet Template has been generated`);
+                  }, 2500);
+               }
+            });
 
       }
 
