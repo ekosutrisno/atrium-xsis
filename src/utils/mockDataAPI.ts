@@ -2,7 +2,6 @@ import {
   IJobVacancy,
   IProject,
   IStatistic,
-  ITimesheet,
   IUser,
 } from "../types/InterfaceType";
 
@@ -156,6 +155,23 @@ export const vacancies: IJobVacancy[] = [
     cretedDate: '2021-07-11',
     lastModifiedDate: '2021-07-25',
     offerEndDate: '2021-07-30',
+    isFullTimeJob: true,
+    isRemoteJob: true
+  },
+  {
+    vacancyId: "4bb356c7-6d50-48e1-9cb6-521ff7568ae4",
+    vacancyCode: "ITA-XMU",
+    vacancyName: "IT Architect",
+    vacancyType: "MGM",
+    vacancyRequirements:
+      "Must possess at least a Diploma, Bachelor s Degree, Computer Science/ Information Technology, Engineering(Computer / Telecommunication) or equivalent At least 1 year(s) of working experience as Business Analyst(Finance Industry is preferred) Minimum 1 years experience in IT Project Management Experience Required skill(s): documenting user needs, flowchart, basic programming, basic database Detailed understanding of Information System, System Analysis & Programming, Data Processing Have strong analytical and problem solving skill Have good communication, interpersonal skills and high attention to detail",
+    vacancyResponsibilities: "Handling Backend WEB and Create Microservice Application",
+    isOpen: true,
+    minSalaryOffer: 9500,
+    maxSalaryOffer: 12000,
+    cretedDate: '2021-08-29',
+    lastModifiedDate: '2021-08-29',
+    offerEndDate: '2021-09-15',
     isFullTimeJob: true,
     isRemoteJob: true
   },

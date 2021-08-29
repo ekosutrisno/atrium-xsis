@@ -1,5 +1,5 @@
 <template>
-<div class="flex h-full flex-col space-y-2 w-full bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4">
+<div class="flex h-full flex-col justify-between space-y-2 w-full bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4">
    <div class="flex items-center justify-between border-b pb-2 border-gray-100 dark:border-color-gray-darkest">
      <h3>Project</h3>
       <div class="inline-flex space-x-3">
@@ -35,6 +35,14 @@
    <div>
       <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Role</span>
       <span class="p-0.5 px-2 rounded-full text-color-gray-lightest text-xs bg-indigo-600">{{ project.role }}</span>
+   </div>
+   <div>
+      <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Descriptions</span>
+      <p class="text-sm"> {{ project.projectDescription }} </p>
+   </div>
+   <div>
+      <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Main Task</span>
+      <p class="text-sm"> {{ project.mainTask }} </p>
    </div>
    <div class="w-full">
       <span class="text-xs block mb-1 text-color-gray-dark dark:text-color-gray-default">Technology</span>

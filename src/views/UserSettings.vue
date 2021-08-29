@@ -1,5 +1,5 @@
 <template>
-  <div class="flex relative w-full">
+  <div class="flex relative w-full pb-10">
    <div class="flex-1">
       <header class="card-wrapper-custom relative pt-[18px] max-w-2xl flex flex-col-reverse sm:flex-row sm:justify-between">
          <div class="text-color-dark-black-default dark:text-color-gray-light">

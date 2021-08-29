@@ -6,9 +6,26 @@ import { useUserStore } from "./useUserStore";
 
 const toast = useToast();
 
+interface AuthStoreState {
+   isLoggedIn: boolean,
+   isRegisterProcess: boolean,
+   currentUserSession: {
+      displayName: string,
+      phoneNumber: string,
+      photoUrl: string,
+      email: string,
+      emailVerified: boolean,
+      providedId: string
+   },
+   error: {
+      errorCode: string | null,
+      errorMessage: string | null
+   }
+}
+
 export const useAuthStore = defineStore({
    id: 'useAuthStore',
-   state: () => ({
+   state: (): AuthStoreState => ({
       isLoggedIn: false,
       isRegisterProcess: false,
       currentUserSession: {

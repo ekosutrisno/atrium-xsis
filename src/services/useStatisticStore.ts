@@ -4,9 +4,13 @@ import { IStatistic, IUser } from '../types/InterfaceType';
 import { statistic } from '../utils/mockDataAPI';
 import { db } from './useFirebaseService';
 
+interface StatisticStoreState {
+   statistic: IStatistic
+}
+
 export const useStatisticStore = defineStore({
    id: 'useStatisticStore',
-   state: () => ({
+   state: (): StatisticStoreState => ({
       statistic: statistic
    }),
    actions: {
