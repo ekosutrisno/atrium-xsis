@@ -8,10 +8,16 @@ import { db } from './useFirebaseService';
 import { useUserStore } from './useUserStore';
 
 const toast = useToast();
+interface TimesheetStoreState {
+   timehseets: ITimesheet[],
+   isSendProgress: boolean,
+   todayAbsentAlready: boolean,
+   onGenerateProcess: boolean,
+}
 
 export const useTimesheetStore = defineStore({
    id: 'useTimesheetStore',
-   state: () => ({
+   state: (): TimesheetStoreState => ({
       timehseets: [] as ITimesheet[],
       isSendProgress: false,
       todayAbsentAlready: false,

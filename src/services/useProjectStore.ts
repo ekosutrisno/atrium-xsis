@@ -5,9 +5,13 @@ import { IProject } from '../types/InterfaceType';
 import { db } from './useFirebaseService';
 const toast = useToast();
 
+interface ProjectStoreState {
+   projects: IProject[]
+}
+
 export const useProjectStore = defineStore({
    id: 'useProjectStore',
-   state: () => ({
+   state: (): ProjectStoreState => ({
       projects: [] as IProject[],
    }),
    actions: {
@@ -27,7 +31,7 @@ export const useProjectStore = defineStore({
 
                /** Last Updated Date */
                project.lastModifiedDate = Date.now();
-               
+
                updateDoc(doc(db, 'tbl_project', projectId), project)
                   .then(() => toast.info('Project has been update succesfully'));
             }

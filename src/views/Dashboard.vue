@@ -1,5 +1,5 @@
 <template>
-<div class="">
+<div class="pb-10">
   <div class="flex lg:space-x-4 w-full">
    <div class="p-4 flex-1 card-wrapper-general-theme">
       <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">

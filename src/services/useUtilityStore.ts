@@ -2,10 +2,17 @@ import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 
 const toast = useToast();
+interface UtilityStoreState {
+   theme: string,
+   useBlur: boolean,
+   isOnEditUserData: boolean,
+   isOnEditAddressData: boolean,
+   isOnEditAddressDataAsli: boolean
+}
 
 export const useUtilityStore = defineStore({
    id: 'useUtilityStore',
-   state: () => ({
+   state: (): UtilityStoreState => ({
       theme: '',
       useBlur: localStorage.getItem('blur') === 'true' ? true : false,
       isOnEditUserData: false,

@@ -7,10 +7,15 @@ import { useToast } from 'vue-toastification';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 const toast = useToast();
+interface UserStoreState {
+   gender: string,
+   currentUser: IUser,
+   currentEro: ICurrentEro
+}
 
 export const useUserStore = defineStore({
    id: 'useUserStore',
-   state: () => ({
+   state: (): UserStoreState => ({
       gender: '',
       currentUser: userMock,
       currentEro: {
@@ -97,7 +102,8 @@ export const useUserStore = defineStore({
          if (docSnap.exists()) {
             const data: IUser = docSnap.data() as IUser;
             this.currentUser = data;
-            this.fetchCurrentEro(data.eroId as IUser['userId']);
+            if (!data.isEro)
+               this.fetchCurrentEro(data.eroId as IUser['userId']);
          }
       },
 
