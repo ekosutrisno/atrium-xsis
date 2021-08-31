@@ -126,7 +126,7 @@
       
       <!-- Actions -->
       <div class="inline-flex space-x-3 absolute top-0 right-0 items-start justify-end">
-         <div class="p-0.5 px-2 h-5 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest hover:text-purple-400 dark:hover:text-purple-400"> {{ timesheet.isDone ? 'done' : 'active' }} </div>
+         <div :class="[todayTimesheet(timesheet.absensiId) ? 'bg-indigo-400 text-white' : 'hover:text-purple-400 dark:hover:text-purple-400']" class="p-0.5 px-2 h-5 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest"> {{ timesheet.isDone ? 'done' : todayTimesheet(timesheet.absensiId) ? 'Today' : 'active' }} </div>
         <svg v-if="!isEdit" @click="onEdit" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-color-gray-default dark:text-color-gray-darker transition-all md:hover:scale-125 hover:text-purple-400 dark:hover:text-purple-400" viewBox="0 0 20 20" fill="currentColor">
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
@@ -148,7 +148,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useTimesheetStore } from '../../services';
 import { ITimesheet } from '../../types/InterfaceType';
-import { formatDateFromNow, formatDateWithMonth } from '../../utils/helperFunction';
+import { formatDateFromNow, formatDateWithMonth, isToday } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -174,6 +174,8 @@ export default defineComponent({
             .then(()=>onEdit());
       }
 
+      const todayTimesheet = computed(()=> (day: any) => isToday(day));
+
       const kegiatanLength = computed(() => props.timesheet.kegiatan?.length);
 
       return {
@@ -181,6 +183,7 @@ export default defineComponent({
          kegiatanLength,
          onEdit,
          onSave,
+         todayTimesheet,
          formatDateFromNow,
          formatDateWithMonth,
       }
