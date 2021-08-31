@@ -32,3 +32,11 @@ export const currentMonth = (): string => {
 export const isWeekend = (date: any): boolean => {
    return dayjs(date).day() === 0 || dayjs(date).day() === 6
 }
+
+/**
+ * To Check is Today Timesheet
+ * @returns boolean
+ */
+export const isToday = (date: any): boolean => {
+   return dayjs().date() === dayjs(date).date();
+}

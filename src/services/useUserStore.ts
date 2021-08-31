@@ -128,7 +128,7 @@ export const useUserStore = defineStore({
          setDoc(docRef, user, { merge: true })
             .then(() => {
                this.fetchCurrentUser(userId);
-               toast.info(`Your profile data up to date now.`)
+               toast.info(`Profile data has been updated.`)
             });
       },
 
@@ -141,14 +141,14 @@ export const useUserStore = defineStore({
                "address.addressDomisili": address
             }).then(() => {
                this.fetchCurrentUser(userId);
-               toast.info(`Your Address Domisili up to date now.`)
+               toast.info(`Address Domisili updated.`)
             });
          } else {
             updateDoc(docRef, {
                "address.addressAsli": address
             }).then(() => {
                this.fetchCurrentUser(userId);
-               toast.info(`Your Address Asli up to date now.`)
+               toast.info(`Address Asli updated.`)
             });
          }
       },
@@ -162,7 +162,7 @@ export const useUserStore = defineStore({
                "userPreference": userPreference
             }).then(() => {
                this.fetchCurrentUser(userId);
-               toast.info(`Your Notification preference up to date now.`)
+               toast.info(`Notification preference updated.`)
             });
       },
 

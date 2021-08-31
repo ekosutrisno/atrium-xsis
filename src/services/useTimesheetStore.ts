@@ -105,7 +105,7 @@ export const useTimesheetStore = defineStore({
          });
       },
 
-      sendTimesheet(userId: IUser['userId']) {
+      async sendTimesheet(userId: IUser['userId']) {
 
          /** Loading State */
          this.isSendProgress = true;
@@ -113,17 +113,25 @@ export const useTimesheetStore = defineStore({
          const userStore = useUserStore();
          const eroId = userStore.currentEro.eroId;
          const docRef = doc(db, `tbl_timesheet`, eroId);
-         const docSnap = doc(docRef, 'tbl_emp_timesheet', userId);
+         const docSnapToEro = doc(docRef, 'tbl_emp_timesheet', userId);
 
          this.timehseets.forEach(async (timesheet) => {
             /** Set isDone to True */
             timesheet.isDone = true;
 
-            /** Update Employee Timesheet */
-            this.updateTimesheet(timesheet);
+            /** Prepare Update Employee Timesheet References*/
+            const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+            const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
+            const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
+
+            /** Update to specific month */
+            await updateDoc(docSnap, timesheet);
+
+            /** Update to All Backup */
+            await updateDoc(docSnapSearch, timesheet);
 
             /** Sent in to tbl_emp_timesheet in ERO Collections Data */
-            const docSnapUser = doc(docSnap, `TS-${currentMonth()}`, timesheet.absensiId);
+            const docSnapUser = doc(docSnapToEro, `TS-${currentMonth()}`, timesheet.absensiId);
             await setDoc(docSnapUser, timesheet);
          })
 
@@ -201,6 +209,5 @@ export const useTimesheetStore = defineStore({
             });
 
       }
-
    }
 })
