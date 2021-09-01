@@ -3,10 +3,12 @@ import { Gender, Religion, StatusAbsensi } from "./EnumType";
 export interface AnyObject {
    [propName: string]: any;
 }
+
 export interface Info {
-   cretedDate?: Date | any
+   createdDate?: Date | any
    lastModifiedDate?: Date | any
 }
+
 export interface IProject extends Info {
    projectId: string
    userId: string
@@ -29,6 +31,7 @@ export interface IStatistic extends Info {
    total: IStatisticInfo
    info: IStatisticInfo[]
 }
+
 export interface IStatisticInfo extends Info {
    id: number
    progress: number
@@ -55,6 +58,8 @@ export interface ITimesheet extends Info {
    isDone: boolean
    template?: boolean
    __v?: number
+   edited: boolean
+   isWeekend: boolean
 }
 
 export interface ITimesheetCollectionMeta extends Info{

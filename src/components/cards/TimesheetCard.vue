@@ -5,7 +5,12 @@
          <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
          <p class="text-gray-500 dark:text-color-gray-light"> {{ formatDateWithMonth(timesheet.tanggalAsDate) }} </p>
       </div>
-      <span class="block text-[11px] text-color-gray-darkest dark:text-color-gray-default italic">Last updated {{ formatDateFromNow(timesheet.lastModifiedDate) }}</span>
+      <div class="inline-flex space-x-1 items-center text-[11px] text-color-gray-darkest dark:text-color-gray-default italic">
+         <span>Last updated {{ formatDateFromNow(timesheet.lastModifiedDate) }}</span>
+         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" :class="[timesheet.edited ? 'text-green-400' : 'text-color-gray-default']" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+         </svg>
+      </div>
    </div>
    <div class="md:col-span-9 relative">
       <div class="grid sm:grid-cols-3">
@@ -126,7 +131,7 @@
       
       <!-- Actions -->
       <div class="inline-flex space-x-3 absolute top-0 right-0 items-start justify-end">
-         <div :class="[todayTimesheet(timesheet.absensiId) ? 'bg-indigo-400 text-white' : 'hover:text-purple-400 dark:hover:text-purple-400']" class="p-0.5 px-2 h-5 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest"> {{ timesheet.isDone ? 'done' : todayTimesheet(timesheet.absensiId) ? 'Today' : 'active' }} </div>
+         <div :class="[todayTimesheet(timesheet.absensiId) ? 'bg-indigo-400 text-white' : 'hover:text-purple-400 dark:hover:text-purple-400']" class="p-0.5 px-2 h-5 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest"> {{ timesheet.isDone ? 'done' : todayTimesheet(timesheet.absensiId) ? 'Today' : timesheet.isWeekend ? 'Weekend' : 'Active' }} </div>
         <svg v-if="!isEdit" @click="onEdit" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-color-gray-default dark:text-color-gray-darker transition-all md:hover:scale-125 hover:text-purple-400 dark:hover:text-purple-400" viewBox="0 0 20 20" fill="currentColor">
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
@@ -168,7 +173,6 @@ export default defineComponent({
       }
 
       const onSave = (): void =>{
-         props.timesheet.lastModifiedDate = Date.now();
          timesheetStore
             .updateTimesheet(props.timesheet)
             .then(()=>onEdit());

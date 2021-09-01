@@ -59,7 +59,7 @@ export const useUserStore = defineStore({
                   country: "",
                   kabupaten: "",
                   kecamatan: "",
-                  cretedDate: Date.now(),
+                  createdDate: Date.now(),
                   lastModifiedDate: Date.now(),
                },
                addressDomisili: {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore({
                   country: "",
                   kabupaten: "",
                   kecamatan: "",
-                  cretedDate: Date.now(),
+                  createdDate: Date.now(),
                   lastModifiedDate: Date.now(),
                },
             },
@@ -86,10 +86,10 @@ export const useUserStore = defineStore({
                   candidates: true,
                   offers: true,
                },
-               cretedDate: Date.now(),
+               createdDate: Date.now(),
                lastModifiedDate: Date.now()
             },
-            cretedDate: Date.now(),
+            createdDate: Date.now(),
             lastModifiedDate: Date.now(),
          };
 

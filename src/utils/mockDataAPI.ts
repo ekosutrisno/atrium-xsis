@@ -36,7 +36,7 @@ export const userMock: IUser = {
       country: "",
       kabupaten: "",
       kecamatan: "",
-      cretedDate: Date.now(),
+      createdDate: Date.now(),
       lastModifiedDate: Date.now(),
     },
     addressDomisili: {
@@ -50,7 +50,7 @@ export const userMock: IUser = {
       country: "",
       kabupaten: "",
       kecamatan: "",
-      cretedDate: Date.now(),
+      createdDate: Date.now(),
       lastModifiedDate: Date.now(),
     },
   },
@@ -64,7 +64,7 @@ export const userMock: IUser = {
       offers: true,
     },
   },
-  cretedDate: Date.now(),
+  createdDate: Date.now(),
   lastModifiedDate: Date.now(),
 };
 
@@ -83,7 +83,7 @@ export const projectMock: IProject = {
   projectDescription:"Your Project Description here",
   projectTechologi: [],
   mainTask: "Your Main Task Description here",
-  cretedDate: Date.now(),
+  createdDate: Date.now(),
   lastModifiedDate: Date.now()
 }
 
@@ -135,7 +135,7 @@ export const vacancies: IJobVacancy[] = [
     isOpen: true,
     minSalaryOffer: 4500,
     maxSalaryOffer: 7000,
-    cretedDate: '2021-04-11',
+    createdDate: '2021-04-11',
     lastModifiedDate: '2021-06-25',
     offerEndDate: '2021-08-30',
     isFullTimeJob: true,
@@ -152,7 +152,7 @@ export const vacancies: IJobVacancy[] = [
     isOpen: true,
     minSalaryOffer: 7000,
     maxSalaryOffer: 9500,
-    cretedDate: '2021-07-11',
+    createdDate: '2021-07-11',
     lastModifiedDate: '2021-07-25',
     offerEndDate: '2021-07-30',
     isFullTimeJob: true,
@@ -169,7 +169,7 @@ export const vacancies: IJobVacancy[] = [
     isOpen: true,
     minSalaryOffer: 9500,
     maxSalaryOffer: 12000,
-    cretedDate: '2021-08-29',
+    createdDate: '2021-08-29',
     lastModifiedDate: '2021-08-29',
     offerEndDate: '2021-09-15',
     isFullTimeJob: true,
