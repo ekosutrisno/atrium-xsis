@@ -29,7 +29,7 @@
                      <span>Metadata project for tracking activity</span>
                         <div class="inline-flex items-center space-x-1 mt-3">
                            <p>Created at</p>
-                           <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ formatDateWithMonth(project.cretedDate)}}</p>
+                           <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ formatDateWithMonth(project.createdDate)}}</p>
                         </div>
                         <div class="inline-flex items-center space-x-1 mt-3">
                            <p>Last modified </p>
@@ -325,7 +325,7 @@ export default defineComponent({
                   projectDescription:"Your Project Description here",
                   projectTechologi: [],
                   mainTask: "Your Main Task Description here",
-                  cretedDate: Date.now(),
+                  createdDate: Date.now(),
                   lastModifiedDate: Date.now()
                } as IProject
             :  computed(()=>projectStore.projects.filter(pro=> pro.projectId === route.params.projectId)[0]),

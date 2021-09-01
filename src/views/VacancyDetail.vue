@@ -25,7 +25,7 @@
                      <span>Metadata vacancy for tracking activity</span>
                         <div class="inline-flex items-center space-x-1 mt-3">
                            <p>Created at</p>
-                           <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ formatDateWithMonth(vacancy.cretedDate)}}</p>
+                           <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ formatDateWithMonth(vacancy.createdDate)}}</p>
                         </div>
                         <div class="inline-flex items-center space-x-1 mt-3">
                            <p>Last modified </p>

@@ -182,7 +182,7 @@ export default defineComponent({
             },
             template: true,
             isDone: false,
-            cretedDate: Date.now(),
+            createdDate: Date.now(),
             lastModifiedDate: Date.now()
          } as ITimesheet
       })
