@@ -25,11 +25,14 @@ export const useTimesheetStore = defineStore({
    }),
 
    actions: {
-
+      /**
+       * @param  {IUser['userId']} userId
+       * Register Timesheet collection when new user register
+       */
       async registerTimesheet(userId: IUser['userId']) {
          const timesheetMetaCollection: ITimesheetCollectionMeta = {
             userId: userId,
-            cretedDate: Date.now(),
+            createdDate: Date.now(),
             lastModifiedDate: Date.now()
          }
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
@@ -37,6 +40,11 @@ export const useTimesheetStore = defineStore({
          await setDoc(docRef, timesheetMetaCollection);
       },
 
+      /**
+       * @param  {ITimesheet} timesheet
+       * @param  {{isGenerated:boolean}} options?
+       * Add timesheet to database
+       */
       async addTimesheet(timesheet: ITimesheet, options?: { isGenerated: boolean }) {
          var userId = timesheet.user;
 
@@ -56,12 +64,20 @@ export const useTimesheetStore = defineStore({
             });
       },
 
+      /**
+       * @param  {ITimesheet} timesheet
+       * Update Individual Timesheet
+       */
       async updateTimesheet(timesheet: ITimesheet) {
          var userId = timesheet.user;
 
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
          const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
+
+         /** Set edited to true */
+         timesheet.edited = true;
+         timesheet.lastModifiedDate = Date.now();
 
          /** Update to specific month */
          await updateDoc(docSnap, timesheet)
@@ -71,6 +87,10 @@ export const useTimesheetStore = defineStore({
          await updateDoc(docSnapSearch, timesheet);
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * Get All Timesheet to this month with realtime update or change effect
+       */
       async getAllTimesheet(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const collRef = collection(docRef, `TS-${currentMonth()}`);
@@ -100,11 +120,36 @@ export const useTimesheetStore = defineStore({
 
 
             this.timehseets = timehseetsStore
-               .filter((ts: ITimesheet) => dayjs(ts.cretedDate).isBefore(dayjs()))
-               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.cretedDate - ts1.cretedDate);
+               .filter((ts: ITimesheet) => dayjs(ts.createdDate).isBefore(dayjs()))
+               .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.createdDate - ts1.createdDate);
          });
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * Check if timesheet already fill properly and then send
+       */
+      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId']) {
+
+         const timesheetNotReady: ITimesheet[] = [];
+
+         this.timehseets.forEach(timesheet => {
+            if (!timesheet.edited && !timesheet.isWeekend) {
+               timesheetNotReady.push(timesheet);
+            }
+         })
+
+         if (timesheetNotReady.length > 0)
+            toast.warning('Make sure all timesheets are filled in properly.')
+         else
+            this.sendTimesheet(userId);
+
+      },
+
+      /**
+       * @param  {IUser['userId']} userId
+       * Send Timesheet to Ero/HR/Manager
+       */
       async sendTimesheet(userId: IUser['userId']) {
 
          /** Loading State */
@@ -142,6 +187,11 @@ export const useTimesheetStore = defineStore({
          toast.info(`Timesheet has been sent to ERO.`);
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @param  {ITimesheet['absensiId']} absensiId
+       * Check if today already absent
+       */
       toDayTimesheet(userId: IUser['userId'], absensiId: ITimesheet['absensiId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const docSnap = doc(docRef, `TS-${currentMonth()}`, absensiId);
@@ -154,6 +204,10 @@ export const useTimesheetStore = defineStore({
          })
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * Generate Timesheet template autimaticly every first date in month
+       */
       async generateTimesheetTemplate(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
 
@@ -180,6 +234,8 @@ export const useTimesheetStore = defineStore({
                         user: localStorage.getItem('_uid') as string,
                         kegiatan: dayjs(dateId).day() === 0 ? "Minggu" : dayjs(dateId).day() === 6 ? 'Sabtu' : '',
                         statusAbsensi: isWeekend(dateId) ? "Libur" : "-",
+                        isWeekend: isWeekend(dateId) ? true : false,
+                        edited: false,
                         __v: 0,
                         jamKerjaMulai: "08:00",
                         jamKerjaSelesai: "17:00",
@@ -195,19 +251,61 @@ export const useTimesheetStore = defineStore({
                         },
                         template: true,
                         isDone: false,
-                        cretedDate: new Date(dayjs(dateId).toDate()).getTime(),
+                        createdDate: new Date(dayjs(dateId).toDate()).getTime(),
                         lastModifiedDate: new Date(dayjs(dateId).toDate()).getTime()
                      } as ITimesheet
 
                      this.addTimesheet(timesheet, { isGenerated: true });
                   }
+
                   setTimeout(() => {
                      this.onGenerateProcess = false;
-                     toast.info(`Timesheet Template has been generated`);
+                     toast.info(`Timesheet ${dayjs().format('MMMM YYYY')} has been generated`);
                   }, 2500);
                }
             });
+      },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @param  {{from:any, to:any, perMonth:boolean}} range
+       * @returns Promise of ITimesheet[]
+       */
+      async filterAndSearchTimesheet(userId: IUser['userId'], params: { from?: any, to?: any, months?: any, perMonth: boolean }): Promise<void> {
+         /** Make sure and format date */
+         var from = dayjs(params.from).toDate().getTime();
+         var to = dayjs(params.to).toDate().getTime();
+         var months = `${dayjs(params.months).year()}-${(dayjs(params.months).month() + 1)}`
+
+
+         const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+         const docSnapMonth = collection(docRef, `TS-${months}`);
+         const docSnapSearch = collection(docRef, `timesheet`);
+         const q = query(docSnapSearch, where("createdDate", ">=", from), where('createdDate', '<=', to));
+
+         getDocs(params.perMonth ? docSnapMonth : q).then(snapshot => {
+            if (!snapshot.empty) {
+               const filteredTimesheet: ITimesheet[] = [];
+
+               snapshot.docs.forEach((ts) => {
+                  filteredTimesheet.push(ts.data() as ITimesheet)
+               })
+
+               this.timehseets = filteredTimesheet;
+            }
+         });
+      }
+   },
+
+   getters: {
+      /**
+       * @param  {} state
+       * @returns boolean
+       */
+      timesheetNotReady(state: TimesheetStoreState): boolean {
+         return state
+            .timehseets
+            .filter(ts => !ts.edited && !ts.isWeekend).length > 0;
       }
    }
 })

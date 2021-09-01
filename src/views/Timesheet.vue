@@ -21,9 +21,9 @@
          <div class="text-color-gray-lighter hidden sm:block text-sm">
             <button
                @click="sendTimesheet" 
-               :disabled="timesheetSize == 0" 
+               :disabled="timesheetSize == 0 || timesheetNotReady" 
                type="button"
-               :class="[timesheetSize == 0 
+               :class="[timesheetSize == 0 || timesheetNotReady 
                   ? 'bg-gray-600 cursor-not-allowed hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' 
                   : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
                ]" 
@@ -35,50 +35,85 @@
       </header>
 
       <!-- Lite Date -->
-      <div class="card-wrapper-no-rounded rounded-lg mb-3 mt-6">
-         <div class="flex relative flex-col sm:flex-row items-start sm:items-center justify-between">
+      <div class="card-wrapper-no-rounded rounded-md mb-3 mt-6">
+         <div class="flex relative w-full flex-col sm:flex-row items-start sm:items-center justify-between">
             <p class="py-3 px-2 text-color-gray-darkest dark:text-color-gray-default">Timesheet List</p>
             <div class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
-               <dd v-if="isOnFilter"  class="input-custom-dd with-transition w-full">
-                  <label for="search-from" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">From</label>
+               <div v-if="isOnFilter" class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
+                  <dd v-if="isOnFilter" class="input-custom-dd with-transition w-full">
+                     <label for="search-from" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">From</label>
+                     <input
+                        type="date" v-model="search.from" name="search-from" id="search-from" autocomplete="off"
+                        :readonly="!isOnFilter"
+                        :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
+                        class="input-custom-default" 
+                     />
+                  </dd>
+                  <dd v-if="isOnFilter" class="input-custom-dd with-transition w-full">
+                     <label for="seacrh-to" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">To</label>
+                     <input
+                        type="date" v-model="search.to" name="seacrh-to" id="seacrh-to" autocomplete="off"
+                        :readonly="!isOnFilter"
+                        :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
+                        class="input-custom-default" 
+                     />
+                  </dd>
+               </div>
+               <dd v-if="filterPerMonth" class="input-custom-dd with-transition w-full">
+                  <label for="seacrh-to" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">Month</label>
                   <input
-                     type="date" v-model="search.from" name="search-from" id="search-from" autocomplete="off"
-                     :readonly="!isOnFilter"
-                     :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
-                     class="input-custom-default" 
-                  />
-               </dd>
-               <dd v-if="isOnFilter"  class="input-custom-dd with-transition w-full">
-                  <label for="seacrh-to" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">To</label>
-                  <input
-                     type="date" v-model="search.to" name="seacrh-to" id="seacrh-to" autocomplete="off"
-                     :readonly="!isOnFilter"
-                     :class="[ isOnFilter ? 'input-custom-on-edit' : 'input-custom-non-edit']"
+                     type="month" v-model="search.perMonth" name="seacrh-to" id="seacrh-to" autocomplete="off"
+                     :readonly="!filterPerMonth"
+                     :class="[ filterPerMonth ? 'input-custom-on-edit' : 'input-custom-non-edit']"
                      class="input-custom-default" 
                   />
                </dd>
               <div class="inline-flex items-center justify-end space-x-3">
-                  <button v-if="isOnFilter" @click="toggleSearch" type="button" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button v-if="isOnFilter || filterPerMonth" @click="toggleCancel" type="button" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      Cancel
                   </button>
-                  <button v-if="isOnFilter" @click="onSearchAction" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button v-if="isOnFilter || filterPerMonth" @click="onSearchAction" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                      Search
                   </button>
               </div>
             </div>
-            <button v-if="!isOnFilter"  @click="toggleSearch" type="button" class="p-2 rounded-full absolute top-0 right-0 bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
-               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-               </svg>
-            </button>
+            <div v-if="!isOnFilter && !filterPerMonth" class="inline-flex items-center space-x-3">
+               <div class="flex flex-col items-center space-y-1">
+                  <button @click="toggleSearch" type="button" class="p-2 flex rounded-full bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
+                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                     </svg>
+                  </button>
+                  <span class="text-color-gray-darkest dark:text-color-gray-default text-xs">Search</span>
+               </div>
+
+               <div class="flex flex-col items-center space-y-1">
+                  <button @click="toglePerMonth" type="button" class="p-2 flex rounded-full bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
+                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-color-gray-dark" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                     </svg>
+                  </button>
+                  <span class="text-color-gray-darkest dark:text-color-gray-default text-xs">Per Month</span>
+               </div>
+
+               <div class="flex flex-col items-center space-y-1">
+                  <button @click="onRefresh" type="button" class="p-2 flex rounded-full bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
+                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                     </svg>
+                  </button>
+                  <span class="text-color-gray-darkest dark:text-color-gray-default text-xs">Refresh</span>
+               </div>
+            </div>
          </div>
       </div>
       <!-- End Lite Date -->
       <TimesheetTable/> 
    </div>
-   <button type="button" class="sticky-btn with-transition">
+   <button type="button" @click="sendTimesheet" :class="[timesheetSize == 0 || timesheetNotReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
       </svg>
    </button>
 </div>
@@ -98,42 +133,78 @@ export default defineComponent({
 
       const state = reactive({
          isOnFilter: false,
+         filterPerMonth: false,
+         uid:computed(()=> localStorage.getItem('_uid') as string),
          search:{
             from: '',
             to: '',
+            perMonth: ''
          },
          timesheetSize: computed(()=> timehseetStore.timehseets.length),
          isSendProgress: computed(()=> timehseetStore.isSendProgress),
          useBlur: computed(()=> utilityStore.useBlur),
-         onGenerateProcess: computed(()=> timehseetStore.onGenerateProcess)
+         onGenerateProcess: computed(()=> timehseetStore.onGenerateProcess),
+         timesheetNotReady: computed(()=> timehseetStore.timesheetNotReady),
       });
 
       /** Automaticly Generate Timesheet Template 
-       * to specific Month if does not exist 
-       * 
+       * to specific Month if does not exist
       */
       onMounted(()=> timehseetStore
-         .generateTimesheetTemplate(localStorage.getItem('_uid') as string)
+         .generateTimesheetTemplate(state.uid)
       );
 
       const onSearchAction = ()=> {
-         console.log(state.search);
+
+         const params= { 
+            from: state.search.from, 
+            to: state.search.to,
+            months: state.search.perMonth, 
+            perMonth: state.filterPerMonth ? true : false 
+         };
+
+         timehseetStore
+            .filterAndSearchTimesheet(state.uid, params).then(()=> {
+               toggleCancel();
+            })
       }
 
       const sendTimesheet = ()=>{
          timehseetStore
-            .sendTimesheet(localStorage.getItem('_uid') as string);
+            .checkTimesheetAlreadyAndUpdate(state.uid);
+      }
+
+      const onRefresh = ()=>{
+         timehseetStore.getAllTimesheet(state.uid);
       }
 
       const toggleSearch = ()=> {
          state.isOnFilter = !state.isOnFilter;
+         state.search.from = '';
+         state.search.to = '';
+      }
+
+      const toggleCancel = ()=> {
+         state.isOnFilter = false;
+         state.filterPerMonth = false;
+         state.search.perMonth = '';
+         state.search.from = '';
+         state.search.to = '';
+      }
+
+      const toglePerMonth = ()=> {
+         state.filterPerMonth = !state.filterPerMonth;
+         state.search.perMonth = '';
       }
 
       return {
          ...toRefs(state),
          onSearchAction,
          sendTimesheet,
-         toggleSearch
+         toggleSearch,
+         toglePerMonth,
+         toggleCancel,
+         onRefresh
       }
    }
 })
