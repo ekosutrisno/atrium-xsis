@@ -139,23 +139,81 @@
         <div class="lg:col-span-3 space-y-6">
           <GeneralProfileInfo v-if="currentTabs === 'General'"/>
        
-          <!-- Current Ero Detail -->
-          <div v-else-if="!currentUser.isEro && currentTabs === 'Ero_Client'" class="card-wrapper-custom with-transition max-h-48 pt-[18px]">
-               <div class="text-color-dark-black-default dark:text-color-gray-lightest">
-                  <h1 class="text-lg font-medium">Current ERO</h1>
-                  <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
-                     <span>Your current ERO details info</span>
-                      <div class="inline-flex items-center space-x-1 mt-3">
-                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.fullName}}</p>
-                      </div>
-                      <div class="inline-flex items-center space-x-1 mt-3">
-                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.email }}</p>
-                      </div>
-                      <div class="inline-flex items-center space-x-1 mt-3">
-                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.telephone }}</p>
-                      </div>
+          <!-- Current Ero and Client Detail -->
+          <div v-else-if="currentTabs === 'Ero_Client'" class="space-y-6">
+            <div v-if="!currentUser.isEro" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+                <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
+                    <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
+                        Current ERO
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                        Your current ERO details info
+                    </p>
                   </div>
-               </div>
+                <div class="text-color-dark-black-default mt-2 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between dark:text-color-gray-lightest">
+                    <div class="text-color-gray-darkest p-2 dark:text-color-gray-default flex flex-col mt-1 space-y-2">
+                        <div class="flex flex-col">
+                          <p class="text-sm">FullName</p>
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.fullName}}</p>
+                        </div>
+                        <div class="flex flex-col">
+                          <p class="text-sm">Email</p>
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.email }}</p>
+                        </div>
+                        <div class="flex flex-col">
+                          <p class="text-sm">Contact</p>
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.telephone }}</p>
+                        </div>
+                    </div>
+                    <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentEro.eroImageAvatar" alt="profile-avatar" />
+                </div>
+            </div>
+            <div v-if="currentUser.clients" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+                <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
+                    <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
+                        Current Clients
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                        Your current Clients details info
+                    </p>
+                  </div>
+                <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
+                  <ul v-if="currentUser.clients.length" class="space-y-3">
+                    <li v-for="client in currentUser.clients" :key="client.clientId">
+                        <div class="flex items-center w-full">
+                          <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                              </svg>
+                          </div>
+                          <div class="flex flex-col flex-1 w-full">
+                              <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
+                                {{ client.clientName }} 
+                              </span>
+                              <span class="text-xs">
+                                {{ client.clientAddress }}, {{ client.clientProvinsi }}, {{ client.clientCountry }}.
+                              </span>
+                          </div>
+                        </div>
+                    </li>
+                  </ul>
+                  <div v-else class="flex items-center w-full mt-2">
+                    <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <div class="flex flex-col flex-1 w-full">
+                        <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
+                          __IDLE__ 
+                        </span>
+                        <span class="text-xs">
+                          Jl. Dr. Satrio Lt 25, DKI Jakarta, Indonesia.
+                        </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
           </div>
 
           <CredentialProfileInfo v-else/>

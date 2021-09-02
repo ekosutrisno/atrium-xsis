@@ -100,6 +100,10 @@
       @apply bg-white dark:bg-color-dark-gray-darker shadow rounded-lg;
     }
 
+    .sticky-btn-raw {
+      @apply p-4 sm:hidden fixed shadow-xl bottom-24 cursor-default text-color-gray-light rounded-full;
+    }
+
     .sticky-btn {
       @apply p-4 sm:hidden fixed right-9 shadow-xl bottom-24 cursor-default text-color-gray-light rounded-full hover:bg-indigo-700 bg-indigo-600;
     }

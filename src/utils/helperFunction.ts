@@ -18,6 +18,15 @@ export const formatDateWithMonth = (value: any): string => {
 }
 
 /**
+ * @param  {any} value
+ * @returns string
+ */
+export const formatDateWithDayMonth = (value: any): string => {
+   return dayjs(value)
+      .format('dddd, MMMM D, YYYY')
+}
+
+/**
  * Get Year-Month format
  * @returns string
  */
@@ -38,5 +47,5 @@ export const isWeekend = (date: any): boolean => {
  * @returns boolean
  */
 export const isToday = (date: any): boolean => {
-   return dayjs().date() === dayjs(date).date();
+   return dayjs().format('l') === dayjs(date).format('l');
 }

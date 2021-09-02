@@ -20,6 +20,11 @@ export const useUtilityStore = defineStore({
       isOnEditAddressDataAsli: false
    }),
    actions: {
+      /**
+       * @param  {string} theme
+       * @returns void
+       * @description change and update theme reference dark/light
+       */
       setToggleTheme(theme: string): void {
          localStorage.setItem('theme', theme);
          this.theme = theme;
@@ -35,6 +40,11 @@ export const useUtilityStore = defineStore({
 
          toast.success(`Use Preference ${theme} mode.`)
       },
+      
+      /**
+       * @returns void
+       * @description for handling and check first time user theme reference
+       */
       wathcThemeSelected(): void {
          if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.remove('light');
@@ -47,10 +57,18 @@ export const useUtilityStore = defineStore({
          }
       },
 
+      /**
+       * @param  {boolean} value
+       * @returns void
+       * @description toggle state if on Edit
+       */
       toggleIsOnEdit(value: boolean): void {
          this.isOnEditUserData = value;
       },
 
+      /**
+       * @description togle for useBlur or not
+       */
       toggleBlur() {
          var info = '';
          if (localStorage.getItem('blur') === 'true') {
@@ -66,6 +84,12 @@ export const useUtilityStore = defineStore({
          toast.success(`Use Blur ${info}.`)
       },
 
+      /**
+       * @param  {{value:boolean} payload
+       * @param  {boolean}} isDomisili
+       * @returns void
+       * @description state for editAddress action
+       */
       toggleIsOnEditAddress(payload: { value: boolean, isDomisili: boolean }): void {
          payload.isDomisili
             ? this.isOnEditAddressData = payload.value

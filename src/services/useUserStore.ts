@@ -22,10 +22,15 @@ export const useUserStore = defineStore({
          eroId: '',
          email: '',
          fullName: '',
-         telephone: ''
+         telephone: '',
+         eroImageAvatar: ''
       } as ICurrentEro,
    }),
    actions: {
+      /**
+      * @param  {userId: IUser['userId'], email: IUser['email']} newData
+      * @description register user to Database Collection
+      */
       async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
 
          var newUser: IUser = {
@@ -96,6 +101,10 @@ export const useUserStore = defineStore({
          await setDoc(doc(db, 'tbl_users', newData.userId), newUser);
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @description Get Current User By userID Key
+       */
       async fetchCurrentUser(userId: IUser['userId']) {
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
@@ -107,6 +116,10 @@ export const useUserStore = defineStore({
          }
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @description Get Current Ero by EroId Key and if isEro = false
+       */
       async fetchCurrentEro(userId: IUser['userId']) {
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
@@ -116,11 +129,16 @@ export const useUserStore = defineStore({
                eroId: data.userId,
                email: data.email as string,
                fullName: data.fullName as string,
-               telephone: data.telephone
+               telephone: data.telephone,
+               eroImageAvatar: data.photoUrl
             };
          }
       },
 
+      /**
+       * @param  {IUser} user
+       * @description Update All Detail User Data Property
+       */
       async updateCurrentUserData(user: IUser) {
          var userId = user.userId;
 
@@ -132,6 +150,10 @@ export const useUserStore = defineStore({
             });
       },
 
+      /**
+       * @param  {IAddress} address
+       * Update for specific UserAddress Asli or Domisili
+       */
       async updateCurrentUserAddress(address: IAddress) {
          var userId = address.userId;
          const docRef = doc(db, "tbl_users", userId);
@@ -153,6 +175,12 @@ export const useUserStore = defineStore({
          }
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @param  {IUserPreference} userPreference
+       * @returns Promise
+       * @description Update user Preference
+       */
       async updateUserPreference(userId: IUser['userId'], userPreference: IUserPreference): Promise<void> {
          const docRef = doc(db, "tbl_users", userId);
 
@@ -166,6 +194,11 @@ export const useUserStore = defineStore({
             });
       },
 
+      /**
+       * @param  {any} photo
+       * @param  {IUser['userId']} userId
+       * @description Update user profile avatar image
+       */
       async updateFotoProfile(photo: any, userId: IUser['userId']) {
          if (photo) {
             const storageRef = ref(storage, `profiles/${userId}`);
