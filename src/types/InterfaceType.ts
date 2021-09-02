@@ -138,6 +138,7 @@ export interface ICurrentEro extends Info {
    email: string
    telephone?: string
    asEroAt?: string | any
+   eroImageAvatar?: string | any
 }
 
 export interface IJobVacancy extends Info {

@@ -10,6 +10,7 @@ import { useUserStore } from './useUserStore';
 const toast = useToast();
 interface TimesheetStoreState {
    timehseets: ITimesheet[],
+   timehseetsNonFiltered: ITimesheet[],
    isSendProgress: boolean,
    todayAbsentAlready: boolean,
    onGenerateProcess: boolean,
@@ -19,6 +20,7 @@ export const useTimesheetStore = defineStore({
    id: 'useTimesheetStore',
    state: (): TimesheetStoreState => ({
       timehseets: [] as ITimesheet[],
+      timehseetsNonFiltered: [] as ITimesheet[],
       isSendProgress: false,
       todayAbsentAlready: false,
       onGenerateProcess: false
@@ -118,8 +120,11 @@ export const useTimesheetStore = defineStore({
                timehseetsStore.push(doc.data() as ITimesheet);
             });
 
+            /** Set All Timesheet non Filtered */
+            this.timehseetsNonFiltered = timehseetsStore;
 
-            this.timehseets = timehseetsStore
+            /** Set Timesheet with Filtered before today */
+            this.timehseets = this.timehseetsNonFiltered
                .filter((ts: ITimesheet) => dayjs(ts.createdDate).isBefore(dayjs()))
                .sort((ts1: ITimesheet, ts2: ITimesheet) => ts2.createdDate - ts1.createdDate);
          });
@@ -129,17 +134,9 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Check if timesheet already fill properly and then send
        */
-      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId']) {
+      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId'], isReady: boolean) {
 
-         const timesheetNotReady: ITimesheet[] = [];
-
-         this.timehseets.forEach(timesheet => {
-            if (!timesheet.edited && !timesheet.isWeekend) {
-               timesheetNotReady.push(timesheet);
-            }
-         })
-
-         if (timesheetNotReady.length > 0)
+         if (isReady)
             toast.warning('Make sure all timesheets are filled in properly.')
          else
             this.sendTimesheet(userId);
@@ -304,7 +301,7 @@ export const useTimesheetStore = defineStore({
        */
       timesheetNotReady(state: TimesheetStoreState): boolean {
          return state
-            .timehseets
+            .timehseetsNonFiltered
             .filter(ts => !ts.edited && !ts.isWeekend).length > 0;
       }
    }

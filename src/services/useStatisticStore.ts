@@ -14,6 +14,10 @@ export const useStatisticStore = defineStore({
       statistic: statistic
    }),
    actions: {
+      /**
+       * @param  {IUser['userId']} userId
+       * Register collection when user first register
+       */
       async registerStatistic(userId: IUser['userId']) {
          const statistic: IStatistic = {
             userId: userId,
@@ -56,7 +60,10 @@ export const useStatisticStore = defineStore({
                this.getUserStatistic(userId);
             });
       },
-
+      /**
+       * @param  {IUser['userId']} userId
+       * Get User Statistic By user ID Key
+       */
       async getUserStatistic(userId: IUser['userId']) {
          const docRef = doc(db, "tbl_statistic", userId);
          const docSnap = await getDoc(docRef);

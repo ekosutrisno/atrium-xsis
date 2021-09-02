@@ -21,9 +21,9 @@
          <div class="text-color-gray-lighter hidden sm:block text-sm">
             <button
                @click="sendTimesheet" 
-               :disabled="timesheetSize == 0 || timesheetNotReady" 
+               :disabled="timesheetStatusReady" 
                type="button"
-               :class="[timesheetSize == 0 || timesheetNotReady 
+               :class="[timesheetStatusReady 
                   ? 'bg-gray-600 cursor-not-allowed hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' 
                   : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
                ]" 
@@ -80,7 +80,7 @@
             <div v-if="!isOnFilter && !filterPerMonth" class="inline-flex items-center space-x-3">
                <div class="flex flex-col items-center space-y-1">
                   <button @click="toggleSearch" type="button" class="p-2 flex rounded-full bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
-                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w- text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                      </svg>
                   </button>
@@ -98,7 +98,7 @@
 
                <div class="flex flex-col items-center space-y-1">
                   <button @click="onRefresh" type="button" class="p-2 flex rounded-full bg-color-gray-light text-color-gray-darker hover:bg-color-gray-lighter dark:bg-color-gray-darkest dark:hover:bg-color-gray-darker dark:text-color-gray-lighter">
-                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-color-gray-dark" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
                      </svg>
                   </button>
@@ -110,7 +110,7 @@
       <!-- End Lite Date -->
       <TimesheetTable/> 
    </div>
-   <button type="button" @click="sendTimesheet" :class="[timesheetSize == 0 || timesheetNotReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
+   <button type="button" @click="sendTimesheet" :disabled="timesheetStatusReady" :class="[timesheetStatusReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
@@ -134,8 +134,8 @@ export default defineComponent({
       const state = reactive({
          isOnFilter: false,
          filterPerMonth: false,
-         uid:computed(()=> localStorage.getItem('_uid') as string),
-         search:{
+         uid: computed(()=> localStorage.getItem('_uid') as string),
+         search: {
             from: '',
             to: '',
             perMonth: ''
@@ -169,9 +169,11 @@ export default defineComponent({
             })
       }
 
+      const timesheetStatusReady = computed(()=> state.timesheetSize > 0 || state.timesheetNotReady);
+
       const sendTimesheet = ()=>{
          timehseetStore
-            .checkTimesheetAlreadyAndUpdate(state.uid);
+            .checkTimesheetAlreadyAndUpdate(state.uid, timesheetStatusReady.value);
       }
 
       const onRefresh = ()=>{
@@ -199,6 +201,7 @@ export default defineComponent({
 
       return {
          ...toRefs(state),
+         timesheetStatusReady,
          onSearchAction,
          sendTimesheet,
          toggleSearch,

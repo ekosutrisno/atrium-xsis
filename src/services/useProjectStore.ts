@@ -15,6 +15,10 @@ export const useProjectStore = defineStore({
       projects: [] as IProject[],
    }),
    actions: {
+      /**
+       * @param  {IProject} project
+       * Add Project to Collections
+       */
       async addProject(project: IProject) {
          addDoc(collection(db, "tbl_project"), project)
             .then(() => {
@@ -22,6 +26,11 @@ export const useProjectStore = defineStore({
             });
       },
 
+      
+      /**
+       * @param  {IProject} project
+       * Update project detail property
+       */
       async updateProject(project: IProject) {
          const collRef = collection(db, `tbl_project`);
          const q = query(collRef, where("projectId", "==", project.projectId));
@@ -38,6 +47,10 @@ export const useProjectStore = defineStore({
          })
       },
 
+      /**
+       * @param  {IProject} project
+       * @description delete project By Project ID Key
+       */
       async deleteProject(project: IProject) {
          const collRef = collection(db, `tbl_project`);
          const q = query(collRef, where("projectId", "==", project.projectId));
@@ -50,6 +63,9 @@ export const useProjectStore = defineStore({
          })
       },
 
+      /**
+       * @returns List of Project by UserId Key
+       */
       async getListProject() {
          const userId = localStorage.getItem('_uid') as string;
          const collRef = collection(db, `tbl_project`);
@@ -69,6 +85,7 @@ export const useProjectStore = defineStore({
       /**
        * @param  {} state
        * @returns number
+       * @description return length of projects list
        */
       projectTotal(state): number {
          return state.projects.length
