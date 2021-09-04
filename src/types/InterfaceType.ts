@@ -1,7 +1,7 @@
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
 export interface AnyObject {
-   [propName: string]: any;
+   [propName: string]: any | undefined;
 }
 
 export interface Info {
