@@ -1,7 +1,7 @@
 <template>
 <div :class="[isEdit ? 'rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
    <div class="text-sm md:col-span-3 flex flex-col justify-between items-start">
-      <div>
+      <div class="space-y-1.5">
          <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
          <p class="text-gray-500 dark:text-color-gray-light"> {{ formatDateWithMonth(timesheet.tanggalAsDate) }} </p>
       </div>
@@ -16,9 +16,9 @@
       <div class="grid sm:grid-cols-3">
          <!-- Jam Kerja -->
          <div class="text-sm flex flex-col">
-            <label :class="[isEdit ? 'mb-1.5 sm:mb-0': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Jam kerja</label>
+            <label :class="[isEdit ? 'mb-1.5': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Jam Kerja</label>
             <div v-if="isEdit" class="inline-flex items-center justify-start space-x-2">
-               <div class="w-24">
+               <div class="w-full sm:w-24">
                   <input
                      v-model="timesheet.jamKerjaMulai"
                      type="time" :name="`ts-${timesheet.jamKerjaMulai}`" :id="`ts-${timesheet.jamKerjaMulai}`" autocomplete="off"
@@ -27,7 +27,7 @@
                      class="input-custom-default mt-1 sm:mt-0"
                   />
                </div>
-               <div class="w-24">
+               <div class="w-full sm:w-24">
                   <input
                      v-model="timesheet.jamKerjaSelesai"
                      type="time" :name="`ts-${timesheet.jamKerjaSelesai}`" :id="`ts-${timesheet.jamKerjaSelesai}`" autocomplete="off"
@@ -44,9 +44,9 @@
 
          <!-- Jam Lembur -->
          <div class="text-sm flex flex-col mt-2 sm:mt-0">
-            <label :class="[isEdit ? 'mb-1.5 sm:mb-0': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Over Time</label>
+            <label :class="[isEdit ? 'mb-1.5': '']" class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Over Time</label>
             <div v-if="isEdit" class="inline-flex items-center justify-start space-x-2">
-               <div class="w-24">
+               <div class="w-full sm:w-24">
                   <input
                      v-model="timesheet.jamOTMulai"
                      type="time" :name="`ts-${timesheet.jamOTMulai}`" :id="`ts-${timesheet.jamOTMulai}`" autocomplete="off"
@@ -55,7 +55,7 @@
                      class="input-custom-default mt-1 sm:mt-0"
                   />
                </div>
-               <div class="w-24">
+               <div class="w-full sm:w-24">
                   <input
                      v-model="timesheet.jamOTSelesai"
                      type="time" :name="`ts-${timesheet.jamOTSelesai}`" :id="`ts-${timesheet.jamOTSelesai}`" autocomplete="off"
@@ -71,16 +71,16 @@
          </div>
 
          <!-- Status Absensi -->
-         <div class="text-sm mt-2 sm:mt-0">
+         <div class="text-sm mt-3 sm:mt-0">
             <p class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Status</p>
             <p class="text-gray-500 dark:text-color-gray-light"> 
                {{ timesheet.statusAbsensi }}
             </p>
          </div>
       </div>
-      <div v-if="isEdit" :class="[isEdit ? 'mt-1.5': 'mt-2 lg:mt-0']">
-         <p class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Status</p>
-         <div class="inline-block lg:inline-flex items-center space-y-2 lg:space-y-0 lg:space-x-4">
+      <div v-if="isEdit" :class="[isEdit ? 'mt-2': 'lg:mt-0']">
+         <p class="font-medium text-xs mb-3 text-gray-700 dark:text-color-dark-gray-lighter">Status</p>
+         <div class="inline-block lg:inline-flex items-center space-y-3 lg:space-y-0 lg:space-x-4">
             <div class="flex items-center">
                <input id="masuk" name="push-notifications" v-model="timesheet.statusAbsensi" :value="'Masuk'" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 dark:border-color-dark-gray-darkest" />
                <label for="masuk" class="ml-3 block text-sm font-medium text-gray-700 dark:text-color-dark-gray-lighter">
@@ -117,7 +117,7 @@
       <!-- Kegiatan -->
       <div class="text-sm mt-2">
          <label class="font-medium text-xs text-gray-700 dark:text-color-dark-gray-lighter">Kegiatan</label>
-         <dd v-if="isEdit" :class="[isEdit ? 'mt-1.5': '']" class="input-custom-dd">
+         <dd v-if="isEdit" :class="[isEdit ? 'mt-2.5': '']" class="input-custom-dd">
             <textarea 
               v-model="timesheet.kegiatan" name="kegiatan" rows="5" maxlength="250" 
               :readonly="!isEdit"
@@ -130,7 +130,7 @@
       </div>
       
       <!-- Actions -->
-      <div class="inline-flex space-x-3 absolute top-0 right-0 items-start justify-end">
+      <div class="inline-flex space-x-3 absolute top-[-5.5rem] sm:top-0 right-0 items-start justify-end">
          <div 
          :class="[
             todayTimesheet(timesheet.absensiId) 
@@ -146,6 +146,16 @@
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
       </div>
+
+      <p v-if="isError" class="p-0.5 inline-flex items-start sm:items-center space-x-2 my-2 text-xs w-full">
+         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+         </svg>
+         <span>
+            Make sure you already check absent status and fill kegiatan form!   
+         </span>    
+      </p>
+
       <!-- Action Button -->
       <div v-if="isEdit" class="px-4 py-3 with-transition space-x-3 bg-gray-50 dark:bg-color-dark-gray-darker text-right sm:px-6">
          <button type="button" @click="onEdit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-gray-darkest hover:text-purple-400 dark:hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -175,7 +185,8 @@ export default defineComponent({
    setup(props) {
       const timesheetStore = useTimesheetStore();
       const state = reactive({
-         isEdit: false
+         isEdit: false,
+         isError: false
       })
 
       const onEdit = (): boolean =>{
@@ -183,9 +194,17 @@ export default defineComponent({
       }
 
       const onSave = (): void =>{
+         if(props.timesheet.statusAbsensi === '-' || props.timesheet.kegiatan.trim().length == 0){
+            state.isError = true;
+            return;
+         }
+
          timesheetStore
             .updateTimesheet(props.timesheet)
-            .then(()=>onEdit());
+            .then(()=>{
+               onEdit();
+               state.isError = false;
+            });
       }
 
       const todayTimesheet = computed(()=> (day: any) => isToday(day));
