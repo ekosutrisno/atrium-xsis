@@ -1,11 +1,11 @@
 <template>
-<div class="flex h-full flex-col justify-between space-y-2 w-full bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4">
+<div class="flex h-full bg-pattern-light dark:bg-pattern-dark flex-col justify-between space-y-2 w-full bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-2xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4">
    <div class="flex h-full flex-col space-y-3 w-full">
       <div class="flex items-center justify-between border-b pb-2 border-gray-100 dark:border-color-gray-darkest">
       <h3>Project</h3>
          <div class="inline-flex space-x-3">
             <div class="p-0.5 px-2 inline-flex items-center justify-center rounded-full text-[11px] border border-opacity-50 border-gray-300 dark:border-color-gray-darkest"> {{ project.projectPhase }} </div>
-            <svg @click="onDeleteProject" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-gray-300 dark:text-color-gray-darkest transition-all hover:text-red-400 dark:hover:text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <svg @click="toggleModal" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-gray-300 dark:text-color-gray-darkest transition-all hover:text-red-400 dark:hover:text-red-400" viewBox="0 0 20 20" fill="currentColor">
                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
             <svg @click="gotToEditAction(project.projectId)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 md:cursor-pointer text-color-gray-default dark:text-color-gray-darker transition-all hover:text-indigo-600 dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
@@ -60,7 +60,7 @@
       </div>
    </div>
 </div>
- <DeleteProjectModal :open="open" @close-modal="onDeleteProject"/>
+ <DeleteProjectModal :open="open" @delete="onDeleteProject" @close-modal="toggleModal"/>
 </template>
 
 <script lang="ts">
@@ -69,6 +69,7 @@ import { useRouter } from 'vue-router';
 import { IProject } from '../../types/InterfaceType';
 import DeleteProjectModal from '../modal/DeleteProjectModal.vue';
 import { formatDateWithMonth } from '../../utils/helperFunction';
+import { useProjectStore } from '../../services';
 
 export default defineComponent({
   components: { DeleteProjectModal },
@@ -78,14 +79,22 @@ export default defineComponent({
          required: true
       }
    },
-   setup () {
+   setup (props) {
+      const projectStore = useProjectStore();
       const router = useRouter();
+
       const state = reactive({
          open: false
       })
 
-      const onDeleteProject = () : boolean =>{
-        return state.open = !state.open;
+      const onDeleteProject = () =>{
+         projectStore
+            .deleteProject(props.project)
+               .then(() => toggleModal());
+      }
+
+      const toggleModal = () =>{
+         state.open = !state.open
       }
 
       const gotToEditAction = (projectId: IProject['projectId']): void =>{
@@ -98,6 +107,7 @@ export default defineComponent({
       return {
          ...toRefs(state),
          onDeleteProject,
+         toggleModal,
          gotToEditAction,
          formatDateWithMonth
       }
