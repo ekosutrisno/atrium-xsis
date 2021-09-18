@@ -1,6 +1,6 @@
 <template>
-<div :class="[isEdit ? 'rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
-   <div class="text-sm md:col-span-3 flex flex-col justify-between items-start">
+<div :class="[isEdit ? 'rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 relative sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
+   <div class="text-sm md:col-span-3 relative flex flex-col justify-between items-start">
       <div class="space-y-1.5">
          <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>
          <p class="text-gray-500 dark:text-color-gray-light"> {{ formatDateWithMonth(timesheet.tanggalAsDate) }} </p>
@@ -11,8 +11,13 @@
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
          </svg>
       </div>
+      
+      <Svg2 class="absolute bottom-6 -right-4 md:-bottom-4 md:-left-4 md:rotate-180"/>
+
    </div>
    <div class="md:col-span-9 relative">
+      <Svg1 class="absolute md:-right-4 rotate-90 md:rotate-0 -right-24 bottom-[3.70rem] md:-top-8 "/>
+
       <div class="grid sm:grid-cols-3">
          <!-- Jam Kerja -->
          <div class="text-sm flex flex-col">
@@ -172,10 +177,13 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useTimesheetStore } from '../../services';
-import { ITimesheet } from '../../types/InterfaceType';
+import { ITimesheet, IUser } from '../../types/InterfaceType';
 import { formatDateFromNow, formatDateWithMonth, isToday } from '../../utils/helperFunction';
+import Svg1 from '../svg/Svg1.vue';
+import Svg2 from '../svg/Svg2.vue';
 
 export default defineComponent({
+  components: { Svg1, Svg2 },
    props:{
       timesheet: {
          type: Object as ()=> ITimesheet,
@@ -185,11 +193,17 @@ export default defineComponent({
    setup(props) {
       const timesheetStore = useTimesheetStore();
       const state = reactive({
+         uid: computed(()=> localStorage.getItem('_uid') as IUser['userId']),
          isEdit: false,
          isError: false
       })
 
       const onEdit = (): boolean =>{
+        if(state.isError){
+            timesheetStore.getAllTimesheet(state.uid)
+               .then(()=> state.isError = false)
+        };
+
         return state.isEdit = !state.isEdit
       }
 

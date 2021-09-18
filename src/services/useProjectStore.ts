@@ -41,7 +41,7 @@ export const useProjectStore = defineStore({
                /** Last Updated Date */
                project.lastModifiedDate = Date.now();
 
-               updateDoc(doc(db, 'tbl_project', projectId), project)
+               updateDoc(doc(db, 'tbl_project', projectId), project as any)
                   .then(() => toast.info('Project has been update succesfully'));
             }
          })
@@ -58,7 +58,7 @@ export const useProjectStore = defineStore({
             if (data.docs.length) {
                const projectId = data.docs[0].id;
                deleteDoc(doc(db, "tbl_project", projectId))
-                  .then(() => toast.info('Project has been update succesfully'));
+                  .then(() => toast.info('Project has been deleted.'));
             }
          })
       },

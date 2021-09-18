@@ -1,6 +1,6 @@
 <template>
   <Disclosure as="nav">
-    <div class="max-w-7xl with-transition w-full sm:hidden rounded-t-3xl shadow-2xl bg-color-dark-black-default mx-auto py-2 fixed -bottom-1">
+    <div class="max-w-7xl with-transition w-full sm:hidden rounded-t-3xl shadow-2xl bg-color-dark-black-default mx-auto py-2 fixed -bottom-1 z-20">
         <div class="flex-1 flex items-center justify-around">
           <router-link to="/u/0/dashboard" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-xs font-medium flex flex-col space-y-2 items-center">
             

@@ -1,12 +1,19 @@
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
 export interface AnyObject {
-   [propName: string]: any | undefined;
+   [ propName: string ]: any | undefined;
 }
 
 export interface Info {
    createdDate?: Date | any
    lastModifiedDate?: Date | any
+}
+
+export interface IMainRole {
+   roleId: number
+   roleName: string
+   roleDescription: string
+   isActive: boolean
 }
 
 export interface IProject extends Info {
@@ -62,8 +69,8 @@ export interface ITimesheet extends Info {
    isWeekend: boolean
 }
 
-export interface ITimesheetCollectionMeta extends Info{
-   userId: IUser['userId']
+export interface ITimesheetCollectionMeta extends Info {
+   userId: IUser[ 'userId' ]
 }
 
 export interface IAddress extends Info {
@@ -127,6 +134,7 @@ export interface IUser extends Info {
    religion?: Religion | string
    address: UserAddress
    roleDeveloper: string
+   mainRole?: IMainRole
    clients: IClient[]
    userPreference: IUserPreference
    about?: string
