@@ -5,16 +5,16 @@
          <div class="text-color-dark-black-default dark:text-color-gray-light">
             <h1 class="text-2xl inline-flex font-semibold"> 
               {{ currentUser.fullName }}
-              <span :class="[currentUser.isActive==true ? 'text-[#25BDAE]' : 'text-gray-400']">
+              <span :class="[currentUser.isActive == true ? 'text-[#25BDAE]' : 'text-gray-400']">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                 </svg>
               </span>
             </h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
-            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined Xsis on {{formatDateWithMonth(currentUser.joinAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
+            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined on {{formatDateWithMonth(currentUser.joinAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects. <br class="sm:hidden"> Work on {{ currentUser.clients.length }} client.</p>
-            <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-2.5 text-sm">
+            <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-4 text-sm">
               <span>Current Clients</span>
               <ul class="mt-1">
                 <li v-for="client in currentUser.clients" :key="client.clientId">
@@ -24,7 +24,7 @@
                 </li>
               </ul>
               <span v-if="!currentUser.clients.length"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
-                __IDLE__
+                __LOADING__
               </span>
             </div>
          </div>
@@ -37,11 +37,8 @@
             <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="onUpdateAvatar">
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
-         <div v-if="currentUser.isEro" class="absolute p-1 text-xs dark:bg-[#25BDAE] bg-[#25BDAE] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
-           Employee Relation Officer
-         </div>
-         <div v-else class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
-           {{currentUser.roleDeveloper}}
+         <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
+           {{currentUser.roleDeveloper.roleDeveloperName }}
          </div>
       </header>
       
@@ -150,7 +147,7 @@
                         Your current ERO details info
                     </p>
                   </div>
-                <div class="text-color-dark-black-default mt-2 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between dark:text-color-gray-lightest">
+                <div v-if="currentEro !== null" class="text-color-dark-black-default mt-2 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between dark:text-color-gray-lightest">
                     <div class="text-color-gray-darkest p-2 dark:text-color-gray-default flex flex-col mt-1 space-y-2">
                         <div class="flex flex-col">
                           <p class="text-sm">FullName</p>
@@ -167,6 +164,11 @@
                     </div>
                     <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentEro.eroImageAvatar" alt="profile-avatar" />
                 </div>
+                <div v-else>
+                  <p class="my-3 ml-2 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                    Currently you do not have an ERO, please contact the officer for more info.
+                  </p>
+                </div>
             </div>
             <div v-if="currentUser.clients" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
                 <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
@@ -180,7 +182,7 @@
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
                   <ul v-if="currentUser.clients.length" class="space-y-3">
                     <li v-for="client in currentUser.clients" :key="client.clientId">
-                        <div class="flex items-center w-full">
+                        <div class="flex items-center w-full my-2">
                           <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -205,10 +207,10 @@
                     </div>
                     <div class="flex flex-col flex-1 w-full">
                         <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                          __IDLE__ 
+                          __Loading__ 
                         </span>
                         <span class="text-xs">
-                          Jl. Dr. Satrio Lt 25, DKI Jakarta, Indonesia.
+                          Proccess to fetching data
                         </span>
                     </div>
                   </div>

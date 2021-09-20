@@ -54,7 +54,12 @@ export const userMock: IUser = {
       lastModifiedDate: Date.now(),
     },
   },
-  roleDeveloper: "Developer",
+  roleDeveloper: {
+    roleDeveloperId: 8,
+    roleDeveloperName: 'On Bootcamp',
+    roleDeveloperDesc: 'Role as Bootcamp former',
+    roleDeveloperSalary: 'Rp100K / Day',
+  },
   clients: [],
   userPreference: {
     useThemeMode: "light",
@@ -123,9 +128,9 @@ export const statistic: IStatistic = {
   ],
 };
 
-export const vacancies: IJobVacancy[] = [
+export const vacanciesMock: IJobVacancy[] = [
   {
-    vacancyId: "8758206e-6444-4a50-b7ab-eeb2f0218f31",
+    vacancyId: "1",
     vacancyCode: "BA-XMU",
     vacancyName: "Business Analyst",
     vacancyType: "MGM",
@@ -142,7 +147,7 @@ export const vacancies: IJobVacancy[] = [
     isRemoteJob: false
   },
   {
-    vacancyId: "ce2d1682-ddf5-457b-90b3-ef456fc6cc39",
+    vacancyId: "2",
     vacancyCode: "JSE-XMU",
     vacancyName: "Java Software Enginer",
     vacancyType: "MGM",
@@ -159,7 +164,7 @@ export const vacancies: IJobVacancy[] = [
     isRemoteJob: true
   },
   {
-    vacancyId: "4bb356c7-6d50-48e1-9cb6-521ff7568ae4",
+    vacancyId: "3",
     vacancyCode: "ITA-XMU",
     vacancyName: "IT Architect",
     vacancyType: "MGM",

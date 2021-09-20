@@ -1,5 +1,5 @@
 <template>
-<div :class="[isEdit ? 'rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 relative sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4">
+<div :class="[isEdit ? 'rounded-md border shadow-xl ring-1 ring-indigo-400 ring-opacity-75' : 'border rounded-md']" class="grid space-y-3 gap-2 relative sm:cursor-pointer md:grid-cols-12 bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all hover:rounded-md border-gray-200 dark:border-color-gray-darkest p-4 with-transition">
    <div class="text-sm md:col-span-3 relative flex flex-col justify-between items-start">
       <div class="space-y-1.5">
          <label class="font-medium text-gray-700 dark:text-color-dark-gray-lighter"> {{ timesheet.placement == undefined ? '' : timesheet.placement.clientName }}</label>

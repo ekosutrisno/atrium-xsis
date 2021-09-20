@@ -32,7 +32,7 @@
         <dd class="input-custom-dd">
            <label for="role-developer" class="input-custom-label">Full name</label>
             <input 
-              type="text" v-model="currentUser.roleDeveloper" name="role-developer" id="role-developer" autocomplete="off"
+              type="text" v-model="currentUser.roleDeveloper.roleDeveloperName" name="role-developer" id="role-developer" autocomplete="off"
               :readonly="!isOnEdit"
               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
               class="input-custom-default" 
