@@ -88,7 +88,7 @@ export interface IAddress extends Info {
 }
 
 export interface IRoleDeveloper extends Info {
-   roleDeveloperId: string
+   roleDeveloperId: number
    roleDeveloperName: string
    roleDeveloperDesc?: string
    roleDeveloperSalary?: string
@@ -133,7 +133,7 @@ export interface IUser extends Info {
    joinAt: Date | any
    religion?: Religion | string
    address: UserAddress
-   roleDeveloper: string
+   roleDeveloper: IRoleDeveloper
    mainRole?: IMainRole
    clients: IClient[]
    userPreference: IUserPreference

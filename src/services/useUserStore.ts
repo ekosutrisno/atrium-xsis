@@ -10,7 +10,7 @@ const toast = useToast();
 interface UserStoreState {
    gender: string,
    currentUser: IUser,
-   currentEro: ICurrentEro
+   currentEro: ICurrentEro | null
 }
 
 export const useUserStore = defineStore({
@@ -31,7 +31,7 @@ export const useUserStore = defineStore({
       * @param  {userId: IUser['userId'], email: IUser['email']} newData
       * @description register user to Database Collection
       */
-      async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
+      async onRegisterUser(newData: { userId: IUser[ 'userId' ], email: IUser[ 'email' ] }) {
 
          var newUser: IUser = {
             userId: newData.userId,
@@ -40,8 +40,8 @@ export const useUserStore = defineStore({
             nationality: "",
             isActive: false,
             email: newData.email,
-            username: `@${newData.email?.split('@')[0].replace('.', '_')}`,
-            fullName: `${newData.email?.split('@')[0]}`,
+            username: `@${newData.email?.split('@')[ 0 ].replace('.', '_')}`,
+            fullName: `${newData.email?.split('@')[ 0 ]}`,
             telephone: "",
             photoUrl: "https://res.cloudinary.com/ekosutrisno/image/upload/v1627464871/avatars/profile1_otttcz.png",
             gender: "",
@@ -82,8 +82,30 @@ export const useUserStore = defineStore({
                   lastModifiedDate: Date.now(),
                },
             },
-            roleDeveloper: "Developer",
-            clients: [],
+            roleDeveloper: {
+               roleDeveloperId: 8,
+               roleDeveloperName: 'On Bootcamp',
+               roleDeveloperDesc: 'Role as Bootcamp former',
+               roleDeveloperSalary: 'Rp100K / Day',
+            },
+            mainRole: {
+               roleId: 6,
+               isActive: true,
+               roleName: 'Employee',
+               roleDescription: 'Role as Employee'
+            },
+            clients: [
+               {
+                  clientId: '6',
+                  clientName: '__BOOTCAMP__',
+                  clientAddress: 'Jl. Dr. Satrio Lt 25',
+                  clientCountry: 'Indonesia',
+                  clientKota: 'Jakarta Pusat',
+                  clientProvinsi: 'DKI Jakarta',
+                  createdDate: Date.now(),
+                  lastModifiedDate: Date.now()
+               }
+            ],
             userPreference: {
                useThemeMode: "light",
                pushNotification: 3,
@@ -105,14 +127,16 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Get Current User By userID Key
        */
-      async fetchCurrentUser(userId: IUser['userId']) {
+      async fetchCurrentUser(userId: IUser[ 'userId' ]) {
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
          if (docSnap.exists()) {
             const data: IUser = docSnap.data() as IUser;
             this.currentUser = data;
-            if (!data.isEro)
-               this.fetchCurrentEro(data.eroId as IUser['userId']);
+            if (!data.isEro && data.eroId)
+               this.fetchCurrentEro(data.eroId as IUser[ 'userId' ]);
+            else
+               this.currentEro = null;
          }
       },
 
@@ -120,7 +144,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Get Current Ero by EroId Key and if isEro = false
        */
-      async fetchCurrentEro(userId: IUser['userId']) {
+      async fetchCurrentEro(userId: IUser[ 'userId' ]) {
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
          if (docSnap.exists()) {
@@ -181,7 +205,7 @@ export const useUserStore = defineStore({
        * @returns Promise
        * @description Update user Preference
        */
-      async updateUserPreference(userId: IUser['userId'], userPreference: IUserPreference): Promise<void> {
+      async updateUserPreference(userId: IUser[ 'userId' ], userPreference: IUserPreference): Promise<void> {
          const docRef = doc(db, "tbl_users", userId);
 
          userPreference.lastModifiedDate = Date.now(),
@@ -199,7 +223,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Update user profile avatar image
        */
-      async updateFotoProfile(photo: any, userId: IUser['userId']) {
+      async updateFotoProfile(photo: any, userId: IUser[ 'userId' ]) {
          if (photo) {
             const storageRef = ref(storage, `profiles/${userId}`);
             const uploadTask = uploadBytesResumable(storageRef, photo);
@@ -252,7 +276,7 @@ export const useUserStore = defineStore({
        * @param  {} state
        * @returns IUser.photoUrl
        */
-      getPhotoUrl(state): IUser['photoUrl'] {
+      getPhotoUrl(state): IUser[ 'photoUrl' ] {
          return state.currentUser ? state.currentUser.photoUrl : '';
       },
 
@@ -260,7 +284,7 @@ export const useUserStore = defineStore({
        * @param  {} state
        * @returns IUser.clients
        */
-      getUserClient(state): IUser['clients'] {
+      getUserClient(state): IUser[ 'clients' ] {
          return state.currentUser ? state.currentUser.clients : [];
       },
 
@@ -270,7 +294,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['email']} email
        * @returns IUser
        */
-      getLoginAsInfo(state): { fullName: IUser['username'], email: IUser['email'] } {
+      getLoginAsInfo(state): { fullName: IUser[ 'username' ], email: IUser[ 'email' ] } {
          const loginAs = {
             fullName: state.currentUser.fullName,
             email: state.currentUser.email

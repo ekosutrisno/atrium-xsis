@@ -16,11 +16,16 @@
                </button>
             </div>
          </header>
-         <ul class="grid gap-4 sm:gap-2 mt-6">
+         <ul v-if="vacancies.length" class="grid gap-4 sm:gap-2 mt-6">
             <li v-for="vacancy in vacancies" :key="vacancy.vacancyId">
                <InternalVacancyCard :vacancy="vacancy"/>
             </li>
          </ul>
+         <div v-else>
+         <div class="bg-white text-color-dark-gray-darkest dark:bg-color-dark-gray-darker dark:text-white p-4 shadow-md mt-10 max-w-screen-sm mx-auto border-l-4 border-indigo-500 rounded-r-md text-sm">
+            <p>Now that you don't have a vacancy available.</p>
+         </div>
+      </div>
       </div>
       <button type="button" class="sticky-btn with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -31,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import InternalVacancyCard from '../components/cards/InternalVacancyCard.vue'
 import { useUtilityStore, useVacancyStore } from '../services'
 
@@ -45,6 +50,8 @@ export default defineComponent({
          vacancies: computed(()=>vacancyStore.vacancies),
          useBlur: computed(()=> utilityStore.useBlur),
       })
+
+      onMounted(()=> vacancyStore.getAllVacancy());
 
       return {
          ...toRefs(state)

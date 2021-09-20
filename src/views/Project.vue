@@ -17,11 +17,21 @@
             </router-link>
          </div>
       </header>
-      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      <ul v-if="projects.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
          <li v-for="project in projects" :key="project.projectId">
             <ProjectCard :project="project"/>
          </li>
       </ul>
+      <div v-else>
+         <div class="bg-white text-color-dark-gray-darkest dark:bg-color-dark-gray-darker dark:text-white p-4 shadow-md mt-10 max-w-screen-sm mx-auto border-l-4 border-indigo-500 rounded-r-md text-sm">
+            <p>Now that you don't have a project portfolio, click create project below to get started.</p>
+         </div>
+          <div class="text-color-gray-lighter text-sm w-full flex items-center justify-center my-5">
+            <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               Add project
+            </router-link>
+         </div>
+      </div>
    </div>
    <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" type="button" class="sticky-btn with-transition">
      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

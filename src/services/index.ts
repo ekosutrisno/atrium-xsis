@@ -5,6 +5,8 @@ import { useUserStore } from './useUserStore';
 import { useTimesheetStore } from './useTimesheetStore';
 import { useVacancyStore } from './useVacancyStore';
 import { useAuthStore } from './useAuthStore';
+import { useRoleStore } from './useRoleStore';
+import { useClientStore } from './useClientStore';
 
 export {
    useProjectStore,
@@ -13,5 +15,7 @@ export {
    useUserStore,
    useTimesheetStore,
    useVacancyStore,
-   useAuthStore
+   useAuthStore,
+   useRoleStore,
+   useClientStore
 }
