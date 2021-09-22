@@ -71,14 +71,16 @@ export const useAuthStore = defineStore({
 
          onAuthStateChanged(auth, (user) => {
             if (user) {
-               userStore.fetchCurrentUser(user.uid);
-               this.isLoggedIn = true;
-               this.onLoginAction(user);
                const uid = user.uid;
+
+               this.isLoggedIn = true;
                localStorage.setItem('_uid', uid);
+
+               userStore.fetchCurrentUser(uid);
             } else {
                localStorage.removeItem('_uid');
                this.isLoggedIn = false;
+               userStore.onLoadingStateUser = false;
             }
          });
       },

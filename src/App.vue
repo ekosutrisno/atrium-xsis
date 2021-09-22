@@ -20,19 +20,21 @@ export default defineComponent({
     const clientStore = useClientStore();
     const vacancyStore = useVacancyStore();
 
-    onBeforeMount(() => authStore.authState());
+    // onBeforeMount(() => authStore.authState());
     onMounted(() => {
+      authStore.authState();
+
       // Check Theme Selected
       utilityStore.wathcThemeSelected();
 
       // Insert Role Master if not present
-      roleStore.init();
+      //roleStore.init();
 
       // Insert Default Client Data
-      clientStore.init();
+      //clientStore.init();
       
       //Insert Vacancy Default
-      vacancyStore.insertInitVancancy();
+      //vacancyStore.insertInitVancancy();
     });
   },
 });

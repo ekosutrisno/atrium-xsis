@@ -15,20 +15,23 @@
            <img class="h-32 w-auto mx-auto" src="/icons/android-icon-512x512.png" alt="atrium">
         </div>
 
-        <router-link 
-          v-if="isLogin"
-          to="/u/0/dashboard" 
-          class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
-        >
-        Dashboard
-        </router-link>
-        <router-link 
-          v-else
-          to="/user/login"
-          class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
-        >
-        Sign In
-        </router-link>
+        <Loader v-if="onLoadingUserState"/>
+        <div v-else class="mt-4">
+          <router-link 
+            v-if="isLogin"
+            to="/u/0/dashboard" 
+            class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+          >
+            <span>Dashboard</span>
+          </router-link>
+          <router-link 
+            v-else
+            to="/user/login"
+            class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+          >
+          Sign In
+          </router-link>
+        </div>
 
       </div>
 
@@ -42,13 +45,21 @@
 /**
  * @author Eko Sutrisno
  */
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, reactive, toRefs } from 'vue';
+import Loader from '../components/modal/Loader.vue';
+import { useUserStore } from '../services';
 export default defineComponent({
-
+  components: { Loader },
   setup(){
+    const userStore = useUserStore();
+    const state = reactive({
+      onLoadingUserState: computed(()=> userStore.onLoadingStateUser)
+    });
+
     const isLogin = computed(()=>localStorage.getItem('_uid'));
 
     return{
+      ...toRefs(state),
       isLogin
     }
   }

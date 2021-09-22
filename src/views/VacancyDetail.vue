@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
    <div class="flex-1 rounded-lg">
-      <header class="p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+      <header class="p-4 rounded-md shadow-md pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Vacancy detail</span> 
             <span>
@@ -10,13 +10,16 @@
                </svg>
             </span>
          </div>
-         <div class="text-color-gray-lighter hidden sm:block text-sm">
+         <div class="text-color-gray-lighter hidden sm:block text-sm space-x-2">
+            <router-link to="/u/0/vacancy"  class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               Cancel
+            </router-link>
             <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                Save vacancy
             </button>
          </div>
       </header>
-      <div class="lg:grid-cols-4 gap-5 grid w-full mt-6">
+      <div class="lg:grid-cols-4 gap-5 grid w-full mt-6 px-0.5">
          <div class="lg:col-span-1 space-y-6">
              <div class="card-wrapper-custom md:sticky top-24 max-h-48 pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">
@@ -225,6 +228,11 @@
          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
       </svg>
    </button>
+   <router-link to="/u/0/vacancy" type="button" class="sticky-btn-raw bg-gray-600 cursor-not-allowed hover:bg-gray-700 right-24 with-transition">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+   </router-link>
 </div>
 </template>
 

@@ -208,6 +208,8 @@ export const useTimesheetStore = defineStore({
        * Generate Timesheet template autimaticly every first date in month
        */
       async generateTimesheetTemplate(userId: IUser[ 'userId' ]) {
+
+         const userStore = useUserStore();
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
 
          getDocs(collection(docRef, `TS-${currentMonth()}`))
@@ -240,14 +242,7 @@ export const useTimesheetStore = defineStore({
                         jamKerjaSelesai: "17:00",
                         jamOTMulai: "",
                         jamOTSelesai: "",
-                        placement: {
-                           clientId: "27b24c1b-52af-41d1-8ca4-0a84087b376e",
-                           clientName: "PT Azec Management Service",
-                           clientAddress: "Jl. Gedong Panjang, Bandengan",
-                           clientKota: "Jakarta Barat",
-                           clientProvinsi: "DKI Jakarta",
-                           clientCountry: "Indonesia",
-                        },
+                        placement: userStore.currentClient,
                         template: true,
                         isDone: false,
                         createdDate: new Date(dayjs(dateId).toDate()).getTime(),

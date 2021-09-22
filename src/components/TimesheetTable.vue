@@ -1,5 +1,5 @@
 z<template>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full px-0.5">
      <ul v-if="isNewDay">
      <AddTimesheetCard @after-save="onCreate" v-if="isOnCreate"/>
      <div v-if="!isOnCreate && isNewDay" class="flex flex-col with-transition space-y-3 my-5 items-center justify-center">

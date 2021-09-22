@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { IAddress, ICurrentEro, IUser, IUserPreference } from '../types/InterfaceType';
+import { IAddress, IClient, ICurrentEro, IUser, IUserPreference } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
 import { doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore';
 import { db, storage } from '../services/useFirebaseService';
@@ -10,13 +10,16 @@ const toast = useToast();
 interface UserStoreState {
    gender: string,
    currentUser: IUser,
+   currentClient: IClient
    currentEro: ICurrentEro | null
+   onLoadingStateUser: boolean
 }
 
 export const useUserStore = defineStore({
    id: 'useUserStore',
    state: (): UserStoreState => ({
       gender: '',
+      onLoadingStateUser: true,
       currentUser: userMock,
       currentEro: {
          eroId: '',
@@ -25,6 +28,7 @@ export const useUserStore = defineStore({
          telephone: '',
          eroImageAvatar: ''
       } as ICurrentEro,
+      currentClient: {} as IClient
    }),
    actions: {
       /**
@@ -33,7 +37,7 @@ export const useUserStore = defineStore({
       */
       async onRegisterUser(newData: { userId: IUser[ 'userId' ], email: IUser[ 'email' ] }) {
 
-         var newUser: IUser = {
+         const newUser: IUser = {
             userId: newData.userId,
             eroId: '',
             isEro: false,
@@ -133,12 +137,19 @@ export const useUserStore = defineStore({
          if (docSnap.exists()) {
             const data: IUser = docSnap.data() as IUser;
             this.currentUser = data;
+
+            // Get First CLient Only
+            this.currentClient = data.clients[0];
+
+            this.onLoadingStateUser = false;
+
             if (!data.isEro && data.eroId)
                this.fetchCurrentEro(data.eroId as IUser[ 'userId' ]);
             else
                this.currentEro = null;
          }
       },
+
 
       /**
        * @param  {IUser['userId']} userId
