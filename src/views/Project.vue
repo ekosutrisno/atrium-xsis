@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20">
-   <div class="flex-1 rounded-lg">
-      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+   <div class="flex-1">
+      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker rounded-md flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Project</span> 
             <span>
@@ -17,7 +17,7 @@
             </router-link>
          </div>
       </header>
-      <ul v-if="projects.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      <ul v-if="projects.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-0.5">
          <li v-for="project in projects" :key="project.projectId">
             <ProjectCard :project="project"/>
          </li>
@@ -28,7 +28,7 @@
          </div>
           <div class="text-color-gray-lighter text-sm w-full flex items-center justify-center my-5">
             <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               Add project
+               Create your first project
             </router-link>
          </div>
       </div>

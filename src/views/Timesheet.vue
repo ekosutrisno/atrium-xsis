@@ -9,7 +9,7 @@
     </div>
 
    <div class="flex-1 rounded-lg">
-      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-md p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker rounded-md flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span>Timesheet</span> 
             <span>
@@ -38,8 +38,8 @@
       <div class="card-wrapper-no-rounded rounded-md mb-3 mt-6">
          <div class="flex relative w-full flex-col sm:flex-row items-start sm:items-center justify-between">
             <p class="py-3 px-2 text-color-gray-darkest dark:text-color-gray-default">Timesheet List</p>
-            <div class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
-               <div v-if="isOnFilter" class="flex flex-col items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
+            <div class="flex flex-col w-full sm:w-auto items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
+               <div v-if="isOnFilter" class="flex flex-col w-full items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
                   <dd v-if="isOnFilter" class="input-custom-dd with-transition w-full">
                      <label for="search-from" class="text-xs sm:text-sm font-medium text-gray-700 dark:text-color-gray-default">From</label>
                      <input
@@ -107,7 +107,6 @@
             </div>
          </div>
       </div>
-      <!-- End Lite Date -->
       <TimesheetTable/> 
    </div>
    <button type="button" @click="sendTimesheet" :disabled="timesheetStatusReady" :class="[timesheetStatusReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
@@ -150,8 +149,9 @@ export default defineComponent({
       /** Automaticly Generate Timesheet Template 
        * to specific Month if does not exist
       */
-      onMounted(()=> timehseetStore
-         .generateTimesheetTemplate(state.uid)
+      onMounted(()=> 
+         timehseetStore
+            .generateTimesheetTemplate(state.uid)
       );
 
       const onSearchAction = ()=> {

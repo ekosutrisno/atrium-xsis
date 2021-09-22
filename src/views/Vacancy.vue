@@ -1,7 +1,7 @@
 <template>
    <div class="flex relative w-full pb-20 md:pb-0">
       <div class="flex-1 rounded-lg">
-         <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+         <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-md rounded-md p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
             <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
                <span>Vacancy</span> 
                <span>
@@ -10,13 +10,13 @@
                   </svg>
                </span>
             </div>
-            <div class="text-color-gray-lighter hidden text-sm">
+            <div class="text-color-gray-lighter text-sm">
                <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Add project
+                  Add vacancy
                </button>
             </div>
          </header>
-         <ul v-if="vacancies.length" class="grid gap-4 sm:gap-2 mt-6">
+         <ul v-if="vacancies.length" class="grid gap-4 sm:gap-2 mt-6 px-0.5">
             <li v-for="vacancy in vacancies" :key="vacancy.vacancyId">
                <InternalVacancyCard :vacancy="vacancy"/>
             </li>

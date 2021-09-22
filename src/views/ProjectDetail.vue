@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
    <div class="flex-1 rounded-lg">
-      <header class="p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+      <header class="p-4 rounded-md shadow-md pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span> {{ $route.params.projectId === 'new_project' ? 'New project'  : 'Project detail'}} </span> 
             <span>
@@ -20,7 +20,7 @@
             </button>
          </div>
       </header>
-      <div class="lg:grid-cols-4 gap-5 grid w-full pt-6">
+      <div class="lg:grid-cols-4 gap-5 grid w-full pt-6 px-0.5">
          <div class="lg:col-span-1 space-y-6">
              <div class="card-wrapper-custom md:sticky top-24 h-auto pt-[18px]">
                <div class="text-color-dark-black-default dark:text-color-gray-lightest">

@@ -11,7 +11,7 @@ export const useClientStore = defineStore({
    id: 'useClientStore',
 
    state: (): ClientStoreState => ({
-      clients: [] as IClient[]
+      clients: [] as IClient[],
    }),
 
    actions: {
