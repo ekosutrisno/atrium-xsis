@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from "@firebase/firestore";
+import { collection, doc, getDocs, onSnapshot, setDoc } from "@firebase/firestore";
 import { defineStore } from "pinia";
 import { IJobVacancy } from "../types/InterfaceType";
 import { vacanciesMock } from "../utils/mockDataAPI";
@@ -39,8 +39,7 @@ export const useVacancyStore = defineStore({
       async getAllVacancy() {
          const dbRef = collection(db, 'tbl_vacancies');
 
-         getDocs(dbRef)
-            .then(snapshot => {
+         onSnapshot(dbRef, (snapshot) => {
 
                const tempStore: IJobVacancy[] = [];
 

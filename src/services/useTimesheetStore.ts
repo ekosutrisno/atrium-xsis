@@ -101,18 +101,7 @@ export const useTimesheetStore = defineStore({
 
          onSnapshot(q, (querySnapshot) => {
 
-            /** Listen a snapshot */
-            querySnapshot.docChanges().forEach((change) => {
-               if (change.type === "added") {
-                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
-               }
-               if (change.type === "modified") {
-                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
-               }
-               if (change.type === "removed") {
-                  this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
-               }
-            });
+            this.toDayTimesheet(userId, dayjs().format('YYYY-MM-DD'));
 
             const timehseetsStore: ITimesheet[] = [];
 

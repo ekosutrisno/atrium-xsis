@@ -6,6 +6,7 @@ import HomePage from '../views/HomePage.vue';
 import Project from '../views/Project.vue';
 import ProjectDetail from '../views/ProjectDetail.vue';
 import VacancyDetail from '../views/VacancyDetail.vue';
+import StatisticDetail from '../views/StatisticDetail.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
 import Vacancy from '../views/Vacancy.vue';
@@ -118,7 +119,16 @@ const routes: RouteRecordRaw[] = [
                title: `UserSettings`,
                requiresAuth: true
             }
-         }
+         },
+         {
+            path: `/u/0/statistic/:year/:category/detail`,
+            name: `StatisticDetail`,
+            component: StatisticDetail,
+            meta: {
+               title: `Statistic Detail`,
+               requiresAuth: true
+            }
+         },
       ]
    }
 ]

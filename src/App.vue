@@ -6,24 +6,19 @@
 import { defineComponent, onBeforeMount, onMounted } from "vue";
 import {
   useAuthStore,
-  useClientStore,
-  useRoleStore,
   useUtilityStore,
-  useVacancyStore,
 } from "./services";
 
 export default defineComponent({
   setup() {
     const utilityStore = useUtilityStore();
     const authStore = useAuthStore();
-    const roleStore = useRoleStore();
-    const clientStore = useClientStore();
-    const vacancyStore = useVacancyStore();
+    // const roleStore = useRoleStore();
+    // const clientStore = useClientStore();
+    // const vacancyStore = useVacancyStore();
 
-    // onBeforeMount(() => authStore.authState());
+    onBeforeMount(() => authStore.authState());
     onMounted(() => {
-      authStore.authState();
-
       // Check Theme Selected
       utilityStore.wathcThemeSelected();
 
