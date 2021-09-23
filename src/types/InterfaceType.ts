@@ -1,7 +1,7 @@
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
 export interface AnyObject {
-   [ propName: string ]: any | undefined;
+   [propName: string]: any | undefined;
 }
 
 export interface Info {
@@ -69,8 +69,52 @@ export interface ITimesheet extends Info {
    isWeekend: boolean
 }
 
+export interface IStatisticAbsentMeta extends Info {
+   month: number | string
+   monthName?: string
+   jumlahHariMasuk: number
+   jumlahHariCuti: number
+   jumlahHariLibur: number
+   performace: number
+}
+
+export interface IStatisticPlacementMeta extends Info {
+   month: number | string
+   monthName?: string
+   jumlahHariMasuk: number
+   jumlahHariCuti: number
+   jumlahHariLibur: number
+   performace: number
+}
+
+export interface IStatisticTImesheetCollectionMeta extends Info {
+   month: number | string
+   monthName?: string
+   collectionDate: string | number
+   performace: number
+}
+
+export interface IStatisticPenilaianUserMeta extends Info {
+   month: number | string
+   monthName?: string
+   ski: string | number
+   kompetensiPendukung: string | number
+   kedisiplinan: string | number
+   performance: string | number
+}
+
+export interface IStatisticTotalMeta extends Info {
+   month: number | string
+   monthName?: string
+   absensi: string | number
+   placementProductivity: string | number
+   timesheetCollection: string | number
+   penilaianUser: string | number
+   performance: string | number
+}
+
 export interface ITimesheetCollectionMeta extends Info {
-   userId: IUser[ 'userId' ]
+   userId: IUser['userId']
 }
 
 export interface IAddress extends Info {

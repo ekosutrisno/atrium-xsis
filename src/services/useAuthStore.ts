@@ -76,6 +76,9 @@ export const useAuthStore = defineStore({
                this.isLoggedIn = true;
                localStorage.setItem('_uid', uid);
 
+               // Set Detail Information such as profiderId
+               this.onLoginAction(user);
+
                userStore.fetchCurrentUser(uid);
             } else {
                localStorage.removeItem('_uid');

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { IAddress, IClient, ICurrentEro, IUser, IUserPreference } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
-import { doc, getDoc, setDoc, updateDoc, } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, setDoc, updateDoc, } from 'firebase/firestore';
 import { db, storage } from '../services/useFirebaseService';
 import { useToast } from 'vue-toastification';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -133,21 +133,23 @@ export const useUserStore = defineStore({
        */
       async fetchCurrentUser(userId: IUser[ 'userId' ]) {
          const docRef = doc(db, "tbl_users", userId);
-         const docSnap = await getDoc(docRef);
-         if (docSnap.exists()) {
-            const data: IUser = docSnap.data() as IUser;
-            this.currentUser = data;
-
-            // Get First CLient Only
-            this.currentClient = data.clients[0];
-
-            this.onLoadingStateUser = false;
-
-            if (!data.isEro && data.eroId)
-               this.fetchCurrentEro(data.eroId as IUser[ 'userId' ]);
-            else
-               this.currentEro = null;
-         }
+        
+         onSnapshot(docRef,(docSnap)=>{
+            if (docSnap.exists()) {
+               const data: IUser = docSnap.data() as IUser;
+               this.currentUser = data;
+   
+               // Get First CLient Only
+               this.currentClient = data.clients[0];
+   
+               this.onLoadingStateUser = false;
+   
+               if (!data.isEro && data.eroId)
+                  this.fetchCurrentEro(data.eroId as IUser[ 'userId' ]);
+               else
+                  this.currentEro = null;
+            }
+         })
       },
 
 

@@ -98,32 +98,32 @@ export const statistic: IStatistic = {
     id: 0,
     progress: 0,
     title: "Total Performance",
-    to: "#",
+    to: "5",
   },
   info: [
     {
       id: 1,
       progress: 0,
       title: "Absensi",
-      to: "#",
+      to: "1",
     },
     {
       id: 2,
       progress: 0,
       title: "Placement Productivity",
-      to: "#",
+      to: "2",
     },
     {
       id: 3,
       progress: 0,
       title: "Timesheet Collection",
-      to: "#",
+      to: "3",
     },
     {
       id: 4,
       progress: 0,
       title: "Penilaian User",
-      to: "#",
+      to: "4",
     },
   ],
 };

@@ -35,6 +35,14 @@ export const currentMonth = (): string => {
 }
 
 /**
+ * Get Month format
+ * @returns string
+ */
+export const currentMonthOnly = (): string => {
+   return `${dayjs().month() + 1}`
+}
+
+/**
  * To Check is Weekend
  * @returns boolean
  */
@@ -48,4 +56,20 @@ export const isWeekend = (date: any): boolean => {
  */
 export const isToday = (date: any): boolean => {
    return dayjs().format('l') === dayjs(date).format('l');
+}
+
+/**
+ * To return current Month And Year only
+ * @returns string
+ */
+export const currentMonthAndYear = (date: any): string => {
+   return dayjs(date).format('MMMM YYYY')
+}
+
+export const calculatePerformaceAbsent = (hariMasuk: number): string => {
+   let jumlahHariAktifSetahun = 365;
+   let jumlahHariWeekend = 104;
+   let hariKerja = jumlahHariAktifSetahun - jumlahHariWeekend;
+   let percentage = (hariMasuk / hariKerja) * 100;
+   return `${percentage.toFixed(3).toString()}%`;
 }

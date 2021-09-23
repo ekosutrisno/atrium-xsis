@@ -31,7 +31,7 @@
       <div class="p-4 flex-1 lg:max-w-lg card-wrapper-general-theme">
          <header class="border-b border-color-gray-light dark:border-color-gray-darkest flex justify-between py-2">
             <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-darkest dark:text-color-gray-light font-semibold">
-               <span>Total</span> 
+               <span>Total Performance</span> 
                <span>
                   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -75,6 +75,7 @@
                      </div>
                   </div>
                </li>
+               <button @click="createStat" class="py-3 px-4 hidden bg-gray-900">Test Statistic</button>
             </ul>
             <div v-else class="flex items-center w-full">
                <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
@@ -84,7 +85,7 @@
                </div>
                <div class="flex flex-col flex-1 w-full">
                   <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                     __IDLE__ 
+                     __IDLE__  
                   </span>
                   <span class="text-xs">
                      Jl. Dr. Satrio Lt 25, DKI Jakarta, Indonesia.
@@ -111,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
 import PieCart from '../components/chart/PieCart.vue';
 import PieCart1 from '../components/chart/PieCart1.vue';
@@ -126,15 +127,21 @@ export default defineComponent({
       const state = reactive({
          statistic: computed(()=> statisticStore.statistic),
          clients: computed(()=> userStore.getUserClient),
-         currentYear: new Date().getFullYear()
+         currentYear: new Date().getFullYear(),
+         uid: computed(()=> localStorage.getItem('_uid') as string)
       })
 
-      onBeforeMount(()=> statisticStore
-         .getUserStatistic(localStorage.getItem('_uid') as string)
+      onMounted(()=> statisticStore
+         .getUserStatistic(state.uid)
       )
+
+      const createStat = () =>{
+         statisticStore.registerStatistic(state.uid)
+      }
       
       return {
-         ...toRefs(state)
+         ...toRefs(state),
+         createStat
       }
    }
 })
