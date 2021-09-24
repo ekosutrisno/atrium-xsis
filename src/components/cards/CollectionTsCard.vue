@@ -6,11 +6,11 @@
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Collection Date</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ formatDateWithDayMonth(collectionTs.collectionDate) }}</span></p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ collectionTs.collectionDate !== '' ? formatDateWithDayMonth(collectionTs.collectionDate): '-' }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Performance</p>
-         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ 8.333 }}%</p>
+         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ toFixedFormat(collectionTs.performance) }}</p>
       </div>
 
       <div class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { IStatisticTImesheetCollectionMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, calculatePerformaceAbsent, formatDateWithDayMonth } from '../../utils/helperFunction';
+import { formatDateWithMonth, formatDateWithDayMonth, toFixedFormat } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -29,7 +29,7 @@ export default defineComponent({
       }
    },
    setup() {
-      return{ formatDateWithMonth, calculatePerformaceAbsent, formatDateWithDayMonth}
+      return{ formatDateWithMonth, formatDateWithDayMonth, toFixedFormat}
    },
 })
 </script>

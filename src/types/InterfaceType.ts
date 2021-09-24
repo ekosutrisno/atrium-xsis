@@ -35,7 +35,7 @@ export interface IProject extends Info {
 
 export interface IStatistic extends Info {
    userId: string
-   year: number | string
+   year: string
    total: IStatisticInfo
    info: IStatisticInfo[]
 }
@@ -52,7 +52,7 @@ export interface ITimesheet extends Info {
    jamOTTotal?: number | string
    jamKerjaTotal?: number | string
    tanggalAsDate: Date | any
-   statusAbsensi?: StatusAbsensi | string
+   statusAbsensi: StatusAbsensi | string
    day: number
    month: number
    year: number
@@ -72,51 +72,51 @@ export interface ITimesheet extends Info {
 
 export interface IStatisticAbsentMeta extends Info {
    month: number | string
-   year: number | string
    monthName?: string
+   year: string
    jumlahHariMasuk: number
    jumlahHariCuti: number
    jumlahHariLibur: number
-   performace: number
+   performance: number
 }
 
 export interface IStatisticPlacementMeta extends Info {
    month: number | string
-   year: number | string
    monthName?: string
+   year: string
    jumlahHariMasuk: number
    jumlahHariCuti: number
    jumlahHariLibur: number
-   performace: number
+   performance: number
 }
 
 export interface IStatisticTImesheetCollectionMeta extends Info {
    month: number | string
-   year: number | string
    monthName?: string
+   year: string
    collectionDate: string | number
-   performace: number
+   performance: number
 }
 
 export interface IStatisticPenilaianUserMeta extends Info {
    month: number | string
-   year: number | string
    monthName?: string
-   ski: string | number
-   kompetensiPendukung: string | number
-   kedisiplinan: string | number
-   performance: string | number
+   year: string
+   ski: number
+   kompetensiPendukung: number
+   kedisiplinan: number
+   performance: number
 }
 
 export interface IStatisticTotalMeta extends Info {
    month: number | string
-   year: number | string
    monthName?: string
-   absensi: string | number
-   placementProductivity: string | number
-   timesheetCollection: string | number
-   penilaianUser: string | number
-   performance: string | number
+   year: string
+   absensi: number
+   placementProductivity: number
+   timesheetCollection: number
+   penilaianUser: number
+   performance: number
 }
 
 export interface ITimesheetCollectionMeta extends Info {

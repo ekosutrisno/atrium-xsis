@@ -18,16 +18,16 @@
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Performance</p>
-         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ calculatePerformaceAbsent(0) }}</p>
+         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ toFixedFormat(calculatedPercentage) }}</p>
       </div>
 
       <div class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
    </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { IStatisticPenilaianUserMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, calculatePerformaceAbsent } from '../../utils/helperFunction';
+import { formatDateWithMonth, calculatePerformacePenilaianUser, toFixedFormat  } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -36,8 +36,19 @@ export default defineComponent({
          required: true
       }
    },
-   setup() {
-      return{ formatDateWithMonth, calculatePerformaceAbsent}
+   setup(props) {
+      const calculatedPercentage = computed(
+               () => {
+                  let nilai = {
+                     ski: props.nilai.ski,
+                     kompetensiPendukung: props.nilai.kompetensiPendukung,
+                     kedisiplinan: props.nilai.kedisiplinan
+                  }
+
+                 return calculatePerformacePenilaianUser(nilai)
+            })
+
+      return{calculatedPercentage, formatDateWithMonth, toFixedFormat }
    },
 })
 </script>

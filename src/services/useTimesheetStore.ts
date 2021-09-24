@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
+import { useStatisticStore } from '.';
 import { ITimesheet, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { currentMonth, isWeekend } from '../utils/helperFunction';
 import { db } from './useFirebaseService';
@@ -71,11 +72,22 @@ export const useTimesheetStore = defineStore({
        * Update Individual Timesheet
        */
       async updateTimesheet(timesheet: ITimesheet) {
+
+         // Init and Call Statistic Store
+         const statisticStore = useStatisticStore();
+
          var userId = timesheet.user;
 
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
          const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
+
+         /** Is set options to update statistic data */
+         const options = {
+            isWeekend: timesheet.isWeekend,
+            edited: timesheet.edited,
+            statusAbsensi: timesheet.statusAbsensi
+         };
 
          /** Set edited to true */
          timesheet.edited = true;
@@ -83,7 +95,10 @@ export const useTimesheetStore = defineStore({
 
          /** Update to specific month */
          await updateDoc(docSnap, timesheet as any)
-            .then(() => toast.info('Timesheet Modified.'));
+            .then(async () => {
+               toast.info('Timesheet Modified.');
+               await statisticStore.updateAbsentStatistic(options);
+            });
 
          /** Update to All Backup */
          await updateDoc(docSnapSearch, timesheet as any);

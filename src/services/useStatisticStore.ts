@@ -1,8 +1,8 @@
-import { doc, setDoc, collection, onSnapshot, getDocs, query, where } from 'firebase/firestore';
+import { doc, setDoc, collection, onSnapshot, getDocs, query, where, updateDoc, getDoc } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { IStatistic, IStatisticAbsentMeta, IStatisticPenilaianUserMeta, IStatisticPlacementMeta, IStatisticTImesheetCollectionMeta, IStatisticTotalMeta, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
-import { currentMonthAndYear, currentMonthOnly } from '../utils/helperFunction';
-import { statistic } from '../utils/mockDataAPI';
+import { calculatePerformaceAbsent, currentMonthAndYear, currentMonthOnly } from '../utils/helperFunction';
+import { statistics } from '../utils/mockDataAPI';
 import { db } from './useFirebaseService';
 
 interface StatisticStoreState {
@@ -17,7 +17,7 @@ interface StatisticStoreState {
 export const useStatisticStore = defineStore({
    id: 'useStatisticStore',
    state: (): StatisticStoreState => ({
-      statistic: statistic,
+      statistic: statistics,
       absentStatistics: [],
       collectionStatistics: [],
       penilaianStatistic: [],
@@ -78,7 +78,7 @@ export const useStatisticStore = defineStore({
             jumlahHariCuti: 0,
             jumlahHariLibur: 0,
             jumlahHariMasuk: 0,
-            performace: 0.00,
+            performance: 0.00,
             monthName: currentMonthAndYear(new Date())
          }
 
@@ -89,7 +89,7 @@ export const useStatisticStore = defineStore({
             jumlahHariCuti: 0,
             jumlahHariLibur: 0,
             jumlahHariMasuk: 0,
-            performace: 0.00,
+            performance: 0.00,
             monthName: currentMonthAndYear(new Date())
          }
 
@@ -99,7 +99,7 @@ export const useStatisticStore = defineStore({
             year: currentYear,
             collectionDate: '',
             monthName: currentMonthAndYear(new Date()),
-            performace: 0.00
+            performance: 0.00
          }
 
          // Penilaian User Metadata
@@ -264,10 +264,13 @@ export const useStatisticStore = defineStore({
        * @returns Promise
        * This method handling realtime update for all statistic details
        */
-      onSnapshotRealtimeUpdateStatistic() {
+      async onSnapshotRealtimeUpdateStatistic() {
 
          const currentYear = new Date().getFullYear().toString();
          const userId = localStorage.getItem('_uid') as string;
+
+         // Get User Statistic newest
+         this.getUserStatistic(userId);
 
          // Parent Collection
          const docRefParent = doc(db, 'tbl_statistic', userId);
@@ -301,6 +304,75 @@ export const useStatisticStore = defineStore({
          onSnapshot(totalRef, () => {
             this.getDetailStatistic(userId, '5');
          })
+      },
+
+      async updateAbsentStatistic(options?: { edited: boolean, isWeekend: boolean, statusAbsensi: string }) {
+         const currentYear = new Date().getFullYear().toString();
+         const currentMonth = currentMonthOnly();
+         const userId = localStorage.getItem('_uid') as string;
+
+         // Parent Collection
+         const docRefParent = doc(db, 'tbl_statistic', userId);
+
+         // Absen
+         const absensiRef = collection(docRefParent, `A-${currentYear}`);
+
+         // Check if timehseet is  not on weekend and is already updated
+         let checkValidator = !options?.edited && !options?.isWeekend && options?.statusAbsensi === 'Masuk';
+
+         if (checkValidator) {
+            getDoc(doc(absensiRef, currentMonth))
+               .then(async (absen) => {
+                  if (absen.exists()) {
+                     var currentAbsen = absen.data() as IStatisticAbsentMeta;
+
+                     currentAbsen.jumlahHariMasuk += 1;
+                     currentAbsen.performance = calculatePerformaceAbsent(currentAbsen.jumlahHariMasuk);
+
+                     await updateDoc(doc(absensiRef, currentMonth), currentAbsen as any)
+
+                     // Get The Current Statistic Form State
+                     const currentStatistic = this.statistic;
+
+                     // Update absent total data in realtime
+                     currentStatistic.info[0].progress = this.getTotalAbsensi;
+                     currentStatistic.info[1].progress = this.getTotalPlacement;
+
+                     await updateDoc(docRefParent, this.statistic);
+                  }
+               })
+         }
       }
+   },
+   getters: {
+      getTotalAbsensi(state: StatisticStoreState) {
+         return state
+            .absentStatistics
+            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+      },
+
+      getTotalPlacement(state: StatisticStoreState) {
+         return state
+            .placementStatistics
+            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+      },
+
+      getTotalCollection(state: StatisticStoreState) {
+         return state
+            .collectionStatistics
+            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+      },
+
+      getTotalPenilaian(state: StatisticStoreState) {
+         return state
+            .penilaianStatistic
+            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+      },
+
+      getTotalStatistic(state: StatisticStoreState) {
+         return state
+            .absentStatistics
+            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+      },
    }
 })

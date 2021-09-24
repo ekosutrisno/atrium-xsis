@@ -131,9 +131,9 @@ export default defineComponent({
          uid: computed(()=> localStorage.getItem('_uid') as string)
       })
 
-      onMounted(()=> statisticStore
-         .getUserStatistic(state.uid)
-      )
+      onMounted(()=> {
+         statisticStore.getUserStatistic(state.uid);
+      })
 
       const createStat = () =>{
          statisticStore.registerStatistic(state.uid)
