@@ -1,4 +1,4 @@
-import { doc, setDoc, collection, onSnapshot, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, onSnapshot, getDocs, query, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { IStatistic, IStatisticAbsentMeta, IStatisticPenilaianUserMeta, IStatisticPlacementMeta, IStatisticTImesheetCollectionMeta, IStatisticTotalMeta, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { currentMonthAndYear, currentMonthOnly } from '../utils/helperFunction';
@@ -31,9 +31,12 @@ export const useStatisticStore = defineStore({
        */
       async registerStatistic(userId: IUser['userId']) {
 
+         const currentYear = new Date().getFullYear().toString();
+
          // General Info Statistic
          const statistic: IStatistic = {
             userId: userId,
+            year: currentYear,
             total: {
                id: 0,
                progress: 0,
@@ -71,6 +74,7 @@ export const useStatisticStore = defineStore({
          // Absent Metadata
          const statisticAbsenMeta: IStatisticAbsentMeta = {
             month: currentMonthOnly(),
+            year: currentYear,
             jumlahHariCuti: 0,
             jumlahHariLibur: 0,
             jumlahHariMasuk: 0,
@@ -81,6 +85,7 @@ export const useStatisticStore = defineStore({
          // Palement Metadata
          const statisticPlacementMeta: IStatisticPlacementMeta = {
             month: currentMonthOnly(),
+            year: currentYear,
             jumlahHariCuti: 0,
             jumlahHariLibur: 0,
             jumlahHariMasuk: 0,
@@ -91,6 +96,7 @@ export const useStatisticStore = defineStore({
          // Collection TS Metadata
          const statisticCollectionMeta: IStatisticTImesheetCollectionMeta = {
             month: currentMonthOnly(),
+            year: currentYear,
             collectionDate: '',
             monthName: currentMonthAndYear(new Date()),
             performace: 0.00
@@ -99,6 +105,7 @@ export const useStatisticStore = defineStore({
          // Penilaian User Metadata
          const statisticPenilaianMeta: IStatisticPenilaianUserMeta = {
             month: currentMonthOnly(),
+            year: currentYear,
             monthName: currentMonthAndYear(new Date()),
             ski: 0,
             kedisiplinan: 0,
@@ -109,6 +116,7 @@ export const useStatisticStore = defineStore({
          // Statistic Total Metadata
          const statisticTotalMeta: IStatisticTotalMeta = {
             month: currentMonthOnly(),
+            year: currentYear,
             monthName: currentMonthAndYear(new Date()),
             absensi: 0,
             placementProductivity: 0,
@@ -118,8 +126,6 @@ export const useStatisticStore = defineStore({
             createdDate: Date.now(),
             lastModifiedDate: Date.now()
          }
-
-         const currentYear = new Date().getFullYear().toString();
 
          // Parent Collection
          const docRefParent = doc(db, 'tbl_statistic', userId);
@@ -170,6 +176,11 @@ export const useStatisticStore = defineStore({
          })
       },
 
+      /**
+       * @param  {IUser['userId']} userId
+       * @param  {string} category
+       * Get Detail statistic by category
+       */
       async getDetailStatistic(userId: IUser['userId'], category: string) {
          const currentYear = new Date().getFullYear().toString();
 
@@ -247,6 +258,49 @@ export const useStatisticStore = defineStore({
             default:
                break;
          }
+      },
+
+      /**
+       * @returns Promise
+       * This method handling realtime update for all statistic details
+       */
+      onSnapshotRealtimeUpdateStatistic() {
+
+         const currentYear = new Date().getFullYear().toString();
+         const userId = localStorage.getItem('_uid') as string;
+
+         // Parent Collection
+         const docRefParent = doc(db, 'tbl_statistic', userId);
+
+         // Absen
+         const absensiRef = collection(docRefParent, `A-${currentYear}`);
+         onSnapshot(absensiRef, () => {
+            this.getDetailStatistic(userId, '1');
+         })
+
+         // Placement
+         const placementRef = collection(docRefParent, `B-${currentYear}`);
+         onSnapshot(placementRef, () => {
+            this.getDetailStatistic(userId, '2');
+         })
+
+         // Collection
+         const collectionRef = collection(docRefParent, `C-${currentYear}`);
+         onSnapshot(collectionRef, () => {
+            this.getDetailStatistic(userId, '3');
+         })
+
+         // Peniaian
+         const penilaianRef = collection(docRefParent, `D-${currentYear}`);
+         onSnapshot(penilaianRef, () => {
+            this.getDetailStatistic(userId, '4');
+         })
+
+         // Total
+         const totalRef = collection(docRefParent, `E-${currentYear}`);
+         onSnapshot(totalRef, () => {
+            this.getDetailStatistic(userId, '5');
+         })
       }
    }
 })

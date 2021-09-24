@@ -94,6 +94,7 @@ export const projectMock: IProject = {
 
 export const statistic: IStatistic = {
   userId: '',
+  year: '',
   total: {
     id: 0,
     progress: 0,

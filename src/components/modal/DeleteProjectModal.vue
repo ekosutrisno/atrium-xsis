@@ -3,7 +3,7 @@
     <Dialog as="div" static class="fixed z-10 inset-0 overflow-y-auto" @close="closeModal" :open="open">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-          <DialogOverlay :class="[useBlur ? 'custom-backdrop' : '']" class="fixed inset-0 bg-gray-600  bg-opacity-70 transition-opacity" />
+          <DialogOverlay :class="[useBlur ? 'custom-backdrop' : '']" class="fixed inset-0 bg-gray-600  bg-opacity-50 transition-opacity" />
         </TransitionChild>
 
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>

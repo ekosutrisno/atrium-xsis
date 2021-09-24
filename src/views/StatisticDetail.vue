@@ -64,10 +64,32 @@
             <Svg2 class="absolute top-[-3.25rem] -right-4 z-0"/>
          </div>
       </header>
-      <p class="py-4 dark:text-white text-color-dark-gray-darker">Details per Month</p>
-      <ul  class="grid md:grid-cols-2 gap-1.5 px-0.5">
+
+      <p class="py-4 text-sm text-color-dark-gray-light">Details per Month</p>
+
+      <ul v-if="category === '1'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
         <li v-for="absen in absenStatistics" :key="absen.month">
             <AbsentCard :absen="absen"/>
+         </li>
+      </ul>
+      <ul v-if="category === '2'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
+        <li v-for="placement in placementStatistics" :key="placement.month">
+            <AbsentCard :absen="placement"/>
+         </li>
+      </ul>
+      <ul v-if="category === '3'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
+        <li v-for="coll in collectionStatistics" :key="coll.month">
+            <CollectionTsCard :collectionTs="coll"/>
+         </li>
+      </ul>
+      <ul v-if="category === '4'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
+        <li v-for="nilai in penilaianStatistics" :key="nilai.month">
+            <PenilaianUserCard :nilai="nilai"/>
+         </li>
+      </ul>
+      <ul v-if="category === '5'"  class="grid gap-1.5 px-0.5">
+        <li v-for="performance in totalStatistics" :key="performance.month">
+            <TotalPerformanceCard :performance="performance"/>
          </li>
       </ul>
    </div>
@@ -83,12 +105,15 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute } from 'vue-router';
 import AbsentCard from '../components/cards/AbsentCard.vue';
+import CollectionTsCard from '../components/cards/CollectionTsCard.vue';
+import PenilaianUserCard from '../components/cards/PenilaianUserCard.vue';
 import ProjectCard from '../components/cards/ProjectCard.vue'
+import TotalPerformanceCard from '../components/cards/TotalPerformanceCard.vue';
 import Svg2 from '../components/svg/Svg2.vue';
 import { useStatisticStore, useUserStore, useUtilityStore } from '../services';
 
 export default defineComponent({
-  components: { ProjectCard, Svg2, AbsentCard},
+  components: { ProjectCard, Svg2, AbsentCard, CollectionTsCard, PenilaianUserCard, TotalPerformanceCard},
    setup () {
       const utilityStore = useUtilityStore();
       const userStore = useUserStore()
@@ -97,9 +122,9 @@ export default defineComponent({
 
       const state = reactive({
          useBlur: computed(() => utilityStore.useBlur),
-         category: route.params.category as string,
-         currentUser: computed(() => userStore.currentUser),
+         category: computed(()=>route.params.category as string),
          uid: computed(() => localStorage.getItem('_uid') as string),
+         currentUser: computed(() => userStore.currentUser),
          absenStatistics: computed(()=> statisticStore.absentStatistics),
          placementStatistics: computed(()=> statisticStore.placementStatistics),
          collectionStatistics: computed(()=> statisticStore.collectionStatistics),
@@ -109,6 +134,7 @@ export default defineComponent({
 
       onMounted(()=>{
           statisticStore.getDetailStatistic(state.uid, state.category);
+          statisticStore.onSnapshotRealtimeUpdateStatistic();
       })
 
       return {

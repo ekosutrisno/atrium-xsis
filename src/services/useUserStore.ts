@@ -35,7 +35,7 @@ export const useUserStore = defineStore({
       * @param  {userId: IUser['userId'], email: IUser['email']} newData
       * @description register user to Database Collection
       */
-      async onRegisterUser(newData: { userId: IUser[ 'userId' ], email: IUser[ 'email' ] }) {
+      async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
 
          const newUser: IUser = {
             userId: newData.userId,
@@ -44,8 +44,8 @@ export const useUserStore = defineStore({
             nationality: "",
             isActive: false,
             email: newData.email,
-            username: `@${newData.email?.split('@')[ 0 ].replace('.', '_')}`,
-            fullName: `${newData.email?.split('@')[ 0 ]}`,
+            username: `@${newData.email?.split('@')[0].replace('.', '_')}`,
+            fullName: `${newData.email?.split('@')[0]}`,
             telephone: "",
             photoUrl: "https://res.cloudinary.com/ekosutrisno/image/upload/v1627464871/avatars/profile1_otttcz.png",
             gender: "",
@@ -131,21 +131,21 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Get Current User By userID Key
        */
-      async fetchCurrentUser(userId: IUser[ 'userId' ]) {
+      async fetchCurrentUser(userId: IUser['userId']) {
          const docRef = doc(db, "tbl_users", userId);
-        
-         onSnapshot(docRef,(docSnap)=>{
+
+         onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                const data: IUser = docSnap.data() as IUser;
                this.currentUser = data;
-   
+
                // Get First CLient Only
                this.currentClient = data.clients[0];
-   
+
                this.onLoadingStateUser = false;
-   
+
                if (!data.isEro && data.eroId)
-                  this.fetchCurrentEro(data.eroId as IUser[ 'userId' ]);
+                  this.fetchCurrentEro(data.eroId as IUser['userId']);
                else
                   this.currentEro = null;
             }
@@ -157,7 +157,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Get Current Ero by EroId Key and if isEro = false
        */
-      async fetchCurrentEro(userId: IUser[ 'userId' ]) {
+      async fetchCurrentEro(userId: IUser['userId']) {
          const docRef = doc(db, "tbl_users", userId);
          const docSnap = await getDoc(docRef);
          if (docSnap.exists()) {
@@ -182,7 +182,6 @@ export const useUserStore = defineStore({
          const docRef = doc(db, "tbl_users", userId);
          setDoc(docRef, user, { merge: true })
             .then(() => {
-               this.fetchCurrentUser(userId);
                toast.info(`Profile data has been updated.`)
             });
       },
@@ -199,14 +198,12 @@ export const useUserStore = defineStore({
             updateDoc(docRef, {
                "address.addressDomisili": address
             }).then(() => {
-               this.fetchCurrentUser(userId);
                toast.info(`Address Domisili updated.`)
             });
          } else {
             updateDoc(docRef, {
                "address.addressAsli": address
             }).then(() => {
-               this.fetchCurrentUser(userId);
                toast.info(`Address Asli updated.`)
             });
          }
@@ -218,7 +215,7 @@ export const useUserStore = defineStore({
        * @returns Promise
        * @description Update user Preference
        */
-      async updateUserPreference(userId: IUser[ 'userId' ], userPreference: IUserPreference): Promise<void> {
+      async updateUserPreference(userId: IUser['userId'], userPreference: IUserPreference): Promise<void> {
          const docRef = doc(db, "tbl_users", userId);
 
          userPreference.lastModifiedDate = Date.now(),
@@ -226,7 +223,6 @@ export const useUserStore = defineStore({
             updateDoc(docRef, {
                "userPreference": userPreference
             }).then(() => {
-               this.fetchCurrentUser(userId);
                toast.info(`Notification preference updated.`)
             });
       },
@@ -236,7 +232,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['userId']} userId
        * @description Update user profile avatar image
        */
-      async updateFotoProfile(photo: any, userId: IUser[ 'userId' ]) {
+      async updateFotoProfile(photo: any, userId: IUser['userId']) {
          if (photo) {
             const storageRef = ref(storage, `profiles/${userId}`);
             const uploadTask = uploadBytesResumable(storageRef, photo);
@@ -244,15 +240,6 @@ export const useUserStore = defineStore({
             uploadTask.on('state_changed',
                (snapshot) => {
                   const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                     case 'paused':
-                        console.log('Upload is paused');
-                        break;
-                     case 'running':
-                        console.log('Upload is running');
-                        break;
-                  }
                },
                (error) => {
                   switch (error.code) {
@@ -275,7 +262,6 @@ export const useUserStore = defineStore({
                         "photoUrl": downloadURL,
                         "lastModifiedDate": Date.now()
                      }).then(() => {
-                        this.fetchCurrentUser(userId);
                         toast.info(`Your profile photo has been updated.`)
                      });
                   });
@@ -289,7 +275,7 @@ export const useUserStore = defineStore({
        * @param  {} state
        * @returns IUser.photoUrl
        */
-      getPhotoUrl(state): IUser[ 'photoUrl' ] {
+      getPhotoUrl(state): IUser['photoUrl'] {
          return state.currentUser ? state.currentUser.photoUrl : '';
       },
 
@@ -297,7 +283,7 @@ export const useUserStore = defineStore({
        * @param  {} state
        * @returns IUser.clients
        */
-      getUserClient(state): IUser[ 'clients' ] {
+      getUserClient(state): IUser['clients'] {
          return state.currentUser ? state.currentUser.clients : [];
       },
 
@@ -307,7 +293,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['email']} email
        * @returns IUser
        */
-      getLoginAsInfo(state): { fullName: IUser[ 'username' ], email: IUser[ 'email' ] } {
+      getLoginAsInfo(state): { fullName: IUser['username'], email: IUser['email'] } {
          const loginAs = {
             fullName: state.currentUser.fullName,
             email: state.currentUser.email

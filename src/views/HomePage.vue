@@ -36,7 +36,9 @@
       </div>
 
 
-      <p class="text-center text-xs text-gray-300 my-5 lg:mt-8">&copy;Exoapp Corporations {{new Date().getFullYear()}}</p>
+      <p class="text-center text-xs text-gray-300 my-5 lg:mt-8">
+        &copy;Eko Sutrisno {{new Date().getFullYear()}}
+      </p>
     </div>
   </div>
 </template>

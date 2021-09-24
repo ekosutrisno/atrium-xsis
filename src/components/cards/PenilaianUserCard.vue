@@ -2,19 +2,23 @@
    <div class="cursor-pointer with-transition relative overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-darker dark:text-color-gray-light md:cursor-pointer hover:shadow-xl hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all border border-gray-200 dark:border-color-gray-darkest rounded-md p-4 flex flex-col space-y-2 sm:space-y-0 sm:flex-row items-start justify-between">
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Bulan</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ absen.monthName }}</p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ nilai.monthName }}</p>
       </div>
       <div class="flex flex-col">
-         <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Masuk</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ absen.jumlahHariMasuk }}</span> <span class="text-xs">Hari</span></p>
+         <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">SKI</p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ nilai.ski }}</span></p>
       </div>
       <div class="flex flex-col">
-         <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Cuti</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ absen.jumlahHariCuti }}</span> <span class="text-xs">Hari</span></p>
+         <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Kompetensi Pendukung</p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ nilai.kompetensiPendukung }}</span></p>
+      </div>
+      <div class="flex flex-col">
+         <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Kedisiplinan</p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ nilai.kedisiplinan }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Performance</p>
-         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ calculatePerformaceAbsent(absen.jumlahHariMasuk) }}</p>
+         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ calculatePerformaceAbsent(0) }}</p>
       </div>
 
       <div class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
@@ -22,13 +26,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IStatisticAbsentMeta, IStatisticPlacementMeta } from '../../types/InterfaceType'
+import { IStatisticPenilaianUserMeta } from '../../types/InterfaceType'
 import { formatDateWithMonth, calculatePerformaceAbsent } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
-      absen: {
-         type: Object as ()=> IStatisticAbsentMeta | IStatisticPlacementMeta,
+      nilai: {
+         type: Object as ()=> IStatisticPenilaianUserMeta,
          required: true
       }
    },
