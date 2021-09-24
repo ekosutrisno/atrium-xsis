@@ -92,7 +92,7 @@ export const projectMock: IProject = {
   lastModifiedDate: Date.now()
 }
 
-export const statistic: IStatistic = {
+export const statistics: IStatistic = {
   userId: '',
   year: '',
   total: {

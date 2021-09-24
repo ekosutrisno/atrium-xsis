@@ -14,16 +14,16 @@
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Performance</p>
-         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ calculatePerformaceAbsent(absen.jumlahHariMasuk) }}</p>
+         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ toFixedFormat(formatedPerformance)}}</p>
       </div>
 
       <div class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
    </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { IStatisticAbsentMeta, IStatisticPlacementMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, calculatePerformaceAbsent } from '../../utils/helperFunction';
+import { formatDateWithMonth, calculatePerformaceAbsent, toFixedFormat } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -32,8 +32,9 @@ export default defineComponent({
          required: true
       }
    },
-   setup() {
-      return{ formatDateWithMonth, calculatePerformaceAbsent}
+   setup(props) {
+      const formatedPerformance = computed(()=> calculatePerformaceAbsent(props.absen.jumlahHariMasuk))
+      return{ formatedPerformance, formatDateWithMonth, toFixedFormat }
    },
 })
 </script>

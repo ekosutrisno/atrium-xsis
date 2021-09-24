@@ -6,23 +6,23 @@
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Absensi</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ performance.absensi }}%</span></p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ toFixedFormat(performance.absensi) }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Placement Productivity</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ performance.placementProductivity }}%</span></p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ toFixedFormat(performance.placementProductivity) }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Timesheet Collection</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ performance.timesheetCollection }}%</span></p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ toFixedFormat(performance.timesheetCollection) }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Penilaian User</p>
-         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ performance.penilaianUser }}%</span></p>
+         <p class="text-color-dark-gray-darker dark:text-color-gray-light"><span class="font-semibold">{{ toFixedFormat(performance.penilaianUser) }}</span></p>
       </div>
       <div class="flex flex-col">
          <p class="text-sm text-color-gray-darkest dark:text-color-gray-default">Performance</p>
-         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ calculatePerformaceAbsent(0) }}</p>
+         <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ toFixedFormat(0) }}</p>
       </div>
 
       <div class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { IStatisticTotalMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, calculatePerformaceAbsent } from '../../utils/helperFunction';
+import { formatDateWithMonth, toFixedFormat } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -41,7 +41,7 @@ export default defineComponent({
       }
    },
    setup() {
-      return{ formatDateWithMonth, calculatePerformaceAbsent}
+      return{ formatDateWithMonth, toFixedFormat}
    },
 })
 </script>
