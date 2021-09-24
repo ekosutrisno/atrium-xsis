@@ -31,7 +31,7 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Register Timesheet collection when new user register
        */
-      async registerTimesheet(userId: IUser[ 'userId' ]) {
+      async registerTimesheet(userId: IUser['userId']) {
          const timesheetMetaCollection: ITimesheetCollectionMeta = {
             userId: userId,
             createdDate: Date.now(),
@@ -93,7 +93,7 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Get All Timesheet to this month with realtime update or change effect
        */
-      async getAllTimesheet(userId: IUser[ 'userId' ]) {
+      async getAllTimesheet(userId: IUser['userId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const collRef = collection(docRef, `TS-${currentMonth()}`);
 
@@ -123,7 +123,7 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Check if timesheet already fill properly and then send
        */
-      async checkTimesheetAlreadyAndUpdate(userId: IUser[ 'userId' ], isReady: boolean) {
+      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId'], isReady: boolean) {
 
          if (isReady)
             toast.warning('Make sure all timesheets are filled in properly.')
@@ -136,7 +136,7 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Send Timesheet to Ero/HR/Manager
        */
-      async sendTimesheet(userId: IUser[ 'userId' ]) {
+      async sendTimesheet(userId: IUser['userId']) {
          const userStore = useUserStore();
 
          if (userStore.currentEro !== null) {
@@ -180,7 +180,7 @@ export const useTimesheetStore = defineStore({
        * @param  {ITimesheet['absensiId']} absensiId
        * Check if today already absent
        */
-      toDayTimesheet(userId: IUser[ 'userId' ], absensiId: ITimesheet[ 'absensiId' ]) {
+      toDayTimesheet(userId: IUser['userId'], absensiId: ITimesheet['absensiId']) {
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
          const docSnap = doc(docRef, `TS-${currentMonth()}`, absensiId);
 
@@ -196,7 +196,7 @@ export const useTimesheetStore = defineStore({
        * @param  {IUser['userId']} userId
        * Generate Timesheet template autimaticly every first date in month
        */
-      async generateTimesheetTemplate(userId: IUser[ 'userId' ]) {
+      async generateTimesheetTemplate(userId: IUser['userId']) {
 
          const userStore = useUserStore();
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
@@ -254,7 +254,7 @@ export const useTimesheetStore = defineStore({
        * @param  {{from:any, to:any, perMonth:boolean}} range
        * @returns Promise of ITimesheet[]
        */
-      async filterAndSearchTimesheet(userId: IUser[ 'userId' ], params: { from?: any, to?: any, months?: any, perMonth: boolean }): Promise<void> {
+      async filterAndSearchTimesheet(userId: IUser['userId'], params: { from?: any, to?: any, months?: any, perMonth: boolean }): Promise<void> {
          /** Make sure and format date */
          var from = dayjs(params.from).toDate().getTime();
          var to = dayjs(params.to).toDate().getTime();

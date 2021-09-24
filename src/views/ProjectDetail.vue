@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
    <div class="flex-1 rounded-lg">
-      <header class="p-4 rounded-md shadow-md pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker flex justify-between">
+      <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker rounded-md flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
             <span> {{ $route.params.projectId === 'new_project' ? 'New project'  : 'Project detail'}} </span> 
             <span>
@@ -301,7 +301,7 @@ import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import ProjectCard from '../components/cards/ProjectCard.vue'
 import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
-import { useProjectStore } from '../services';
+import { useProjectStore, useUtilityStore } from '../services';
 import { IProject } from '../types/InterfaceType';
 import { formatDateWithMonth, formatDateFromNow } from '../utils/helperFunction';
 
@@ -312,6 +312,7 @@ export default defineComponent({
       const router = useRouter();
 
       const projectStore =  useProjectStore();
+      const utilityStore = useUtilityStore();
 
       const state = reactive({
          project: route.params.projectId == 'new_project' 
@@ -337,6 +338,7 @@ export default defineComponent({
          isOnEdit: route.params.projectId == 'new_project' ? true : false,
          onAddTags: false,
          newTech: '',
+         useBlur: computed(()=> utilityStore.useBlur),
          isNewProject: computed(() => route.params.projectId == 'new_project')
       })
 

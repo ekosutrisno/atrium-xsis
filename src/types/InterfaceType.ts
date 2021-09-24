@@ -35,6 +35,7 @@ export interface IProject extends Info {
 
 export interface IStatistic extends Info {
    userId: string
+   year: number | string
    total: IStatisticInfo
    info: IStatisticInfo[]
 }
@@ -71,6 +72,7 @@ export interface ITimesheet extends Info {
 
 export interface IStatisticAbsentMeta extends Info {
    month: number | string
+   year: number | string
    monthName?: string
    jumlahHariMasuk: number
    jumlahHariCuti: number
@@ -80,6 +82,7 @@ export interface IStatisticAbsentMeta extends Info {
 
 export interface IStatisticPlacementMeta extends Info {
    month: number | string
+   year: number | string
    monthName?: string
    jumlahHariMasuk: number
    jumlahHariCuti: number
@@ -89,6 +92,7 @@ export interface IStatisticPlacementMeta extends Info {
 
 export interface IStatisticTImesheetCollectionMeta extends Info {
    month: number | string
+   year: number | string
    monthName?: string
    collectionDate: string | number
    performace: number
@@ -96,6 +100,7 @@ export interface IStatisticTImesheetCollectionMeta extends Info {
 
 export interface IStatisticPenilaianUserMeta extends Info {
    month: number | string
+   year: number | string
    monthName?: string
    ski: string | number
    kompetensiPendukung: string | number
@@ -105,6 +110,7 @@ export interface IStatisticPenilaianUserMeta extends Info {
 
 export interface IStatisticTotalMeta extends Info {
    month: number | string
+   year: number | string
    monthName?: string
    absensi: string | number
    placementProductivity: string | number
