@@ -75,7 +75,7 @@
                      </div>
                   </div>
                </li>
-               <button @click="createStat" class="py-3 px-4 hidden bg-gray-900">Test Statistic</button>
+               <button @click="createStat" class="py-3 px-4 bg-gray-900">Test Statistic</button>
             </ul>
             <div v-else class="flex items-center w-full">
                <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">

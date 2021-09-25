@@ -213,10 +213,11 @@ export default defineComponent({
             return;
          }
 
+         onEdit();
+         
          timesheetStore
             .updateTimesheet(props.timesheet)
             .then(()=>{
-               onEdit();
                state.isError = false;
             });
       }

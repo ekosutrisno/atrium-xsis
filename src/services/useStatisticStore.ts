@@ -1,4 +1,4 @@
-import { doc, setDoc, collection, onSnapshot, getDocs, query, where, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, onSnapshot, getDocs, query, where, updateDoc, getDoc, runTransaction } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { IStatistic, IStatisticAbsentMeta, IStatisticPenilaianUserMeta, IStatisticPlacementMeta, IStatisticTImesheetCollectionMeta, IStatisticTotalMeta, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { calculatePerformaceAbsent, currentMonthAndYear, currentMonthOnly } from '../utils/helperFunction';
@@ -37,6 +37,8 @@ export const useStatisticStore = defineStore({
          const statistic: IStatistic = {
             userId: userId,
             year: currentYear,
+            createdDate: Date.now(),
+            lastModifiedDate: Date.now(),
             total: {
                id: 0,
                progress: 0,
@@ -130,29 +132,27 @@ export const useStatisticStore = defineStore({
          // Parent Collection
          const docRefParent = doc(db, 'tbl_statistic', userId);
 
-         // Absen
-         const absensiRef = collection(docRefParent, `A-${currentYear}`);
-         // Placement
-         const placementRef = collection(docRefParent, `B-${currentYear}`);
-         // Collection
-         const collectionRef = collection(docRefParent, `C-${currentYear}`);
-         // Peniaian
-         const penilaianRef = collection(docRefParent, `D-${currentYear}`);
-         // Total
-         const totalRef = collection(docRefParent, `E-${currentYear}`);
-
          setDoc(docRefParent, statistic)
             .then(async () => {
 
                // Insert Absent
+               const absensiRef = collection(docRefParent, `A-${currentYear}`);
                await setDoc(doc(absensiRef, currentMonthOnly()), statisticAbsenMeta)
+
                // Insert Placement
+               const placementRef = collection(docRefParent, `B-${currentYear}`);
                await setDoc(doc(placementRef, currentMonthOnly()), statisticPlacementMeta)
+
                // Insert Collectons
+               const collectionRef = collection(docRefParent, `C-${currentYear}`);
                await setDoc(doc(collectionRef, currentMonthOnly()), statisticCollectionMeta)
+
                // Insert Penilaian
+               const penilaianRef = collection(docRefParent, `D-${currentYear}`);
                await setDoc(doc(penilaianRef, currentMonthOnly()), statisticPenilaianMeta)
+
                // Insert Total Performance
+               const totalRef = collection(docRefParent, `E-${currentYear}`);
                await setDoc(doc(totalRef, currentMonthOnly()), statisticTotalMeta)
 
                this.getUserStatistic(userId);
@@ -314,34 +314,89 @@ export const useStatisticStore = defineStore({
          // Parent Collection
          const docRefParent = doc(db, 'tbl_statistic', userId);
 
-         // Absen
-         const absensiRef = collection(docRefParent, `A-${currentYear}`);
-
          // Check if timehseet is  not on weekend and is already updated
          let checkValidator = !options?.edited && !options?.isWeekend && options?.statusAbsensi === 'Masuk';
 
          if (checkValidator) {
-            getDoc(doc(absensiRef, currentMonth))
-               .then(async (absen) => {
-                  if (absen.exists()) {
-                     var currentAbsen = absen.data() as IStatisticAbsentMeta;
 
-                     currentAbsen.jumlahHariMasuk += 1;
-                     currentAbsen.performance = calculatePerformaceAbsent(currentAbsen.jumlahHariMasuk);
+            await runTransaction(db, async (transaction) => {
+               // Get The Current Statistic Form State
+               const currentStatistic = this.statistic;
 
-                     await updateDoc(doc(absensiRef, currentMonth), currentAbsen as any)
+               // 1. Update the Absensi Statistic
+               const absensiRef = collection(docRefParent, `A-${currentYear}`);
 
-                     // Get The Current Statistic Form State
-                     const currentStatistic = this.statistic;
+               const currentAbsen = this.absentStatistics
+                  .filter(absen => absen.month === currentMonth)[0];
 
-                     // Update absent total data in realtime
-                     currentStatistic.info[0].progress = this.getTotalAbsensi;
-                     currentStatistic.info[1].progress = this.getTotalPlacement;
+               currentAbsen.jumlahHariMasuk += 1;
+               currentAbsen.performance = calculatePerformaceAbsent(currentAbsen.jumlahHariMasuk);
 
-                     await updateDoc(docRefParent, this.statistic);
-                  }
-               })
+               transaction
+                  .update(doc(absensiRef, currentMonth), currentAbsen as any)
+               // await updateDoc(doc(absensiRef, currentMonth), currentAbsen as any)
+
+               // Update absent total data in realtime (Absent)
+               currentStatistic.info[0].progress = this.getTotalAbsensi;
+
+               // 2. Update the Placement Statistic
+               const placementRef = collection(docRefParent, `B-${currentYear}`);
+
+               const currentPlacement = this.placementStatistics
+                  .filter(absen => absen.month === currentMonth)[0];
+
+               currentPlacement.jumlahHariMasuk += 1;
+               currentPlacement.performance = calculatePerformaceAbsent(currentPlacement.jumlahHariMasuk);
+
+               transaction
+                  .update(doc(placementRef, currentMonth), currentPlacement as any)
+
+               // Update absent total data in realtime (Placement)
+               currentStatistic.info[1].progress = this.getTotalPlacement;
+
+               currentStatistic.total.progress = getTotalCalculation(
+                  this.getTotalAbsensi,
+                  this.getTotalPlacement,
+                  this.getTotalCollection,
+                  this.getTotalPenilaian
+               );
+
+               // 3. Update The Total Data
+               transaction
+                  .update(docRefParent, currentStatistic);
+
+               this.updateTotalStatistic();
+            })
          }
+      },
+
+      async updateTotalStatistic() {
+         const currentYear = new Date().getFullYear().toString();
+         const currentMonth = currentMonthOnly();
+         const userId = localStorage.getItem('_uid') as string;
+
+         // Parent Collection
+         const docRefParent = doc(db, 'tbl_statistic', userId);
+
+         const totalRef = collection(docRefParent, `E-${currentYear}`);
+
+         const statisticTotalMeta = this.totalStatistics
+            .filter(absen => absen.month === currentMonth)[0];
+
+         // Set New Data
+         statisticTotalMeta.absensi = getTotalPerMonth(this.absentStatistics, currentMonth);
+         statisticTotalMeta.placementProductivity = getTotalPerMonth(this.placementStatistics, currentMonth);
+         statisticTotalMeta.timesheetCollection = getTotalPerMonth(this.collectionStatistics, currentMonth);
+         statisticTotalMeta.penilaianUser = getTotalPerMonth(this.penilaianStatistic, currentMonth);
+         statisticTotalMeta.performance = getTotalCalculation(
+            statisticTotalMeta.absensi,
+            statisticTotalMeta.placementProductivity,
+            statisticTotalMeta.timesheetCollection,
+            statisticTotalMeta.penilaianUser
+         );
+         statisticTotalMeta.lastModifiedDate = Date.now();
+
+         await setDoc(doc(totalRef, currentMonthOnly()), statisticTotalMeta)
       }
    },
    getters: {
@@ -369,10 +424,29 @@ export const useStatisticStore = defineStore({
             .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
       },
 
-      getTotalStatistic(state: StatisticStoreState) {
-         return state
-            .absentStatistics
-            .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
-      },
+      getTotalStat(state) {
+         return state.statistic.total.progress;
+      }
    }
 })
+
+/**
+ * Helper Method to calculate average of total statistic
+ * @param  {number} absen
+ * @param  {number} placement
+ * @param  {number} collection
+ * @param  {number} penilaian
+ */
+const getTotalCalculation = (absen: number, placement: number, collection: number, penilaian: number) => {
+   return (absen + placement + collection + penilaian) / 4;
+}
+
+/** Helper Method to calculate and filter statistic activity per month
+ * @param  {any[]} data
+ * @param  {string} month
+ * @returns number
+ */
+const getTotalPerMonth = (data: any[], month: string): number => {
+   return data.filter(absen => absen.month === month)
+      .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+}

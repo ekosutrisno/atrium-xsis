@@ -3,13 +3,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, onUpdated, reactive } from "vue";
 import { Chart, registerables } from 'chart.js'
+import { useStatisticStore } from "../../services";
 
 Chart.register(...registerables);
 export default defineComponent({
   name: "PieCart",
   setup() {
+
+    const statisticStore = useStatisticStore();
+    
     const createChart = () => {
       const canvas = document.getElementById(
         "planet-chart"
@@ -21,7 +25,9 @@ export default defineComponent({
           datasets: [
             {
               label: "My First Dataset",
-              data: [55.165, (100 - 55.165)],
+              data: [
+                statisticStore.getTotalStat, 
+                (100 - statisticStore.getTotalStat)],
               backgroundColor: [
                 "#b37feb",
                 "#ede1f8",
