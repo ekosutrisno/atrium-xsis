@@ -15,6 +15,7 @@ interface TimesheetStoreState {
    isSendProgress: boolean,
    todayAbsentAlready: boolean,
    onGenerateProcess: boolean,
+   currentMonthExist: boolean
 }
 
 export const useTimesheetStore = defineStore({
@@ -24,7 +25,8 @@ export const useTimesheetStore = defineStore({
       timehseetsNonFiltered: [] as ITimesheet[],
       isSendProgress: false,
       todayAbsentAlready: false,
-      onGenerateProcess: false
+      onGenerateProcess: false,
+      currentMonthExist: true
    }),
 
    actions: {
@@ -292,6 +294,19 @@ export const useTimesheetStore = defineStore({
                this.timehseets = filteredTimesheet;
             }
          });
+      },
+
+      checkCurrentMonthTimesheet() {
+         const docRef = doc(db, `tbl_timesheet`, `${localStorage.getItem('_uid') as string}`);
+         const collRef = collection(docRef, `TS-${currentMonth()}`);
+
+         onSnapshot(collRef, (snap) => {
+            if (snap.empty) {
+               this.currentMonthExist = false;
+            } else {
+               this.currentMonthExist = true;
+            }
+         })
       }
    },
 

@@ -1,5 +1,6 @@
-import { doc, setDoc, collection, onSnapshot, getDocs, query, where, updateDoc, getDoc, runTransaction } from 'firebase/firestore';
+import { doc, setDoc, collection, onSnapshot, getDocs, query, where, runTransaction } from 'firebase/firestore';
 import { defineStore } from 'pinia';
+import { FlagUseOn } from '../types/EnumType';
 import { IStatistic, IStatisticAbsentMeta, IStatisticPenilaianUserMeta, IStatisticPlacementMeta, IStatisticTImesheetCollectionMeta, IStatisticTotalMeta, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
 import { calculatePerformaceAbsent, currentMonthAndYear, currentMonthOnly } from '../utils/helperFunction';
 import { statistics } from '../utils/mockDataAPI';
@@ -29,7 +30,7 @@ export const useStatisticStore = defineStore({
        * @param  {IUser['userId']} userId
        * Register collection when user first register
        */
-      async registerStatistic(userId: IUser['userId']) {
+      async registerStatistic(userId: IUser['userId'], flagUseOn: FlagUseOn) {
 
          const currentYear = new Date().getFullYear().toString();
 
@@ -73,90 +74,33 @@ export const useStatisticStore = defineStore({
             ],
          };
 
-         // Absent Metadata
-         const statisticAbsenMeta: IStatisticAbsentMeta = {
-            month: currentMonthOnly(),
-            year: currentYear,
-            jumlahHariCuti: 0,
-            jumlahHariLibur: 0,
-            jumlahHariMasuk: 0,
-            performance: 0.00,
-            monthName: currentMonthAndYear(new Date())
-         }
-
-         // Palement Metadata
-         const statisticPlacementMeta: IStatisticPlacementMeta = {
-            month: currentMonthOnly(),
-            year: currentYear,
-            jumlahHariCuti: 0,
-            jumlahHariLibur: 0,
-            jumlahHariMasuk: 0,
-            performance: 0.00,
-            monthName: currentMonthAndYear(new Date())
-         }
-
-         // Collection TS Metadata
-         const statisticCollectionMeta: IStatisticTImesheetCollectionMeta = {
-            month: currentMonthOnly(),
-            year: currentYear,
-            collectionDate: '',
-            monthName: currentMonthAndYear(new Date()),
-            performance: 0.00
-         }
-
-         // Penilaian User Metadata
-         const statisticPenilaianMeta: IStatisticPenilaianUserMeta = {
-            month: currentMonthOnly(),
-            year: currentYear,
-            monthName: currentMonthAndYear(new Date()),
-            ski: 0,
-            kedisiplinan: 0,
-            kompetensiPendukung: 0,
-            performance: 0.00,
-         }
-
-         // Statistic Total Metadata
-         const statisticTotalMeta: IStatisticTotalMeta = {
-            month: currentMonthOnly(),
-            year: currentYear,
-            monthName: currentMonthAndYear(new Date()),
-            absensi: 0,
-            placementProductivity: 0,
-            timesheetCollection: 0,
-            penilaianUser: 0,
-            performance: 0,
-            createdDate: Date.now(),
-            lastModifiedDate: Date.now()
-         }
-
          // Parent Collection
          const docRefParent = doc(db, 'tbl_statistic', userId);
 
-         setDoc(docRefParent, statistic)
-            .then(async () => {
+         // Generate New Timehseet (Check per year);
+         if (flagUseOn === FlagUseOn.GENERATION) {
+            const collRef = collection(db, 'tbl_statistic');
+            const q = query(collRef, where('userId', '==', userId), where('year', '==', currentYear));
 
-               // Insert Absent
-               const absensiRef = collection(docRefParent, `A-${currentYear}`);
-               await setDoc(doc(absensiRef, currentMonthOnly()), statisticAbsenMeta)
-
-               // Insert Placement
-               const placementRef = collection(docRefParent, `B-${currentYear}`);
-               await setDoc(doc(placementRef, currentMonthOnly()), statisticPlacementMeta)
-
-               // Insert Collectons
-               const collectionRef = collection(docRefParent, `C-${currentYear}`);
-               await setDoc(doc(collectionRef, currentMonthOnly()), statisticCollectionMeta)
-
-               // Insert Penilaian
-               const penilaianRef = collection(docRefParent, `D-${currentYear}`);
-               await setDoc(doc(penilaianRef, currentMonthOnly()), statisticPenilaianMeta)
-
-               // Insert Total Performance
-               const totalRef = collection(docRefParent, `E-${currentYear}`);
-               await setDoc(doc(totalRef, currentMonthOnly()), statisticTotalMeta)
-
-               this.getUserStatistic(userId);
-            })
+            getDocs(q)
+               .then((data) => {
+                  if (data.empty) {
+                     setDoc(docRefParent, statistic)
+                        .then(async () => {
+                           // Insert All Statistic Category 
+                           insertStatisticCategory(docRefParent)
+                              .then(() => this.getUserStatistic(userId));
+                        })
+                  }
+               })
+         } else if (flagUseOn === FlagUseOn.REGISTRATION) {
+            setDoc(docRefParent, statistic)
+               .then(async () => {
+                  // Insert All Statistic Category 
+                  insertStatisticCategory(docRefParent)
+                     .then(() => this.getUserStatistic(userId));
+               })
+         }
       },
 
       /**
@@ -397,6 +341,27 @@ export const useStatisticStore = defineStore({
          statisticTotalMeta.lastModifiedDate = Date.now();
 
          await setDoc(doc(totalRef, currentMonthOnly()), statisticTotalMeta)
+      },
+
+      async generateStatisticCategoryPerMonth() {
+         const userId = localStorage.getItem('_uid') as IUser['userId'];
+
+         // Parent Collection
+         const docRefParent = doc(db, 'tbl_statistic', userId);
+
+         // Current Year
+         const currentYear = new Date().getFullYear().toString();
+         const absensiRef = collection(docRefParent, `A-${currentYear}`);
+
+         // Run Transaction
+         runTransaction(db, async (transaction) => {
+            const absen = await transaction.get(doc(absensiRef, currentMonthOnly()));
+            if (!absen.exists()) {
+               throw 'Statistic Already Exist';
+            }
+
+            await insertStatisticCategory(docRefParent);
+         })
       }
    },
    getters: {
@@ -449,4 +414,90 @@ const getTotalCalculation = (absen: number, placement: number, collection: numbe
 const getTotalPerMonth = (data: any[], month: string): number => {
    return data.filter(absen => absen.month === month)
       .reduce((previousValue, currentValue) => (previousValue + currentValue.performance), 0)
+}
+/**
+ * This Method to Insert dan Generate Statistic Category by Month
+ * @param  {any} docRefParent
+ */
+const insertStatisticCategory = async (docRefParent: any) => {
+
+   // Current Year
+   const currentYear = new Date().getFullYear().toString();
+
+   // Absent Metadata
+   const statisticAbsenMeta: IStatisticAbsentMeta = {
+      month: currentMonthOnly(),
+      year: currentYear,
+      jumlahHariCuti: 0,
+      jumlahHariLibur: 0,
+      jumlahHariMasuk: 0,
+      performance: 0.00,
+      monthName: currentMonthAndYear(new Date())
+   }
+
+   // Palement Metadata
+   const statisticPlacementMeta: IStatisticPlacementMeta = {
+      month: currentMonthOnly(),
+      year: currentYear,
+      jumlahHariCuti: 0,
+      jumlahHariLibur: 0,
+      jumlahHariMasuk: 0,
+      performance: 0.00,
+      monthName: currentMonthAndYear(new Date())
+   }
+
+   // Collection TS Metadata
+   const statisticCollectionMeta: IStatisticTImesheetCollectionMeta = {
+      month: currentMonthOnly(),
+      year: currentYear,
+      collectionDate: '',
+      monthName: currentMonthAndYear(new Date()),
+      performance: 0.00
+   }
+
+   // Penilaian User Metadata
+   const statisticPenilaianMeta: IStatisticPenilaianUserMeta = {
+      month: currentMonthOnly(),
+      year: currentYear,
+      monthName: currentMonthAndYear(new Date()),
+      ski: 0,
+      kedisiplinan: 0,
+      kompetensiPendukung: 0,
+      performance: 0.00,
+   }
+
+   // Statistic Total Metadata
+   const statisticTotalMeta: IStatisticTotalMeta = {
+      month: currentMonthOnly(),
+      year: currentYear,
+      monthName: currentMonthAndYear(new Date()),
+      absensi: 0,
+      placementProductivity: 0,
+      timesheetCollection: 0,
+      penilaianUser: 0,
+      performance: 0,
+      createdDate: Date.now(),
+      lastModifiedDate: Date.now()
+   }
+
+   // Insert Absent
+   const absensiRef = collection(docRefParent, `A-${currentYear}`);
+   await setDoc(doc(absensiRef, currentMonthOnly()), statisticAbsenMeta)
+
+   // Insert Placement
+   const placementRef = collection(docRefParent, `B-${currentYear}`);
+   await setDoc(doc(placementRef, currentMonthOnly()), statisticPlacementMeta)
+
+   // Insert Collectons
+   const collectionRef = collection(docRefParent, `C-${currentYear}`);
+   await setDoc(doc(collectionRef, currentMonthOnly()), statisticCollectionMeta)
+
+   // Insert Penilaian
+   const penilaianRef = collection(docRefParent, `D-${currentYear}`);
+   await setDoc(doc(penilaianRef, currentMonthOnly()), statisticPenilaianMeta)
+
+   // Insert Total Performance
+   const totalRef = collection(docRefParent, `E-${currentYear}`);
+   await setDoc(doc(totalRef, currentMonthOnly()), statisticTotalMeta)
+
 }

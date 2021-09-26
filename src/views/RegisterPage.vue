@@ -70,6 +70,7 @@ import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
 import { auth } from '../services/useFirebaseService';
 import Spinner from '../components/modal/Spinner.vue';
+import { FlagUseOn } from '../types/EnumType';
 
 export default defineComponent({
    components: {
@@ -117,7 +118,7 @@ export default defineComponent({
                   userStore.onRegisterUser({userId:user.uid, email: user.email})
 
                   /** Register Statistic storage. */
-                  statisticStore.registerStatistic(user.uid);
+                  statisticStore.registerStatistic(user.uid, FlagUseOn.REGISTRATION);
 
                   /** Register Timesheet storage. */
                   timesheetStore.registerTimesheet(user.uid);

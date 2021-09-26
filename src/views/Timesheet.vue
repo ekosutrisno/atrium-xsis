@@ -107,7 +107,7 @@
             </div>
          </div>
       </div>
-      <TimesheetTable/> 
+      <TimesheetTable/>
    </div>
    <button type="button" @click="sendTimesheet" :disabled="timesheetStatusReady" :class="[timesheetStatusReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -120,9 +120,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { useTimesheetStore, useUtilityStore } from '../services';
 import Spinner from '../components/modal/Spinner.vue';
 import TimesheetTable from '../components/TimesheetTable.vue';
-import { useTimesheetStore, useUtilityStore } from '../services';
 
 export default defineComponent({
   components: { TimesheetTable, Spinner },
@@ -149,10 +149,9 @@ export default defineComponent({
       /** Automaticly Generate Timesheet Template 
        * to specific Month if does not exist
       */
-      onMounted(()=> 
-         timehseetStore
-            .generateTimesheetTemplate(state.uid)
-      );
+      onMounted(()=>{
+         timehseetStore.checkCurrentMonthTimesheet();
+      });
 
       const onSearchAction = ()=> {
 

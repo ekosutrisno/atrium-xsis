@@ -75,7 +75,7 @@
                      </div>
                   </div>
                </li>
-               <button @click="createStat" class="py-3 px-4 bg-gray-900">Test Statistic</button>
+               <button @click="createStat" class="py-3 px-4 hidden bg-gray-900">Test Statistic</button>
             </ul>
             <div v-else class="flex items-center w-full">
                <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
@@ -117,6 +117,7 @@ import StatisticCard from '../components/cards/StatisticCard.vue'
 import PieCart from '../components/chart/PieCart.vue';
 import PieCart1 from '../components/chart/PieCart1.vue';
 import { useStatisticStore, useUserStore } from '../services';
+import { FlagUseOn } from '../types/EnumType';
 
 export default defineComponent({
   components: { StatisticCard, PieCart, PieCart1 },
@@ -136,7 +137,7 @@ export default defineComponent({
       })
 
       const createStat = () =>{
-         statisticStore.registerStatistic(state.uid)
+         statisticStore.registerStatistic(state.uid, FlagUseOn.REGISTRATION)
       }
       
       return {
