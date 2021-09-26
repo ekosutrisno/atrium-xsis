@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
+import { ref, onValue } from "firebase/database";
+import { dbRealtime } from './useFirebaseService';
 
 const toast = useToast();
 interface UtilityStoreState {
@@ -7,7 +9,8 @@ interface UtilityStoreState {
    useBlur: boolean,
    isOnEditUserData: boolean,
    isOnEditAddressData: boolean,
-   isOnEditAddressDataAsli: boolean
+   isOnEditAddressDataAsli: boolean,
+   isOffline: boolean
 }
 
 export const useUtilityStore = defineStore({
@@ -17,7 +20,8 @@ export const useUtilityStore = defineStore({
       useBlur: localStorage.getItem('blur') === 'true' ? true : false,
       isOnEditUserData: false,
       isOnEditAddressData: false,
-      isOnEditAddressDataAsli: false
+      isOnEditAddressDataAsli: false,
+      isOffline: false
    }),
    actions: {
       /**
@@ -40,7 +44,7 @@ export const useUtilityStore = defineStore({
 
          toast.success(`Use Preference ${theme} mode.`)
       },
-      
+
       /**
        * @returns void
        * @description for handling and check first time user theme reference
@@ -95,6 +99,19 @@ export const useUtilityStore = defineStore({
             ? this.isOnEditAddressData = payload.value
             : this.isOnEditAddressDataAsli = payload.value
 
+      },
+
+      checkConnectifity() {
+         const connectedRef = ref(dbRealtime, ".info/connected");
+         onValue(connectedRef, (snap) => {
+            if (snap.val() === true) {
+               this.isOffline = false;
+               localStorage.setItem('_connected', 'true');
+            } else {
+               this.isOffline = true;
+               localStorage.setItem('_connected', 'false');
+            }
+         });
       }
    },
 })
