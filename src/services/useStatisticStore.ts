@@ -1,4 +1,4 @@
-import { doc, setDoc, collection, onSnapshot, getDocs, query, where, runTransaction } from 'firebase/firestore';
+import { doc, setDoc, collection, onSnapshot, getDocs, query, where, runTransaction, getDoc } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { FlagUseOn } from '../types/EnumType';
 import { IStatistic, IStatisticAbsentMeta, IStatisticPenilaianUserMeta, IStatisticPlacementMeta, IStatisticTImesheetCollectionMeta, IStatisticTotalMeta, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
@@ -353,17 +353,14 @@ export const useStatisticStore = defineStore({
          const currentYear = new Date().getFullYear().toString();
          const absensiRef = collection(docRefParent, `A-${currentYear}`);
 
-         // Run Transaction
-         runTransaction(db, async (transaction) => {
-            const absen = await transaction.get(doc(absensiRef, currentMonthOnly()));
-            if (!absen.exists()) {
-               throw 'Statistic Already Exist';
-            }
-
-            await insertStatisticCategory(docRefParent);
-         })
+         getDoc(doc(absensiRef, currentMonthOnly()))
+            .then(async (data) => {
+               if (!data.exists())
+                  await insertStatisticCategory(docRefParent);
+            })
       }
    },
+   
    getters: {
       getTotalAbsensi(state: StatisticStoreState) {
          return state

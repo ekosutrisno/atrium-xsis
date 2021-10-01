@@ -216,6 +216,7 @@ export const useTimesheetStore = defineStore({
       async generateTimesheetTemplate(userId: IUser['userId']) {
 
          const userStore = useUserStore();
+         const statisticStore = useStatisticStore();
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
 
          getDocs(collection(docRef, `TS-${currentMonth()}`))
@@ -259,8 +260,14 @@ export const useTimesheetStore = defineStore({
                   }
 
                   setTimeout(() => {
+                     // Set loading progress to false
                      this.onGenerateProcess = false;
-                     toast.info(`Timesheet ${dayjs().format('MMMM YYYY')} has been generated`);
+
+                     // Generate Statistic Data per month
+                     statisticStore
+                        .generateStatisticCategoryPerMonth()
+                        .then(() => toast.info(`Timesheet ${dayjs().format('MMMM YYYY')} has been generated`))
+
                   }, 2500);
                }
             });
