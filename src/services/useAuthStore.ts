@@ -82,6 +82,7 @@ export const useAuthStore = defineStore({
                userStore.fetchCurrentUser(uid);
             } else {
                localStorage.removeItem('_uid');
+               localStorage.removeItem('_role');
                this.isLoggedIn = false;
                userStore.onLoadingStateUser = false;
             }

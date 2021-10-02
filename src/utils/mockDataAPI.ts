@@ -69,6 +69,12 @@ export const userMock: IUser = {
       offers: true,
     },
   },
+  mainRole: {
+    isActive: true,
+    roleDescription: '',
+    roleId: 6,
+    roleName: ''
+  },
   createdDate: Date.now(),
   lastModifiedDate: Date.now(),
 };
@@ -85,7 +91,7 @@ export const projectMock: IProject = {
   endProject: null,
   role: "Developer",
   projectPhase: "",
-  projectDescription:"Your Project Description here",
+  projectDescription: "Your Project Description here",
   projectTechologi: [],
   mainTask: "Your Main Task Description here",
   createdDate: Date.now(),
