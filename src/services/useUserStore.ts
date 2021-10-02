@@ -20,7 +20,7 @@ export const useUserStore = defineStore({
    state: (): UserStoreState => ({
       gender: '',
       onLoadingStateUser: true,
-      currentUser: {} as IUser,
+      currentUser: userMock,
       currentEro: {
          eroId: '',
          email: '',

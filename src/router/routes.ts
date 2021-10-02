@@ -1,8 +1,15 @@
 import { RouteRecordRaw } from "vue-router";
 
-// Views
+// Views web
+import HomePage from '../views/web/HomePage.vue';
+import LoginPage from '../views/web/LoginPage.vue';
+import RegisterPage from '../views/web/RegisterPage.vue';
+
+// View Admin
+import AdminDashboard from '../views/admin/AdminDashboard.vue';
+
+// Views Default
 import Dashboard from '../views/Dashboard.vue';
-import HomePage from '../views/HomePage.vue';
 import Project from '../views/Project.vue';
 import ProjectDetail from '../views/ProjectDetail.vue';
 import VacancyDetail from '../views/VacancyDetail.vue';
@@ -10,10 +17,9 @@ import StatisticDetail from '../views/StatisticDetail.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
 import Vacancy from '../views/Vacancy.vue';
-import LoginPage from '../views/LoginPage.vue';
-import RegisterPage from '../views/RegisterPage.vue';
 
 // Layouts
+import AdminLayout from '../layouts/AdminLayout.vue';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import WebLayout from '../layouts/WebLayout.vue';
 
@@ -130,7 +136,24 @@ const routes: RouteRecordRaw[] = [
             }
          },
       ]
+   },
+   {
+      path: '/',
+      name: 'AdminLayout',
+      component: AdminLayout,
+      children: [
+         {
+            path: `/a/0/dashboard`,
+            name: `Admin`,
+            component: AdminDashboard,
+            meta: {
+               title: `AdminDashboard`,
+               requiresAuth: true
+            }
+         },
+      ]
    }
+
 ]
 
 export default routes;
