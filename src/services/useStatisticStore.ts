@@ -250,9 +250,9 @@ export const useStatisticStore = defineStore({
          })
       },
 
-      async updateAbsentStatistic(options?: { edited: boolean, isWeekend: boolean, statusAbsensi: string }) {
+      async updateAbsentStatistic(options?: { edited: boolean, isWeekend: boolean, statusAbsensi: string, month: number }) {
          const currentYear = new Date().getFullYear().toString();
-         const currentMonth = currentMonthOnly();
+         const currentMonth = options?.month.toString();
          const userId = localStorage.getItem('_uid') as string;
 
          // Parent Collection
@@ -278,7 +278,6 @@ export const useStatisticStore = defineStore({
 
                transaction
                   .update(doc(absensiRef, currentMonth), currentAbsen as any)
-               // await updateDoc(doc(absensiRef, currentMonth), currentAbsen as any)
 
                // Update absent total data in realtime (Absent)
                currentStatistic.info[0].progress = this.getTotalAbsensi;

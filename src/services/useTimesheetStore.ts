@@ -81,14 +81,15 @@ export const useTimesheetStore = defineStore({
          var userId = timesheet.user;
 
          const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-         const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
+         const docSnap = doc(docRef, `TS-${timesheet.year}-${timesheet.month}`, timesheet.absensiId);
          const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
 
          /** Is set options to update statistic data */
          const options = {
             isWeekend: timesheet.isWeekend,
             edited: timesheet.edited,
-            statusAbsensi: timesheet.statusAbsensi
+            statusAbsensi: timesheet.statusAbsensi,
+            month: timesheet.month
          };
 
          /** Set edited to true */
