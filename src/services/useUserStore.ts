@@ -20,7 +20,7 @@ export const useUserStore = defineStore({
    state: (): UserStoreState => ({
       gender: '',
       onLoadingStateUser: true,
-      currentUser: userMock,
+      currentUser: {} as IUser,
       currentEro: {
          eroId: '',
          email: '',
@@ -137,11 +137,16 @@ export const useUserStore = defineStore({
          onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                const data: IUser = docSnap.data() as IUser;
+               // Set User Role
+               localStorage.setItem('_role', data.mainRole.roleId.toString());
+
+               // Set The Current User
                this.currentUser = data;
 
                // Get First CLient Only
                this.currentClient = data.clients[0];
 
+               // Stop the loading indicator
                this.onLoadingStateUser = false;
 
                if (!data.isEro && data.eroId)
@@ -293,7 +298,7 @@ export const useUserStore = defineStore({
        * @param  {IUser['email']} email
        * @returns IUser
        */
-      getLoginAsInfo(state): { fullName: IUser['username'], email: IUser['email'] } {
+      getLoginAsInfo(state): { fullName: IUser['fullName'], email: IUser['email'] } {
          const loginAs = {
             fullName: state.currentUser.fullName,
             email: state.currentUser.email

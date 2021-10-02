@@ -11,8 +11,13 @@
                </span>
             </div>
             <div class="text-color-gray-lighter text-sm">
-               <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               <router-link v-if="userRole !== '6'" to="/u/0/vacancy/new_vacancy/detail" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Add vacancy
+               </router-link>
+               <button v-else type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
+                   <path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd" />
+                  </svg>
                </button>
             </div>
          </header>
@@ -48,6 +53,7 @@ export default defineComponent({
       
       const state = reactive({
          vacancies: computed(()=>vacancyStore.vacancies),
+         userRole: computed(() => localStorage.getItem('_role') as string),
          useBlur: computed(()=> utilityStore.useBlur),
       })
 

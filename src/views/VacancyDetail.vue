@@ -10,11 +10,16 @@
                </svg>
             </span>
          </div>
-         <div class="text-color-gray-lighter hidden sm:block text-sm space-x-2">
+         <div v-if="userRole === '6'" class="text-color-gray-lighter hidden sm:block text-sm space-x-2">
+            <router-link to="/u/0/vacancy"  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               Back to Vacancy
+            </router-link>
+         </div>
+         <div v-else class="text-color-gray-lighter hidden sm:block text-sm space-x-2">
             <router-link to="/u/0/vacancy"  class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                Cancel
             </router-link>
-            <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="button" @click="onSubmitAction" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                Save vacancy
             </button>
          </div>
@@ -48,10 +53,10 @@
                      Detail and description internal vacancy
                   </p>
 
-                  <svg @click="toggleEditAction(false)" v-if="isOnEdit" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 absolute top-5 right-5 md:cursor-pointer text-color-dark-gray-lighter text-opacity-50 hover:text-opacity-100 dark:text-color-gray-darker transition-all dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
+                  <svg @click="toggleEditAction(false)" v-if="isOnEdit && userRole !== '6'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 absolute top-5 right-5 md:cursor-pointer text-color-dark-gray-lighter text-opacity-50 hover:text-opacity-100 dark:text-color-gray-darker transition-all dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                   </svg>
-                  <svg @click="toggleEditAction(true)" v-else-if="!isOnEdit" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 absolute top-5 right-5 md:cursor-pointer text-color-dark-gray-lighter text-opacity-50 hover:text-opacity-100 dark:text-color-gray-darker transition-all dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
+                  <svg @click="toggleEditAction(true)" v-else-if="!isOnEdit && userRole !== '6'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-6 w-6 absolute top-5 right-5 md:cursor-pointer text-color-dark-gray-lighter text-opacity-50 hover:text-opacity-100 dark:text-color-gray-darker transition-all dark:hover:text-indigo-100" viewBox="0 0 20 20" fill="currentColor">
                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
                </div>
@@ -92,7 +97,7 @@
                      <dd class="input-custom-dd">
                         <label for="vacancy-type" class="input-custom-label">Vacancy type</label>
                            <input 
-                              type="email" v-model="vacancy.vacancyType" name="vacancy-type" id="vacancy-type" autocomplete="off"
+                              type="text" v-model="vacancy.vacancyType" name="vacancy-type" id="vacancy-type" autocomplete="off"
                               :readonly="!isOnEdit"
                               :class="[ isOnEdit ? 'input-custom-on-edit' : 'input-custom-non-edit']"
                               class="input-custom-default" 
@@ -208,7 +213,7 @@
                   </div>
                </dl>
                <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
-                  <button v-if="!isOnEdit" type="button" @click="toggleEditAction(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <button v-if="!isOnEdit && userRole != '6'" type="button" @click="toggleEditAction(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                      Edit vacancy
                   </button>
                   <button v-if="isOnEdit" type="button" @click="toggleEditAction(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -242,6 +247,7 @@ import { useRoute, useRouter } from 'vue-router';
 import ProjectCard from '../components/cards/ProjectCard.vue'
 import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
 import { useUtilityStore, useVacancyStore } from '../services';
+import { IJobVacancy } from '../types/InterfaceType';
 import { formatDateWithMonth, formatDateFromNow } from '../utils/helperFunction';
 
 export default defineComponent({
@@ -251,14 +257,33 @@ export default defineComponent({
       const router = useRouter();
 
       const vacancyStore =  useVacancyStore();
-       const utilityStore = useUtilityStore();
+      const utilityStore = useUtilityStore();
 
       const state = reactive({
-         vacancy: computed(()=>vacancyStore.vacancies.filter(vac=> vac.vacancyId === route.params.vacancyId)[0]),
-         isOnEdit: false,
+         vacancy: route.params.vacancyId == 'new_vacancy' 
+            ? {
+               vacancyId: `${Date.now()}-${localStorage.getItem('_uid') as string}`,
+               vacancyCode: "",
+               vacancyName: "",
+               vacancyType: "",
+               vacancyRequirements: "Vacancy Description here",
+               vacancyResponsibilities: "Vacancy Responsibility here",
+               isOpen: true,
+               minSalaryOffer: 0,
+               maxSalaryOffer: 0,
+               createdDate: Date.now(),
+               lastModifiedDate: Date.now(),
+               offerEndDate: '',
+               isFullTimeJob: true,
+               isRemoteJob: false
+            } as IJobVacancy
+            : computed(()=> vacancyStore.vacancies.filter(vac=> vac.vacancyId === route.params.vacancyId)[0]),
+         isOnEdit: route.params.vacancyId == 'new_vacancy' ? true : false,
          onAddTags: false,
          newTech: '',
          useBlur: computed(()=> utilityStore.useBlur),
+         userRole: computed(()=> localStorage.getItem('_role') as string),
+         isNewProject: computed(() => route.params.vacancyId === 'new_vacancy')
       })
 
       const toggleEditAction = (val: boolean): void => {
@@ -268,10 +293,26 @@ export default defineComponent({
       const onAddTech = () =>{
       }
 
-      const onSubmitAction = ()=>{
-         toggleEditAction(false);
-         router.back();
+      const onSubmitAction = ()=> {
+         if(state.isNewProject && checkValidate.value) {
+            vacancyStore.addProject(state.vacancy);
+            toggleEditAction(false);
+            router.back();
+          } else { 
+             vacancyStore.updateVacancy(state.vacancy);
+             toggleEditAction(false);
+             router.back();
+          }
       }
+
+      const checkValidate = computed(()=>{
+         var vName = state.vacancy.vacancyName.trim().length > 0;
+         var vCode = state.vacancy.vacancyCode.trim().length > 0;
+         var vType = state.vacancy.vacancyType.trim().length > 0;
+         var vClosingDate = state.vacancy.offerEndDate != null ? state.vacancy.offerEndDate.trim().length > 0 : false;
+
+         return vName && vCode && vType && vClosingDate;
+      })
 
       const mainLength = computed(()=> state.vacancy.vacancyResponsibilities?.length);
       const descLength = computed(()=> state.vacancy.vacancyRequirements?.length);
