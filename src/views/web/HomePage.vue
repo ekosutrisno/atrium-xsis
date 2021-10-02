@@ -48,8 +48,8 @@
  * @author Eko Sutrisno
  */
 import { computed, defineComponent, reactive, toRefs } from 'vue';
-import Loader from '../components/modal/Loader.vue';
-import { useUserStore } from '../services';
+import Loader from '../../components/modal/Loader.vue';
+import { useUserStore } from '../../services';
 export default defineComponent({
   components: { Loader },
   setup(){

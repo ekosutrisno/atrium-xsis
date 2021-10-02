@@ -69,12 +69,12 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useUtilityStore } from '../services';
+import { useAuthStore, useUtilityStore } from '../../services';
 import { useRouter } from 'vue-router';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
-import { auth } from '../services/useFirebaseService';
-import Spinner from '../components/modal/Spinner.vue';
+import { auth } from '../../services/useFirebaseService';
+import Spinner from '../../components/modal/Spinner.vue';
 
 export default defineComponent({
    components: {

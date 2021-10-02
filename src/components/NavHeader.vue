@@ -13,7 +13,7 @@
                   :key="item.name" 
                   :to="item.href" 
                   @click="setCurrentActiveNav(item.currentId)"
-                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
+                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium', item.currentId === 5 ? 'hidden sm:block': '']" 
                   :aria-current="item.currentId === currentNav ? 'page' : undefined"
               >
               {{ item.name }}
@@ -71,6 +71,7 @@ const navigation = [
   { name: 'Projects', href: '/u/0/project', currentId: 2 },
   { name: 'Timesheets', href: '/u/0/timesheet', currentId: 3 },
   { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 },
+  { name: 'Admin Dashboard', href: '/a/0/dashboard', currentId: 5 },
 ]
 
 export default defineComponent({

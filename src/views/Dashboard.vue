@@ -57,7 +57,7 @@
          <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Current Clients {{currentYear}}</p>
          
          <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
-            <ul v-if="clients.length" class="space-y-3">
+            <ul v-if="clients.length > 0" class="space-y-3">
                <li v-for="client in clients" :key="client.clientId">
                   <div class="flex items-center w-full">
                      <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">

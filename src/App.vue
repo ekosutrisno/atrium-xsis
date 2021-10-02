@@ -34,11 +34,14 @@ export default defineComponent({
       // Check Connectivity
       utilityStore.checkConnectifity();
 
-      // Check and Generate if not exist (By Year)
-      await statisticStore.registerStatistic(state.uid, FlagUseOn.GENERATION);
+      if (state.uid) {
+        // Check and Generate if not exist (By Year)
 
-      // Listen All Snapshot Timesheet Data
-      await statisticStore.onSnapshotRealtimeUpdateStatistic();
+        await statisticStore.registerStatistic(state.uid, FlagUseOn.GENERATION);
+
+        // Listen All Snapshot Timesheet Data
+        await statisticStore.onSnapshotRealtimeUpdateStatistic();
+      }
 
       // Insert Role Master if not present
       //roleStore.init();
