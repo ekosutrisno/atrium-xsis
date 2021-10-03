@@ -6,7 +6,7 @@ import LoginPage from '../views/web/LoginPage.vue';
 import RegisterPage from '../views/web/RegisterPage.vue';
 
 // View Admin
-import AdminDashboard from '../views/admin/AdminDashboard.vue';
+import UserAdminAction from '../views/admin/UserAdminAction.vue';
 
 // Views Default
 import Dashboard from '../views/Dashboard.vue';
@@ -19,6 +19,7 @@ import UserSettings from '../views/UserSettings.vue';
 import Vacancy from '../views/Vacancy.vue';
 
 // Layouts
+import AdminView from '../layouts/AdminView.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import WebLayout from '../layouts/WebLayout.vue';
@@ -138,16 +139,25 @@ const routes: RouteRecordRaw[] = [
       ]
    },
    {
+      path: '/a/0/dashboard',
+      name: 'AdminView',
+      component: AdminView,
+      meta: {
+         title: 'Admin View',
+         requiresAuth: true
+      }
+   },
+   {
       path: '/',
       name: 'AdminLayout',
       component: AdminLayout,
       children: [
          {
-            path: `/a/0/dashboard`,
+            path: `/a/0/dashboard/:category`,
             name: `Admin`,
-            component: AdminDashboard,
+            component: UserAdminAction,
             meta: {
-               title: `AdminDashboard`,
+               title: `UserAdminAction`,
                requiresAuth: true
             }
          },
