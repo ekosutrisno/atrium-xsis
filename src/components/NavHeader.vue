@@ -13,7 +13,7 @@
                   :key="item.name" 
                   :to="item.href" 
                   @click="setCurrentActiveNav(item.currentId)"
-                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium', item.currentId === 5 ? 'hidden sm:block': '']" 
+                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium', item.currentId === 5 ? userRole === '6' ? 'hidden' : 'hidden sm:block': '']" 
                   :aria-current="item.currentId === currentNav ? 'page' : undefined"
               >
               {{ item.name }}
@@ -95,7 +95,8 @@ export default defineComponent({
       currentNav: 1,
       open: false,
       photoUrl:computed(()=> userStore.getPhotoUrl),
-      loginAsInfo: computed(()=>userStore.getLoginAsInfo)
+      loginAsInfo: computed(()=>userStore.getLoginAsInfo),
+      userRole: computed(() => localStorage.getItem('_role'))
     })
 
     const setCurrentActiveNav = (current: number): void => {
