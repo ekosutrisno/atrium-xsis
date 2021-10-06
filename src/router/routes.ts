@@ -4,6 +4,7 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from '../views/web/HomePage.vue';
 import LoginPage from '../views/web/LoginPage.vue';
 import RegisterPage from '../views/web/RegisterPage.vue';
+import UnAuthorizePage from '../views/web/UnAuthorizePage.vue';
 
 // View Admin
 import UserAdminAction from '../views/admin/UserAdminAction.vue';
@@ -26,10 +27,19 @@ import WebLayout from '../layouts/WebLayout.vue';
 
 const routes: RouteRecordRaw[] = [
    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("../views/web/NotFoundPage.vue"),
+      meta: {
+         title: 'Not Found Page',
+         requiresAuth: false
+      }
+   },
+   {
       path: '/',
       name: 'WebLayout',
       component: WebLayout,
-      children:[
+      children: [
          {
             path: '/',
             name: 'HomePage',
@@ -57,13 +67,22 @@ const routes: RouteRecordRaw[] = [
                requiresAuth: false
             }
          },
+         {
+            path: '/user/unauthorized',
+            name: 'UnAuthorize',
+            component: UnAuthorizePage,
+            meta: {
+               title: 'UnAuthorize',
+               requiresAuth: false
+            }
+         },
       ]
    },
    {
       path: '/',
       name: 'DashboardLayout',
       component: DashboardLayout,
-      children:[
+      children: [
          {
             path: `/u/0/dashboard`,
             name: `Dashboard`,
@@ -144,7 +163,8 @@ const routes: RouteRecordRaw[] = [
       component: AdminView,
       meta: {
          title: 'Admin View',
-         requiresAuth: true
+         requiresAuth: true,
+         requiresAdmin: true
       }
    },
    {
@@ -158,7 +178,8 @@ const routes: RouteRecordRaw[] = [
             component: UserAdminAction,
             meta: {
                title: `UserAdminAction`,
-               requiresAuth: true
+               requiresAuth: true,
+               requiresAdmin: true
             }
          },
       ]
