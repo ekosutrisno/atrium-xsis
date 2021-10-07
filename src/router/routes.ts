@@ -69,7 +69,7 @@ const routes: RouteRecordRaw[] = [
          {
             path: '/user/unauthorized',
             name: 'UnAuthorize',
-            component: () => import("../views/web/UnAuthorizePage.vue"),
+            component: () => import("../views/web/401.vue"),
             meta: {
                title: 'UnAuthorize',
                requiresAuth: true
