@@ -4,7 +4,6 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from '../views/web/HomePage.vue';
 import LoginPage from '../views/web/LoginPage.vue';
 import RegisterPage from '../views/web/RegisterPage.vue';
-import UnAuthorizePage from '../views/web/UnAuthorizePage.vue';
 
 // View Admin
 import UserAdminAction from '../views/admin/UserAdminAction.vue';
@@ -70,10 +69,10 @@ const routes: RouteRecordRaw[] = [
          {
             path: '/user/unauthorized',
             name: 'UnAuthorize',
-            component: UnAuthorizePage,
+            component: () => import("../views/web/UnAuthorizePage.vue"),
             meta: {
                title: 'UnAuthorize',
-               requiresAuth: false
+               requiresAuth: true
             }
          },
       ]
