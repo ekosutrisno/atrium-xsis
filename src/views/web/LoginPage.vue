@@ -52,6 +52,20 @@
           </button>
         </div>
       </form>
+
+      <div class="flex flex-col space-y-4 items-center justify-end">
+        <div class="text-sm">
+          <p class="font-medium text-gray-600 dark:text-color-gray-light">
+            Or sign in with Google?
+          </p>
+        </div>
+        <button @click="loginWithGoogleHandler"
+          class="rounded-md inline-flex items-center space-x-2 py-2 px-6 border dark:border-none dark:hover:bg-color-dark-gray-dark ring-indigo-400 hover:ring-2 transition dark:text-white text-color-dark-gray-darker dark:bg-color-gray-darkest"
+        >
+          <GoogleIcon class="w-7 h-7"/> <span>Google</span>
+        </button>
+      </div>
+
     </div>
 
     <!-- Toggle Dark Mode -->
@@ -69,21 +83,25 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useUtilityStore } from '../../services';
+import { useAuthStore, useUserStore, useUtilityStore } from '../../services';
 import { useRouter } from 'vue-router';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
-import { auth } from '../../services/useFirebaseService';
+import { auth, gProvider } from '../../services/useFirebaseService';
 import Spinner from '../../components/modal/Spinner.vue';
+import { signInWithPopup } from 'firebase/auth';
+import GoogleIcon from '../../components/svg/GoogleIcon.vue';
 
 export default defineComponent({
    components: {
       LockClosedIcon,
       Spinner,
+      GoogleIcon,
     },
    setup () {
       const router = useRouter();
       const authStore = useAuthStore();
+      const userStore = useUserStore();
       const utilityStore = useUtilityStore();
       const toast = useToast();
 
@@ -114,7 +132,7 @@ export default defineComponent({
               router.replace('/u/0/dashboard');
 
               /** Show notification login succesfully. */
-              toast.success("You succesfuly logged in " + user.email);
+              toast.success("Welcome back " + user.email);
           })
           .catch((error) => {
               const errorCode = error.code;
@@ -130,6 +148,35 @@ export default defineComponent({
           });
       }
 
+      const loginWithGoogleHandler = () => {
+         signInWithPopup(auth, gProvider)
+            .then((result) => {
+               const user = result.user;
+               userStore
+                  .onRegisterUser({ userId: user.uid, email: user.email as string }, { user: user, oauth: true })
+                  .then(() => {
+                      
+                      authStore.onLoginAction(user);
+                      
+                      router.replace('/u/0/dashboard')
+                      
+                      /** Show notification login succesfully. */
+                      toast.success("Welcome back " + user.email);
+                  });
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                authStore.$patch(state => state.error = {
+                  errorCode: errorCode,
+                  errorMessage: errorMessage
+                });
+
+                state.isLoginProcess =  false;
+                console.log(`${errorCode} => ${errorMessage}`);
+            });
+    }
+
       onMounted(()=>{
         if (localStorage.getItem('_uid')) 
           router.replace('/u/0/dashboard');
@@ -142,6 +189,7 @@ export default defineComponent({
       return {
          ...toRefs(state),
          onLoginAction,
+         loginWithGoogleHandler,
          togleDarkLightMode
       }
    }

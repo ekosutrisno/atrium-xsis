@@ -20,7 +20,7 @@
           <router-link 
             v-if="isLogin"
             to="/u/0/dashboard" 
-            class="py-4 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+            class="py-2.5 px-6 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
           >
             <span>Dashboard</span>
           </router-link>
@@ -28,15 +28,15 @@
           <div v-else class="inline-flex items-center space-x-3 mt-8">
             <router-link 
               to="/user/login"
-              class="py-3.5 px-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+              class="py-2.5 px-6 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
             >
             Sign In
             </router-link>
             
             <button @click="loginWithGoogleHandler"
-              class="rounded-md inline-flex items-center space-x-2 py-2 px-8 bg-color-dark-gray-dark text-white hover:bg-color-gray-darkest"
+              class="rounded-md inline-flex items-center space-x-2 py-2 px-6 hover:bg-color-dark-gray-dark hover:ring-2 hover:ring-indigo-400 transition text-white bg-color-gray-darkest"
             >
-              <GoogleIcon class="w-10 h-10"/> <span>Google</span>
+              <GoogleIcon class="w-7 h-7"/> <span>Google</span>
             </button>
 
           </div>
@@ -87,9 +87,16 @@ export default defineComponent({
                       router.replace('/u/0/dashboard')
                   });
             }).catch((error) => {
-               const errorCode = error.code;
-               const errorMessage = error.message;
-               const email = error.email;
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                authStore.$patch(state => state.error = {
+                  errorCode: errorCode,
+                  errorMessage: errorMessage
+                });
+
+                state.isLoginProcess =  false;
+                console.log(`${errorCode} => ${errorMessage}`);
             });
     }
 

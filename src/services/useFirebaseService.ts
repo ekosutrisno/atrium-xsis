@@ -25,7 +25,6 @@ const storage = getStorage(app);
 
 /** Sign With Google Provider */
 const gProvider = new GoogleAuthProvider();
-gProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 export {
    auth,
