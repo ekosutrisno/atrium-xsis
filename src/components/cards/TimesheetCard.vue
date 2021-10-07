@@ -12,11 +12,11 @@
          </svg>
       </div>
       
-      <Svg2 class="absolute bottom-6 -right-4 md:-bottom-4 md:-left-4 md:rotate-180"/>
+      <Svg2 aria-hidden="true" class="absolute bottom-6 -right-4 md:-bottom-4 md:-left-4 md:rotate-180"/>
 
    </div>
    <div class="md:col-span-9 relative">
-      <Svg1 class="absolute md:-right-4 rotate-90 md:rotate-0 -right-24 bottom-[3.70rem] md:-top-8 "/>
+      <Svg1 aria-hidden="true" class="absolute md:-right-4 rotate-90 md:rotate-0 -right-24 bottom-[3.70rem] md:-top-8 "/>
 
       <div class="grid sm:grid-cols-3">
          <!-- Jam Kerja -->

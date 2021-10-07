@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signOut, updateEmail, updatePassword, User } from 'firebase/auth';
 import { useToast } from "vue-toastification";
-import { auth } from '../services/useFirebaseService';
+import { auth, db } from '../services/useFirebaseService';
 import { useUserStore } from "./useUserStore";
+import { IUser } from "../types/InterfaceType";
+import { doc, updateDoc } from "@firebase/firestore";
 
 const toast = useToast();
 
@@ -49,11 +51,10 @@ export const useAuthStore = defineStore({
             photoUrl: user?.photoURL,
             email: user?.email,
             emailVerified: user?.emailVerified,
-            providedId: user?.providerId
+            providedId: user?.providerData[0].providerId
          }
 
          this.currentUserSession = currentUser;
-
       },
 
       async onLogoutAction(): Promise<void> {
@@ -61,6 +62,7 @@ export const useAuthStore = defineStore({
             localStorage.removeItem('_uid');
             toast.info("You has been logout.")
          }).catch((error) => {
+            this.setErrorData(error);
             toast.error(`Failed, ${error.code}`);
          });
       },
@@ -88,5 +90,61 @@ export const useAuthStore = defineStore({
             }
          });
       },
+
+      updateCurrentUserEmail(newEmail: IUser['email']) {
+
+         const currentUser = auth.currentUser as User
+
+         updateEmail(currentUser, newEmail)
+            .then(async () => {
+               const userRef = doc(db, 'tbl_users', currentUser.uid);
+               await updateDoc(userRef, {
+                  email: newEmail
+               });
+
+               toast.success("Your Email has been update succesfully.")
+            }).catch((error) => {
+               this.setErrorData(error);
+            });
+      },
+
+      updateCurrentUserPasswod(newPassword: string) {
+         updatePassword(auth.currentUser as User, newPassword)
+            .then(() => {
+               toast.success("Your Password has been update succesfully.")
+            }).catch((error) => {
+               this.setErrorData(error);
+            });
+      },
+
+      sendPasswordResetEmail(email: IUser['email']) {
+         sendPasswordResetEmail(auth, email)
+            .then(() => {
+               // TODO
+            })
+            .catch((error) => {
+               this.setErrorData(error);
+            });
+      },
+
+      sendVerificationEmail() {
+
+         sendEmailVerification(auth.currentUser as User)
+            .then(() => {
+               // TODO
+            });
+      },
+
+      setErrorData(error: any) {
+         const errorCode = error.code;
+         const errorMessage = error.message;
+
+         this.$patch(state => state.error = {
+            errorCode: errorCode,
+            errorMessage: errorMessage
+         });
+
+         console.log(`${errorCode} => ${errorMessage}`);
+      }
    }
 })

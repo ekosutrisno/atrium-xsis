@@ -17,7 +17,7 @@ const options: PluginOptions = {
    maxToasts: 3
 };
 
-// DayJs
+// DayJs Config And Extends
 import * as dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import localeData from 'dayjs/plugin/localeData';

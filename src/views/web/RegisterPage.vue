@@ -115,7 +115,7 @@ export default defineComponent({
                   authStore.onLoginAction(user);
 
                   /** Save User Details To tbl_users. */
-                  userStore.onRegisterUser({userId:user.uid, email: user.email})
+                  userStore.onRegisterUser({userId:user.uid, email: user.email as string})
 
                   /** Register Statistic storage. */
                   statisticStore.registerStatistic(user.uid, FlagUseOn.REGISTRATION);

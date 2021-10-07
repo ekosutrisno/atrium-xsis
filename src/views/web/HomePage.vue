@@ -20,17 +20,26 @@
           <router-link 
             v-if="isLogin"
             to="/u/0/dashboard" 
-            class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+            class="py-2.5 px-6 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
           >
             <span>Dashboard</span>
           </router-link>
-          <router-link 
-            v-else
-            to="/user/login"
-            class="py-2 px-8 mt-8 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
-          >
-          Sign In
-          </router-link>
+
+          <div v-else class="inline-flex items-center space-x-3 mt-8">
+            <router-link 
+              to="/user/login"
+              class="py-2.5 px-6 rounded-md bg-indigo-400 text-white hover:bg-indigo-500"
+            >
+            Sign In
+            </router-link>
+            
+            <button @click="loginWithGoogleHandler"
+              class="rounded-md inline-flex items-center space-x-2 py-2 px-6 hover:bg-color-dark-gray-dark hover:ring-2 hover:ring-indigo-400 transition text-white bg-color-gray-darkest"
+            >
+              <GoogleIcon class="w-7 h-7"/> <span>Google</span>
+            </button>
+
+          </div>
         </div>
 
       </div>
@@ -47,22 +56,54 @@
 /**
  * @author Eko Sutrisno
  */
+import { signInWithPopup } from '@firebase/auth';
 import { computed, defineComponent, reactive, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import Loader from '../../components/modal/Loader.vue';
-import { useUserStore } from '../../services';
+import GoogleIcon from '../../components/svg/GoogleIcon.vue';
+import { useAuthStore, useUserStore } from '../../services';
+import { auth, gProvider } from '../../services/useFirebaseService';
 export default defineComponent({
-  components: { Loader },
+  components: { Loader, GoogleIcon },
   setup(){
     const userStore = useUserStore();
+    const authStore = useAuthStore();
+    const router = useRouter();
+
     const state = reactive({
       onLoadingUserState: computed(()=> userStore.onLoadingStateUser)
     });
 
     const isLogin = computed(()=>localStorage.getItem('_uid'));
+    
+    const loginWithGoogleHandler = () => {
+         signInWithPopup(auth, gProvider)
+            .then((result) => {
+               const user = result.user;
+               userStore
+                  .onRegisterUser({ userId: user.uid, email: user.email }, { user: user, oauth: true })
+                  .then(() => {
+                      authStore.onLoginAction(user);
+                      router.replace('/u/0/dashboard')
+                  });
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                authStore.$patch(state => state.error = {
+                  errorCode: errorCode,
+                  errorMessage: errorMessage
+                });
+
+                state.isLoginProcess =  false;
+                console.log(`${errorCode} => ${errorMessage}`);
+            });
+    }
 
     return{
       ...toRefs(state),
-      isLogin
+      isLogin,
+      loginWithGoogleHandler
     }
   }
 })

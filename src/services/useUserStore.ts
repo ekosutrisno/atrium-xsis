@@ -35,7 +35,13 @@ export const useUserStore = defineStore({
       * @param  {userId: IUser['userId'], email: IUser['email']} newData
       * @description register user to Database Collection
       */
-      async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }) {
+      async onRegisterUser(newData: { userId: IUser['userId'], email: IUser['email'] }, googleNewData?: { user?: any, oauth?: boolean }) {
+
+         if (googleNewData?.oauth) {
+            const user = await getDoc(doc(db, 'tbl_users', newData.userId));
+            if (user.exists())
+               return
+         }
 
          const newUser: IUser = {
             userId: newData.userId,
@@ -45,9 +51,13 @@ export const useUserStore = defineStore({
             isActive: false,
             email: newData.email,
             username: `@${newData.email?.split('@')[0].replace('.', '_')}`,
-            fullName: `${newData.email?.split('@')[0]}`,
+            fullName: googleNewData?.oauth
+               ? googleNewData.user.displayName
+               : `${newData.email?.split('@')[0]}`,
             telephone: "",
-            photoUrl: "https://res.cloudinary.com/ekosutrisno/image/upload/v1627464871/avatars/profile1_otttcz.png",
+            photoUrl: googleNewData?.oauth
+               ? googleNewData.user.photoURL
+               : "https://res.cloudinary.com/ekosutrisno/image/upload/v1627464871/avatars/profile1_otttcz.png",
             gender: "",
             dob: "",
             pob: "",
@@ -111,7 +121,7 @@ export const useUserStore = defineStore({
                }
             ],
             userPreference: {
-               useThemeMode: "light",
+               useThemeMode: "dark",
                pushNotification: 3,
                sendToEmail: {
                   candidates: true,

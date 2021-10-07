@@ -171,7 +171,7 @@ export interface IUser extends Info {
    isEro?: boolean
    nationality?: string
    isActive: boolean
-   email: string | null
+   email: string
    username: string
    fullName?: string
    telephone?: string

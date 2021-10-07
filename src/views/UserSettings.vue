@@ -114,17 +114,13 @@
                 <h1 class="text-lg font-medium">Connected accounts</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
                     <span>Your current logging provider.</span>
-                      <div v-if="providedId === 'google'" class="inline-flex items-center space-x-4 mt-3">
-                        <button @click="loginWithGoogle" type="button" class="">
-                          <GoogleIcon class="w-7 mr-2"/>
-                        </button>
-                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ providedId ? providedId : 'Not connected' }} </p>
+                      <div v-if="providedId === 'google.com'" class="inline-flex items-center space-x-4 mt-3">
+                        <GoogleIcon class="w-7 mr-2"/>
+                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Google' }} </p>
                       </div>
-                      <div v-if="providedId === 'firebase'" class="inline-flex items-center space-x-4 mt-3">
-                        <button @click="loginWithGoogle" type="button" class="">
-                          <img alt="firebase" src="/firebase.png" width="28" height="28" />
-                        </button>
-                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ providedId ? providedId : 'Not connected' }} </p>
+                      <div v-if="providedId === 'password'" class="inline-flex items-center space-x-4 mt-3">
+                        <img alt="firebase" src="/firebase.png" width="28" height="28" />
+                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Firebase' }} </p>
                     </div>
                 </div>
             </div>
@@ -275,10 +271,6 @@ export default defineComponent({
       utilityStore.setToggleTheme(value);
     };
 
-    const loginWithGoogle = () => {
-      console.log("loginWithGoogle on Dev");
-    }
-
     const switchTab = (current: string): void => {
       state.currentTabs = current;
     }
@@ -312,7 +304,6 @@ export default defineComponent({
       ...toRefs(state),
       togleDarkLightMode,
       useBlurToggle,
-      loginWithGoogle,
       switchTab,
       onUpdateAvatar,
       formatDateFromNow,

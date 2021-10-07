@@ -129,9 +129,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { useAuthStore } from '../services'
 
 export default defineComponent({
    setup () {
+
+      const authStore = useAuthStore();
 
       const state = reactive({
          isOnEditPassword: false,
@@ -160,6 +163,7 @@ export default defineComponent({
       }
 
       const onSubmitAction = () => {
+         authStore.sendVerificationEmail()
          state.isOnEditPassword = false;
          state.isOnEditEmail = false;
       }

@@ -1,6 +1,6 @@
 import { getDatabase } from '@firebase/database';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -14,14 +14,22 @@ var firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
+/** Auth Instance */
+const auth = getAuth(app)
+auth.useDeviceLanguage();
+
 const db = getFirestore(app);
 const dbRealtime = getDatabase(app, 'https://atrium-xsis-default-rtdb.asia-southeast1.firebasedatabase.app')
 const storage = getStorage(app);
 
+/** Sign With Google Provider */
+const gProvider = new GoogleAuthProvider();
+
 export {
    auth,
    db,
+   gProvider,
    dbRealtime,
    storage
 }

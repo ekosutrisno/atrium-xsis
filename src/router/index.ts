@@ -9,7 +9,13 @@ const router = createRouter({
 
 router.beforeEach((to: RouteLocationNormalized) => {
    document.title = `Atrium - ${to.meta.title}`
-   if (to.meta.requiresAuth && !localStorage.getItem('_uid')) return '/user/login';
+
+   const isLogedInUserUID = localStorage.getItem('_uid');
+   const isNotAdmin = localStorage.getItem('_role') === '6';
+
+   if (to.meta.requiresAuth && !isLogedInUserUID) return '/user/login';
+   else if (to.meta.requiresAdmin && (isLogedInUserUID && isNotAdmin)) return '/user/unauthorized'
+
 })
 
 export default router;

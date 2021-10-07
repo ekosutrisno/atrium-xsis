@@ -1,5 +1,5 @@
 <template>
-  <div class="font-quicksand bg-color-gray-lighter dark:bg-color-dark-black-darker">
+  <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
       <header class="w-full fixed z-20 top-0 h-16 bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
             <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
