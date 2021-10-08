@@ -18,6 +18,40 @@ export const useRoleStore = defineStore({
 
    actions: {
       /**
+       * Get All Main role in admin actions
+       */
+      async getAllMainRole() {
+         const mainRoleRef = collection(db, 'tbl_main_role');
+         getDocs(mainRoleRef)
+            .then((snapshot) => {
+               const tempMainRole: IMainRole[] = [];
+
+               snapshot.forEach(mainRole => {
+                  tempMainRole.push(mainRole.data() as IMainRole);
+               })
+
+               this.mainRole = tempMainRole;
+            })
+      },
+
+      /**
+       * Get All Developer role in admin actions
+       */
+      async getAllDeveloperRole() {
+         const devRoleRef = collection(db, 'tbl_developer_role');
+         getDocs(devRoleRef)
+            .then((snapshot) => {
+               const tempDevRole: IRoleDeveloper[] = [];
+
+               snapshot.forEach(deRole => {
+                  tempDevRole.push(deRole.data() as IRoleDeveloper);
+               })
+
+               this.developerRole = tempDevRole;
+            })
+      },
+
+      /**
        * @returns Promise
        * Insert Initial Main Role to Database
        */

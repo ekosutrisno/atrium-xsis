@@ -71,7 +71,7 @@ const navigation = [
   { name: 'Projects', href: '/u/0/project', currentId: 2 },
   { name: 'Timesheets', href: '/u/0/timesheet', currentId: 3 },
   { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 },
-  { name: 'Admin Dashboard', href: '/a/0/dashboard', currentId: 5 },
+  { name: 'Admin View', href: '/a/0/dashboard', currentId: 5 },
 ]
 
 export default defineComponent({
