@@ -98,6 +98,20 @@ export const useClientStore = defineStore({
             })
       },
 
+      async getAllClient() {
+         const clientRef = collection(db, 'tbl_clients')
+         getDocs(clientRef)
+            .then((snapshot) => {
+               const clientTemp: IClient[] = [];
+
+               snapshot.forEach((client) => {
+                  clientTemp.push(client.data() as IClient);
+               })
+
+               this.clients = clientTemp;
+            })
+      },
+
       async addClient(client: IClient) {
 
       },
@@ -106,7 +120,7 @@ export const useClientStore = defineStore({
 
       },
 
-      async deleteClient(clientId: IClient[ 'clientId' ]) {
+      async deleteClient(clientId: IClient['clientId']) {
 
       },
 

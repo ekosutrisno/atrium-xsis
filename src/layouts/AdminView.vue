@@ -1,6 +1,6 @@
 <template>
   <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
-      <header class="w-full fixed z-20 top-0 h-16 bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
+      <header class="w-full px-4 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
             <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
                <span class="text-indigo-300 font-semibold">AT</span>RIUM
@@ -10,8 +10,8 @@
             </span>
          </div>
       </header>
-      <div class="pt-14 grid grid-cols-4 gap-4 max-w-7xl mx-auto">
-         <header class="shadow w-full col-span-1 p-4 mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
+      <div class="pt-20 px-4 lg:px-0 lg:pt-14 sm:pt-14 grid sm:grid-cols-4 gap-4 max-w-7xl mx-auto">
+         <header class="shadow w-full sm:col-span-1 p-4 sm:mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   Current User
                </div>
@@ -41,7 +41,7 @@
                   <Svg2 class="absolute top-[-3.25rem] -right-4 z-0"/>
                </div>
          </header>
-         <header class="shadow w-full col-span-3 p-4 mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
+         <header class="shadow w-full sm:col-span-3 p-4 sm:mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   Authorization and Role
                </div>
@@ -74,14 +74,14 @@
          </header>
       </div>
 
-      <div class="max-w-7xl mx-auto sticky top-0">
+      <div class="max-w-7xl mx-auto sticky top-0 p-4 pb-10 lg:p-0">
           <div class="mt-8 mb-5">
             <p class="text-2xl font-medium dark:text-color-gray-lighter text-color-dark-gray-darker">Administrator Access</p>
             <p class="text-sm dark:text-color-gray-default text-color-gray-darker">All Menu Action for authorized admin</p>
          </div>
 
          <!-- Layout Admin -->
-         <div class="grid-cols-3 gap-4 grid w-full">
+         <div class="sm:grid-cols-3 gap-4 grid w-full">
            <router-link :to="`/a/0/dashboard/${tabCard.current}`" v-for="tabCard in menuTabs" :key="tabCard.id" class="shadow hover:shadow-xl w-full col-span-1 p-4 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-start hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   {{ `${tabCard.text} Management` }}
@@ -129,7 +129,7 @@ export default defineComponent({
         },
         {
           id: 2,
-          current: 'timesheet_approval',
+          current: 'timesheet_management',
           text: 'Timesheet',
           description: 'Manage and manage timesheets, add to users, delete timesheets, update, validate, and approve timesheets.'
         },

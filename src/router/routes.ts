@@ -7,6 +7,10 @@ import RegisterPage from '../views/web/RegisterPage.vue';
 
 // View Admin
 import UserAdminAction from '../views/admin/UserAdminAction.vue';
+import TimesheetAdminAction from '../views/admin/TimesheetAdminAction.vue';
+import ClientAdminAction from '../views/admin/ClientAdminAction.vue';
+import StatisticAdminAction from '../views/admin/StatisticAdminAction.vue';
+import RoleAdminAction from '../views/admin/RoleAdminAction.vue';
 
 // Views Default
 import Dashboard from '../views/Dashboard.vue';
@@ -28,7 +32,7 @@ const routes: RouteRecordRaw[] = [
    {
       path: "/:pathMatch(.*)*",
       name: "NotFound",
-      component: () => import("../views/web/NotFoundPage.vue"),
+      component: () => import("../views/web/404.vue"),
       meta: {
          title: 'Not Found Page',
          requiresAuth: false
@@ -172,11 +176,51 @@ const routes: RouteRecordRaw[] = [
       component: AdminLayout,
       children: [
          {
-            path: `/a/0/dashboard/:category`,
-            name: `Admin`,
+            path: `/a/0/dashboard/user_management`,
+            name: `UserAdminAction`,
             component: UserAdminAction,
             meta: {
-               title: `UserAdminAction`,
+               title: `User Admin Action`,
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/timesheet_management`,
+            name: `TimesheetAdminAction`,
+            component: TimesheetAdminAction,
+            meta: {
+               title: `Timesheet Admin Action`,
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/statistic_management`,
+            name: `StatisticAdminAction`,
+            component: StatisticAdminAction,
+            meta: {
+               title: `Statistic Admin Action`,
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/client_management`,
+            name: `ClientAdminAction`,
+            component: ClientAdminAction,
+            meta: {
+               title: `Client Admin Action`,
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/role_management`,
+            name: `RoleAdminAction`,
+            component: RoleAdminAction,
+            meta: {
+               title: `Role Admin Action`,
                requiresAuth: true,
                requiresAdmin: true
             }
