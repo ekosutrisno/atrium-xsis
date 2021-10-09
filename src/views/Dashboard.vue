@@ -24,7 +24,8 @@
       </ul>
    </div>
    <div class="flex-shrink-0 p-2 max-h-60 hidden lg:flex xl:items-center justify-center card-wrapper-general-theme">
-      <PieCart class="w-52 max-h-60"/>
+      <!-- <PieCart class="w-52 max-h-60"/> -->
+      <div class="w-52"></div>
    </div>
   </div>
   <div class="flex flex-col sm:space-x-4 space-y-6 sm:space-y-0 sm:flex-row w-full mt-5">
@@ -105,7 +106,7 @@
                </span>
             </div></header>
          <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Performance {{currentYear}}</p>
-         <PieCart1 class="w-52 max-h-60"/>
+         <!-- <PieCart1 class="w-52 max-h-60"/> -->
       </div>
   </div>
 </div>
@@ -114,13 +115,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import StatisticCard from '../components/cards/StatisticCard.vue'
-import PieCart from '../components/chart/PieCart.vue';
-import PieCart1 from '../components/chart/PieCart1.vue';
 import { useStatisticStore, useUserStore } from '../services';
 import { FlagUseOn } from '../types/EnumType';
 
 export default defineComponent({
-  components: { StatisticCard, PieCart, PieCart1 },
+  components: { StatisticCard },
    setup () {
       const statisticStore = useStatisticStore();
       const userStore = useUserStore();

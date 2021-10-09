@@ -3,7 +3,7 @@
 
   <header class="bg-color-gray-lighter dark:bg-color-dark-gray-darker shadow sticky top-0 z-20">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-      <h1 class="text-3xl font-bold text-color-dark-gray-darkest dark:text-color-dark-gray-lightest">
+      <h1 class="text-lg md:text-3xl font-bold text-color-dark-gray-darkest dark:text-color-dark-gray-lightest">
         Client Management
       </h1>
       <div class="inline-flex items-center space-x-3">
