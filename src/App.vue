@@ -11,7 +11,6 @@ import {
   reactive,
 } from "vue";
 import { useAuthStore, useStatisticStore, useUtilityStore } from "./services";
-import { FlagUseOn } from "./types/EnumType";
 
 export default defineComponent({
   setup() {
@@ -36,8 +35,7 @@ export default defineComponent({
 
       if (state.uid) {
         // Check and Generate if not exist (By Year)
-
-        await statisticStore.registerStatistic(state.uid, FlagUseOn.GENERATION);
+        // await statisticStore.registerStatistic(state.uid, FlagUseOn.GENERATION);
 
         // Listen All Snapshot Timesheet Data
         await statisticStore.onSnapshotRealtimeUpdateStatistic();

@@ -78,33 +78,37 @@
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
       </div>
-      <dl>
-         <div v-if="isOnEditEmail" class="with-transition">
-            <div class="input-custom-wrapper-gray">
-               <dt class="input-custom-dt">
-                  New email
-               </dt>
-               <dd class="input-custom-dd">
-                  <label for="new-email" class="input-custom-label">New email</label>
-                     <input 
-                        type="email" name="new-email" id="new-email" autocomplete="off"
-                        class="input-custom-default input-custom-on-edit" 
-                     />
-               </dd>
+      <form @submit.prevent="toggleModal">
+         <dl>
+            <div v-if="isOnEditEmail" class="with-transition">
+               <div class="input-custom-wrapper-gray">
+                  <dt class="input-custom-dt">
+                     New email
+                  </dt>
+                  <dd class="input-custom-dd">
+                     <label for="new-email" class="input-custom-label">New email</label>
+                        <input
+                           v-model="newEmail"
+                           placeholder="email@example.com" 
+                           type="email" name="new-email" id="new-email" autocomplete="off"
+                           class="input-custom-default input-custom-on-edit" 
+                        />
+                  </dd>
+               </div>
             </div>
-         </div>
-          <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
-            <button v-if="!isOnEditEmail" type="button" @click="toggleEditActionEmail(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Update email
-            </button>
-            <button v-if="isOnEditEmail" type="button" @click="toggleEditActionEmail(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Cancel
-            </button>
-            <button v-if="isOnEditEmail" type="button" @click="onSubmitAction" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               Save
-            </button>
-         </div>
-      </dl>
+            <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
+               <button v-if="!isOnEditEmail" type="button" @click="toggleEditActionEmail(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Update email
+               </button>
+               <button v-if="isOnEditEmail" type="button" @click="toggleEditActionEmail(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Cancel
+               </button>
+               <button v-if="isOnEditEmail" :disabled="!isValidEmail" type="submit" class="inline-flex disabled:bg-opacity-25 with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Save
+               </button>
+            </div>
+         </dl>
+      </form>
    </div>
 
    <!-- Danger Zone -->
@@ -125,13 +129,18 @@
       </div>
       </dl>
    </div>
+
+   <PromtCredentialModal :open="open" @action="onUpdateEmail" @close-modal="toggleModal"/>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useAuthStore } from '../services'
+import PromtCredentialModal from './modal/PromtCredentialModal.vue';
+import { validateEmail } from '../utils/helperFunction';
 
 export default defineComponent({
+  components: { PromtCredentialModal },
    setup () {
 
       const authStore = useAuthStore();
@@ -139,6 +148,9 @@ export default defineComponent({
       const state = reactive({
          isOnEditPassword: false,
          isOnEditEmail: false,
+         emailError: '',
+         open: false,
+         newEmail: '',
          newPassword: '',
          newConfirmPassword: ''
       })
@@ -156,10 +168,16 @@ export default defineComponent({
          return false;
       });
 
+      const isValidEmail = computed(() => validateEmail(state.newEmail));
+
 
       // Email Action
       const toggleEditActionEmail= (val: boolean): void => {
          state.isOnEditEmail = val;
+      }
+
+      const toggleModal = () => {
+          state.open = !state.open;
       }
 
       const onSubmitAction = () => {
@@ -168,12 +186,28 @@ export default defineComponent({
          state.isOnEditEmail = false;
       }
 
+      const onUpdateEmail = async (password: string) => {
+         if(state.newEmail.trim().length >= 5 )
+            authStore
+               .updateCurrentUserEmail(state.newEmail, password)
+               .then(() => {
+                  toggleModal();
+                  toggleEditActionEmail(false);
+                  state.newEmail = '';
+               });
+         else
+            console.log("Failed update email, email invalid format");
+      }
+
       return {
          ...toRefs(state),
          isMatchPassword,
+         isValidEmail,
          toggleEditActionPassword,
          toggleEditActionEmail,
-         onSubmitAction
+         onSubmitAction,
+         onUpdateEmail,
+         toggleModal
       }
    }
 })
