@@ -20,7 +20,7 @@
                   </DialogTitle>
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Are you sure you want to update your email? Beacuse this email replace your login email and will be the default email.
+                      Are you sure you want to update your email? Beacuse this email replace your login email and will be the default email. Type your password bellow to confirm.
                     </p>
                   </div>
                   <div class="mt-4">

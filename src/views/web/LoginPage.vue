@@ -37,9 +37,9 @@
 
         <div class="flex items-center justify-end">
           <div class="text-sm">
-            <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+            <router-link to="/user/reset-password" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
               Forgot your password?
-            </a>
+            </router-link>
           </div>
         </div>
 

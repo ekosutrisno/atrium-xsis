@@ -4,6 +4,7 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from '../views/web/HomePage.vue';
 import LoginPage from '../views/web/LoginPage.vue';
 import RegisterPage from '../views/web/RegisterPage.vue';
+import ResetPasswordPage from '../views/web/ResetPasswordPage.vue';
 
 // View Admin
 import UserAdminAction from '../views/admin/UserAdminAction.vue';
@@ -67,6 +68,15 @@ const routes: RouteRecordRaw[] = [
             component: RegisterPage,
             meta: {
                title: 'Register',
+               requiresAuth: false
+            }
+         },
+         {
+            path: '/user/reset-password',
+            name: 'ResetPasswordPage',
+            component: ResetPasswordPage,
+            meta: {
+               title: 'Reset Password',
                requiresAuth: false
             }
          },

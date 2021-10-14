@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import { computed } from "vue";
 
 /**
  * @param  {any} value
@@ -132,3 +133,9 @@ export const validateEmail = (mail: string): boolean => {
    return re.test(String(mail).toLowerCase());
 
 }
+
+export const isMatchPassword = (newPassword: string, newConfirmPassword: string) => {
+   if ((newPassword.trim().length >= 6) && (newConfirmPassword.trim().length >= 6))
+      return newPassword.trim() === newConfirmPassword.trim();
+   return false;
+};

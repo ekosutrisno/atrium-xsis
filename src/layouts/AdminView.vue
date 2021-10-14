@@ -2,9 +2,16 @@
   <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
       <header class="w-full px-4 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
-            <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
-               <span class="text-indigo-300 font-semibold">AT</span>RIUM
-            </router-link>
+            
+            <div class="inline-flex items-center">
+               <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
+                  <span class="text-indigo-300 font-semibold">AT</span>RIUM
+               </router-link>
+               <router-link to="/u/0/dashboard" :class="['bg-gray-900 ml-6 text-white px-3 py-2 rounded-md text-sm font-medium']">
+                  Main Dashboard
+               </router-link>
+            </div>
+            
             <span class="py-1 px-3 text-white bg-indigo-400 rounded-full text-sm font-semibold">
                Admin View
             </span>
