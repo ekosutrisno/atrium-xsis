@@ -16,49 +16,53 @@
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
       </div>
-      <dl>
-         <div v-if="isOnEditPassword" class="with-transition">
-            <div class="input-custom-wrapper-gray">
-               <dt class="input-custom-dt">
-                  New password
-               </dt>
-               <dd class="input-custom-dd">
-                  <label for="new-password" class="input-custom-label">New password</label>
-                     <input
-                        v-model="newPassword" 
-                        type="password" name="new-password" id="new-password" autocomplete="off"
-                        class="input-custom-default input-custom-on-edit" 
-                     />
-               </dd>
+      <form @submit.prevent="toggleModalPassword">
+         <dl>
+            <div v-if="isOnEditPassword" class="with-transition">
+               <div class="input-custom-wrapper-gray">
+                  <dt class="input-custom-dt">
+                     New password
+                  </dt>
+                  <dd class="input-custom-dd">
+                     <label for="new-password" class="input-custom-label">New password</label>
+                        <input
+                           v-model="newPassword"
+                           placeholder="type new password" 
+                           type="password" name="new-password" id="new-password" autocomplete="off"
+                           class="input-custom-default input-custom-on-edit" 
+                        />
+                  </dd>
+               </div>
+               <div class="input-custom-wrapper-gray">
+                  <dt class="input-custom-dt">
+                     Confirm new password
+                  </dt>
+                  <dd class="input-custom-dd">
+                     <label for="confirm-new-password" class="input-custom-label">Confirm new password</label>
+                        <input 
+                           v-model="newConfirmPassword"
+                           placeholder="type confirm new password"
+                           type="password" name="confirm-new-password" id="confirm-new-password" autocomplete="off"
+                           class="input-custom-default input-custom-on-edit" 
+                        />
+                     <p v-if="isMatchPassword" class="text-sm text-green-500 py-2">Password match</p>
+                     <p v-else class="text-sm text-red-500 py-2">Password did not match</p>
+                  </dd>
+               </div>
             </div>
-            <div class="input-custom-wrapper-gray">
-               <dt class="input-custom-dt">
-                  Confirm new password
-               </dt>
-               <dd class="input-custom-dd">
-                  <label for="confirm-new-password" class="input-custom-label">Confirm new password</label>
-                     <input 
-                        v-model="newConfirmPassword"
-                        type="password" name="confirm-new-password" id="confirm-new-password" autocomplete="off"
-                        class="input-custom-default input-custom-on-edit" 
-                     />
-                  <p v-if="isMatchPassword" class="text-sm text-green-500 py-2">Password match</p>
-                  <p v-else class="text-sm text-red-500 py-2">Password did not match</p>
-               </dd>
+            <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
+               <button v-if="!isOnEditPassword" type="button" @click="toggleEditActionPassword(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Change password
+               </button>
+               <button v-if="isOnEditPassword" type="button" @click="toggleEditActionPassword(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Cancel
+               </button>
+               <button v-if="isOnEditPassword" type="submit" :disabled="!isMatchPassword" class="inline-flex disabled:bg-opacity-25 with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Save
+               </button>
             </div>
-         </div>
-          <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
-            <button v-if="!isOnEditPassword" type="button" @click="toggleEditActionPassword(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Change password
-            </button>
-            <button v-if="isOnEditPassword" type="button" @click="toggleEditActionPassword(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Cancel
-            </button>
-            <button v-if="isOnEditPassword" type="button" @click="onSubmitAction" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               Save
-            </button>
-         </div>
-      </dl>
+         </dl>
+      </form>
    </div>
 
    <!-- Update Email -->
@@ -78,33 +82,37 @@
             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
          </svg>
       </div>
-      <dl>
-         <div v-if="isOnEditEmail" class="with-transition">
-            <div class="input-custom-wrapper-gray">
-               <dt class="input-custom-dt">
-                  New email
-               </dt>
-               <dd class="input-custom-dd">
-                  <label for="new-email" class="input-custom-label">New email</label>
-                     <input 
-                        type="email" name="new-email" id="new-email" autocomplete="off"
-                        class="input-custom-default input-custom-on-edit" 
-                     />
-               </dd>
+      <form @submit.prevent="toggleModalEmail">
+         <dl>
+            <div v-if="isOnEditEmail" class="with-transition">
+               <div class="input-custom-wrapper-gray">
+                  <dt class="input-custom-dt">
+                     New email
+                  </dt>
+                  <dd class="input-custom-dd">
+                     <label for="new-email" class="input-custom-label">New email</label>
+                        <input
+                           v-model="newEmail"
+                           placeholder="email@example.com" 
+                           type="email" name="new-email" id="new-email" autocomplete="off"
+                           class="input-custom-default input-custom-on-edit" 
+                        />
+                  </dd>
+               </div>
             </div>
-         </div>
-          <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
-            <button v-if="!isOnEditEmail" type="button" @click="toggleEditActionEmail(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Update email
-            </button>
-            <button v-if="isOnEditEmail" type="button" @click="toggleEditActionEmail(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-               Cancel
-            </button>
-            <button v-if="isOnEditEmail" type="button" @click="onSubmitAction" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               Save
-            </button>
-         </div>
-      </dl>
+            <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
+               <button v-if="!isOnEditEmail" type="button" @click="toggleEditActionEmail(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Update email
+               </button>
+               <button v-if="isOnEditEmail" type="button" @click="toggleEditActionEmail(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  Cancel
+               </button>
+               <button v-if="isOnEditEmail" :disabled="!isValidEmail" type="submit" class="inline-flex disabled:bg-opacity-25 with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Save
+               </button>
+            </div>
+         </dl>
+      </form>
    </div>
 
    <!-- Danger Zone -->
@@ -125,13 +133,20 @@
       </div>
       </dl>
    </div>
+
+   <PromtCredentialEmailModal :open="openModalEmail" @action="onUpdateEmail" @close-modal="toggleModalEmail"/>
+   <PromtCredentialPasswordModal :open="openModalPassword" @action="onUpdatePassword" @close-modal="toggleModalPassword"/>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useAuthStore } from '../services'
+import PromtCredentialEmailModal from './modal/PromtCredentialEmailModal.vue';
+import { validateEmail, isMatchPassword } from '../utils/helperFunction';
+import PromtCredentialPasswordModal from './modal/PromtCredentialPasswordModal.vue';
 
 export default defineComponent({
+  components: { PromtCredentialEmailModal, PromtCredentialPasswordModal },
    setup () {
 
       const authStore = useAuthStore();
@@ -139,29 +154,67 @@ export default defineComponent({
       const state = reactive({
          isOnEditPassword: false,
          isOnEditEmail: false,
+         emailError: '',
+         openModalEmail: false,
+         openModalPassword: false,
+         newEmail: '',
          newPassword: '',
          newConfirmPassword: ''
       })
-      
-      // Password Action
+
+
+
+      // Start Email Action
+      const toggleEditActionEmail= (val: boolean): void => {
+         state.isOnEditEmail = val;
+         state.newEmail = '';
+      }
+
+      const toggleModalEmail = () => {
+         state.openModalEmail = !state.openModalEmail;
+      }
+
+      const isValidEmail = computed(() => validateEmail(state.newEmail));
+
+      const onUpdateEmail = async (password: string) => {
+         if(state.newEmail.trim().length >= 5 )
+            authStore
+               .updateCurrentUserEmail(state.newEmail, password)
+               .then(() => {
+                  toggleModalEmail();
+                  toggleEditActionEmail(false);
+                  state.newEmail = '';
+               });
+         else
+            console.log("Failed update email, email invalid format");
+      }
+
+      // Start Password Action
       const toggleEditActionPassword = (val: boolean): void => {
          state.isOnEditPassword = val;
          state.newPassword = '';
          state.newConfirmPassword = '';
       }
-
-      const isMatchPassword = computed(()=> {
-         if((state.newPassword.trim().length >= 6) && (state.newConfirmPassword.trim().length >= 6))
-            return state.newPassword.trim() === state.newConfirmPassword.trim();
-         return false;
-      });
-
-
-      // Email Action
-      const toggleEditActionEmail= (val: boolean): void => {
-         state.isOnEditEmail = val;
+      
+      const toggleModalPassword = () => {
+          state.openModalPassword = !state.openModalPassword;
       }
 
+      const onUpdatePassword = async (password: string) => {
+         if(isMatchPassword(state.newPassword, state.newConfirmPassword))
+            authStore
+               .updateCurrentUserPasswod(state.newPassword, password)
+               .then(() => {
+                  toggleModalPassword();
+                  toggleEditActionPassword(false);
+                  state.newPassword = '';
+                  state.newConfirmPassword = '';
+               });
+         else
+            console.log("Failed update email, email invalid format");
+      }
+
+      // Start Delete Acount Action
       const onSubmitAction = () => {
          authStore.sendVerificationEmail()
          state.isOnEditPassword = false;
@@ -170,10 +223,15 @@ export default defineComponent({
 
       return {
          ...toRefs(state),
-         isMatchPassword,
+         isMatchPassword: computed(()=> isMatchPassword(state.newPassword, state.newConfirmPassword)),
+         isValidEmail,
          toggleEditActionPassword,
          toggleEditActionEmail,
-         onSubmitAction
+         onSubmitAction,
+         onUpdateEmail,
+         onUpdatePassword,
+         toggleModalEmail,
+         toggleModalPassword
       }
    }
 })

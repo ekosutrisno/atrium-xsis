@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import { computed } from "vue";
 
 /**
  * @param  {any} value
@@ -121,3 +122,20 @@ const calculatePecentageNilaiUser = (val: number): number => {
    let totalMaxNilaiPointInYear = totalMaxNilaiPoint * 12;
    return (val / totalMaxNilaiPointInYear) * 100;
 }
+
+/**
+ * @param  {string} mail
+ * @returns boolean
+ * Helper to validate email format
+ */
+export const validateEmail = (mail: string): boolean => {
+   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   return re.test(String(mail).toLowerCase());
+
+}
+
+export const isMatchPassword = (newPassword: string, newConfirmPassword: string) => {
+   if ((newPassword.trim().length >= 6) && (newConfirmPassword.trim().length >= 6))
+      return newPassword.trim() === newConfirmPassword.trim();
+   return false;
+};
