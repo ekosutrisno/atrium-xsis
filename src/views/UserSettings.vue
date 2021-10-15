@@ -111,7 +111,7 @@
           <!-- Connected Account -->
           <div class="card-wrapper-custom md:sticky top-[24.75rem] h-auto pt-[18px]">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
-                <h1 class="text-lg font-medium">Connected accounts</h1>
+                <h1 class="text-lg font-medium">Login provider</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
                     <span>Your current logging provider.</span>
                       <div v-if="providedId === 'google.com'" class="inline-flex items-center space-x-4 mt-3">

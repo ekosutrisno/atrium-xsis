@@ -1,11 +1,18 @@
 z<template>
   <div class="flex flex-col w-full px-0.5">
-     <div v-if="!currentMonthExist" class="flex flex-col with-transition space-y-3 my-5 items-center justify-center">
-       <p class="text-color-gray-default text-sm text-center"> 
-         You still don't have a timesheet generated for this month, please generate timesheet for this month by clicking the button below.
-       </p>
+     <div v-if="!currentMonthExist" class="flex flex-col with-transition space-y-8 my-5 items-center justify-center">
+       <div class="flex flex-col items-center space-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <h3 class="font-semibold dark:text-color-gray-lighter">No Timesheet</h3>
+            <p class="text-sm text-gray-700 dark:text-gray-400">Get started by generating a timesheet.</p>
+       </div>
      <button @click="generateTimesheet" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-       Timesheet {{ currentMonthAndYear(new Date()) }}
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+      <span class="ml-2"> Timesheet {{ currentMonthAndYear(new Date()) }}</span>
       </button>
      </div>
    <ul v-if="timesheets.length > 0" class="space-y-1">

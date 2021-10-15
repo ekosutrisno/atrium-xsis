@@ -27,10 +27,22 @@
             </li>
          </ul>
          <div v-else>
-         <div class="bg-white text-color-dark-gray-darkest dark:bg-color-dark-gray-darker dark:text-white p-4 shadow-md mt-10 max-w-screen-sm mx-auto border-l-4 border-indigo-500 rounded-r-md text-sm">
-            <p>Now that you don't have a vacancy available.</p>
+            <div class="bg-white text-color-dark-gray-darkest dark:bg-color-dark-gray-darker dark:text-white p-4 shadow-md mt-10 max-w-screen-sm mx-auto border-indigo-500 rounded-md text-sm flex flex-col items-center space-y-2">
+               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+               </svg>
+               <h3 class="font-semibold">No Vacancies</h3>
+               <p>Get started by creating a new project.</p>
+            </div>
+            <div class="text-color-gray-lighter with-transition text-sm w-full flex items-center justify-center my-5">
+               <router-link :to="{name: 'VacancyDetail', params:{ vacancyId: 'new_vacancy'}}" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                  </svg>
+                  <span>New Vacancy</span>
+               </router-link>
+            </div>
          </div>
-      </div>
       </div>
       <button type="button" class="sticky-btn with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

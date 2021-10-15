@@ -39,17 +39,22 @@
           :client="client"
         />
     </div>
-    <div v-else class="py-4 flex flex-col max-w-screen-sm mx-auto items-center justify-center">
-        <p class="text-color-dark-gray-darkest text-center dark:text-color-dark-gray-lightest">
-          The client with the name <span class="font-semibold italic">{{ filterQuery }}</span> you are looking for does not seem to be found, please add it by pressing the add client button below.
-        </p>
-        <button type="button" class="inline-flex mt-6 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-            </svg>
-            <span class="ml-2">New client</span> 
-        </button>
-
+    <div v-else class="with-transition ">
+        <div class="text-color-dark-gray-darkest dark:text-white p-4 mt-10 max-w-screen-sm mx-auto  text-sm flex flex-col items-center space-y-2">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <h3 class="font-semibold">No Clients</h3>
+          <p>Get started by add a new client.</p>
+        </div>
+        <div class="text-color-gray-lighter text-sm w-full flex items-center justify-center my-5">
+          <router-link to="#" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+              </svg>
+              <span>New Client</span>
+          </router-link>
+        </div>
     </div>
   </div>
 
