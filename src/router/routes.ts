@@ -89,6 +89,15 @@ const routes: RouteRecordRaw[] = [
                requiresAuth: true
             }
          },
+         {
+            path: '/user/__/auth/action',
+            name: 'AuthAction',
+            component: () => import("../views/web/AuthActionPage.vue"),
+            meta: {
+               title: 'Auth Action',
+               requiresAuth: false
+            }
+         },
       ]
    },
    {

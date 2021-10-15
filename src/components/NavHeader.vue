@@ -13,7 +13,7 @@
                   :key="item.name" 
                   :to="item.href" 
                   @click="setCurrentActiveNav(item.currentId)"
-                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium', item.currentId === 5 ? userRole === '6' ? 'hidden' : 'hidden sm:block': '']" 
+                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
                   :aria-current="item.currentId === currentNav ? 'page' : undefined"
               >
               {{ item.name }}
@@ -36,9 +36,12 @@
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-              <MenuItems class="origin-top-right absolute right-0 mt-2 w-60 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
                   <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
+                </MenuItem>
+                <MenuItem v-if="userRole !== '6'" v-slot="{ active }">
+                  <router-link to="/a/0/dashboard" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Admin Views</router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <button @click="onLogoutAction" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex w-full px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</button>
@@ -70,8 +73,7 @@ const navigation = [
   { name: 'Dashboard', href: '/u/0/dashboard', currentId: 1 },
   { name: 'Projects', href: '/u/0/project', currentId: 2 },
   { name: 'Timesheets', href: '/u/0/timesheet', currentId: 3 },
-  { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 },
-  { name: 'Admin View', href: '/a/0/dashboard', currentId: 5 },
+  { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 }
 ]
 
 export default defineComponent({

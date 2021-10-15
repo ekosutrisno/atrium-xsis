@@ -1,8 +1,8 @@
 <template>
   <Disclosure as="nav">
-    <div class="max-w-7xl with-transition w-full sm:hidden rounded-t-3xl shadow-2xl bg-color-dark-black-default mx-auto py-2 fixed -bottom-1 z-20">
+    <div class="max-w-7xl with-transition w-full sm:hidden rounded-t-3xl shadow-2xl bg-color-dark-black-default mx-auto pb-1 fixed -bottom-1 z-20">
         <div class="flex-1 flex items-center justify-around">
-          <router-link to="/u/0/dashboard" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-xs font-medium flex flex-col space-y-2 items-center">
+          <router-link to="/u/0/dashboard" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-[10px] font-medium flex flex-col space-y-2 items-center">
             
             <svg
                 aria-hidden="true"
@@ -12,7 +12,7 @@
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 576 512"
-                class="svg-inline--fa fa-books fa-w-18 inline-block  h-5 fill-current mb-1"
+                class="svg-inline--fa fa-books fa-w-18 inline-block h-4 fill-current"
                 data-v-205c0e3c=""
               >
               <g class="fa-group">
@@ -31,7 +31,7 @@
             </svg>
             <span>Dashboard</span>
           </router-link>
-          <router-link to="/u/0/project" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-xs font-medium flex flex-col space-y-2 items-center">
+          <router-link to="/u/0/project" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-[10px] font-medium flex flex-col space-y-2 items-center">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -40,7 +40,7 @@
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
-            class="svg-inline--fa fa-swatchbook fa-w-16 inline-block h-5 fill-current mb-1"
+            class="svg-inline--fa fa-swatchbook fa-w-16 inline-block h-4 fill-current"
             data-v-205c0e3c=""
           >
             <g class="fa-group">
@@ -59,12 +59,12 @@
           </svg>
             <span>Project</span>
           </router-link>
-          <router-link to="/u/0/timesheet" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-xs font-medium flex flex-col space-y-2 items-center">
+          <router-link to="/u/0/timesheet" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-[10px] font-medium flex flex-col space-y-2 items-center">
             <svg
                 viewBox="0 0 52 56"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="overflow-visible inline-block h-5 fill-current mb-1"
+                class="overflow-visible inline-block h-4 fill-current"
                 data-v-205c0e3c=""
               >
                 <path
@@ -79,7 +79,7 @@
               </svg>
             <span>Timesheet</span>
           </router-link>
-          <router-link to="/u/0/vacancy" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-xs font-medium flex flex-col space-y-2 items-center">
+          <router-link to="/u/0/vacancy" class="text-white w-full cursor-default hover:text-[#d3adf7] transition-all p-3 text-[10px] font-medium flex flex-col space-y-2 items-center">
            <svg
             aria-hidden="true"
             focusable="false"
@@ -88,7 +88,7 @@
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 576 512"
-            class="svg-inline--fa fa-comments-alt fa-w-18 inline-block h-5 fill-current mb-1"
+            class="svg-inline--fa fa-comments-alt fa-w-18 inline-block h-4 fill-current"
             data-v-205c0e3c=""
           >
             <g class="fa-group">

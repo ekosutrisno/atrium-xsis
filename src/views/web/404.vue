@@ -1,6 +1,6 @@
 <template>
   <div class="flex bg-color-gray-lighter dark:bg-color-dark-black-default flex-col font-quicksand items-center justify-center h-full min-h-screen">
-    <div class="flex items-start divide-x divide-color-dark-gray-darker space-x-4">
+    <div class="flex with-transition items-start divide-x divide-color-dark-gray-darker space-x-4">
       <div class="text-indigo-400 text-4xl font-semibold">404</div>
       <div class="pl-4">
         <h3 class="dark:text-color-gray-light text-color-dark-gray-darker text-4xl font-semibold">Page not found</h3>

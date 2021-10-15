@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signOut, updateEmail, updatePassword, User, AuthCredential, EmailAuthProvider, deleteUser } from 'firebase/auth';
+import { onAuthStateChanged, reauthenticateWithCredential, sendEmailVerification, sendPasswordResetEmail, signOut, updateEmail, updatePassword, User, AuthCredential, EmailAuthProvider, deleteUser, confirmPasswordReset } from 'firebase/auth';
 import { useToast } from "vue-toastification";
 import { auth, db } from '../services/useFirebaseService';
 import { useUserStore } from "./useUserStore";
@@ -26,6 +26,7 @@ interface AuthStoreState {
       errorCode: string | null
       errorMessage: string | null
    }
+   emailNotRegiter: boolean
 }
 
 export const useAuthStore = defineStore({
@@ -34,6 +35,7 @@ export const useAuthStore = defineStore({
       isLoggedIn: false,
       isRegisterProcess: false,
       currentUserSession: {} as CurrentUserSession,
+      emailNotRegiter: false,
       error: {
          errorCode: null,
          errorMessage: null
@@ -170,24 +172,37 @@ export const useAuthStore = defineStore({
 
          getDocs(q)
             .then(async (snapshot) => {
-               if (snapshot.size === 1 && validateEmail(email))
+               if (snapshot.size === 1 && validateEmail(email)) {
                   await sendPasswordResetEmail(auth, email)
                      .then(() => {
-                        // TODO
+                        toast.info('Reset password link has been sent, please check your email.');
                      })
                      .catch((error) => {
                         this.setErrorData(error);
                      });
+               }
+               else {
+                  this.emailNotRegiter = true;
+                  toast.warning(`${email} not registered email.`);
+               }
             })
 
+         setTimeout(() => {
+            this.emailNotRegiter = false;
+         }, 5000);
       },
-     /**
-      * This method and handle send email verification after user register
-      * @returns Promise
-      */
-     async sendVerificationEmail(): Promise<void> {
 
-        await sendEmailVerification(auth.currentUser as User)
+      async resetPasswordConfirm(oobCode: string, newPassword: string) {
+         await confirmPasswordReset(auth, `${oobCode}`, newPassword);
+      },
+
+      /**
+       * This method and handle send email verification after user register
+       * @returns Promise
+       */
+      async sendVerificationEmail(): Promise<void> {
+
+         await sendEmailVerification(auth.currentUser as User)
             .then(() => {
                // TODO
             });

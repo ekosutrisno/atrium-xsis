@@ -9,7 +9,7 @@
     </div>
 
     <!-- Main Form -->
-    <div class="max-w-md w-full space-y-8">
+    <div class="max-w-md with-transition w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-color-dark-gray-darker dark:text-color-gray-lighter">
           Login
@@ -56,7 +56,7 @@
       <div class="flex flex-col space-y-4 items-center justify-end">
         <div class="text-sm">
           <p class="font-medium text-gray-600 dark:text-color-gray-light">
-            Or sign in with Google?
+            Or continue with Google?
           </p>
         </div>
         <button @click="loginWithGoogleHandler"
