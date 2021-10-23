@@ -82,14 +82,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useUserStore, useUtilityStore } from '../../services';
 import { useRouter } from 'vue-router';
-import { signInWithEmailAndPassword } from '@firebase/auth';
-import { useToast } from 'vue-toastification';
+import { signInWithEmailAndPassword, signInWithPopup } from '@firebase/auth';
 import { auth, gProvider } from '../../services/useFirebaseService';
+import { useAuthStore, useUserStore, useUtilityStore } from '../../services';
+import { useToast } from 'vue-toastification';
+import { LockClosedIcon } from '@heroicons/vue/solid';
 import Spinner from '../../components/modal/Spinner.vue';
-import { signInWithPopup } from 'firebase/auth';
 import GoogleIcon from '../../components/svg/GoogleIcon.vue';
 
 export default defineComponent({
@@ -151,18 +150,20 @@ export default defineComponent({
       const loginWithGoogleHandler = () => {
          signInWithPopup(auth, gProvider)
             .then((result) => {
-               const user = result.user;
-               userStore
+                const user = result.user;
+                /** Save user data to DB */
+                userStore
                   .onRegisterUser({ userId: user.uid, email: user.email as string }, { user: user, oauth: true })
-                  .then(() => {
-                      
-                      authStore.onLoginAction(user);
-                      
-                      router.replace('/u/0/dashboard')
-                      
-                      /** Show notification login succesfully. */
-                      toast.success("Welcome back " + user.email);
-                  });
+                    .then(() => {
+                        
+                        authStore.onLoginAction(user);
+                        
+                        router.replace('/u/0/dashboard')
+                        
+                        /** Show notification login succesfully. */
+                        toast.success("Welcome back " + user.email);
+                    });
+
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;

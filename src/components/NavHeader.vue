@@ -36,23 +36,43 @@
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-              <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
-                <MenuItem v-slot="{ active }">
-                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">User settings</router-link>
-                </MenuItem>
-                <MenuItem v-if="userRole !== '6'" v-slot="{ active }">
-                  <router-link to="/a/0/dashboard" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'block px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Admin Views</router-link>
-                </MenuItem>
-                <MenuItem v-slot="{ active }">
-                  <button @click="onLogoutAction" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex w-full px-4 py-3 text-sm text-color-gray-darkest dark:text-color-gray-light']">Sign out</button>
-                </MenuItem>
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
                 <MenuItem>
-                  <router-link to="#" :class="['px-4 py-2 flex flex-col bg-color-gray-light dark:bg-color-dark-gray-darkest rounded-b-md text-color-dark-gray-darkest dark:text-color-gray-light']">
-                     <span class="text-sm"> {{ loginAsInfo.fullName }} </span>
-                     <span class="text-xs"> {{ loginAsInfo.email }} </span>
+                  <div :class="['p-4 relative h-full flex flex-col space-y-2 items-center justify-center bg-color-gray-light dark:bg-color-dark-gray-darkest text-color-dark-gray-darkest dark:text-color-gray-light']">
+                     <img class="w-14 h-14 object-cover border border-gray-300 dark:border-gray-600 rounded-full" :src="photoUrl" alt="avatar-drop-menu">
+                     <div class="text-center">
+                       <p class=""> {{ loginAsInfo.fullName }} </p>
+                       <p class="text-sm"> {{ loginAsInfo.email }} </p>
+                     </div>
+                     <Svg2 aria-hidden="true" class="absolute -top-2"/>
+                  </div>
+                </MenuItem>
+
+                <MenuItem v-slot="{ active }">
+                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-gray-400 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>User settings</span>
                   </router-link>
                 </MenuItem>
-                
+                <MenuItem v-if="userRole !== '6'" v-slot="{ active }">
+                  <router-link to="/a/0/dashboard" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-gray-400 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span>Admin Views</span>
+                  </router-link>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                  <button @click="onLogoutAction" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-gray-400 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <span>Sign out</span>
+                  </button>
+                </MenuItem>
               </MenuItems>
             </transition>
           </Menu>
@@ -68,6 +88,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { BellIcon } from '@heroicons/vue/outline'
 import { useAuthStore, useUserStore } from '../services'
 import { useRouter } from 'vue-router'
+import Svg2 from './svg/Svg2.vue'
 
 const navigation = [
   { name: 'Dashboard', href: '/u/0/dashboard', currentId: 1 },
@@ -86,6 +107,7 @@ export default defineComponent({
     MenuItem,
     MenuItems,
     BellIcon,
+    Svg2,
   },
   setup() {
     const userStore = useUserStore();

@@ -63,15 +63,15 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { LockClosedIcon } from '@heroicons/vue/solid';
-import { useAuthStore, useStatisticStore, useTimesheetStore, useUserStore, useUtilityStore } from '../../services';
 import { useRouter } from 'vue-router';
+import { auth } from '../../services/useFirebaseService';
+import { useAuthStore, useStatisticStore, useTimesheetStore, useUserStore, useUtilityStore } from '../../services';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { useToast } from 'vue-toastification';
-import { auth } from '../../services/useFirebaseService';
-import Spinner from '../../components/modal/Spinner.vue';
 import { FlagUseOn } from '../../types/EnumType';
 import { isMatchPassword } from '../../utils/helperFunction';
+import { LockClosedIcon } from '@heroicons/vue/solid';
+import Spinner from '../../components/modal/Spinner.vue';
 
 export default defineComponent({
    components: {

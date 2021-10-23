@@ -5,6 +5,8 @@ import { collection, doc, getDoc, getDocs, onSnapshot, setDoc, updateDoc, } from
 import { db, storage } from '../services/useFirebaseService';
 import { useToast } from 'vue-toastification';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { useStatisticStore, useTimesheetStore } from '.';
+import { FlagUseOn } from '../types/EnumType';
 
 const toast = useToast();
 interface UserStoreState {
@@ -60,6 +62,17 @@ export const useUserStore = defineStore({
             const user = await getDoc(doc(db, 'tbl_users', newData.userId));
             if (user.exists())
                return
+            else {
+
+               const statisticStore = useStatisticStore();
+               const timesheetStore = useTimesheetStore();
+
+               /** Register Statistic storage. */
+               statisticStore.registerStatistic(newData.userId, FlagUseOn.REGISTRATION);
+
+               /** Register Timesheet storage. */
+               timesheetStore.registerTimesheet(newData.userId);
+            }
          }
 
          const newUser: IUser = {
@@ -67,7 +80,7 @@ export const useUserStore = defineStore({
             eroId: '',
             isEro: false,
             nationality: "",
-            isActive: false,
+            isActive: googleNewData?.oauth ? googleNewData.user.emailVerified : false,
             email: newData.email,
             username: `@${newData.email?.split('@')[0].replace('.', '_')}`,
             fullName: googleNewData?.oauth
