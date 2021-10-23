@@ -37,7 +37,7 @@
             <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="onUpdateAvatar">
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
-         <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
+         <div :class="[currentUser.roleDeveloper.roleDeveloperId == 7 ? 'dark:bg-[#28a3a3] bg-[#54b3b3]' : 'dark:bg-[#9a6fc3] bg-[#a87cd1]']" class="absolute p-1 text-xs font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
            {{currentUser.roleDeveloper.roleDeveloperName }}
          </div>
       </header>
@@ -114,16 +114,21 @@
                 <h1 class="text-lg font-medium">Login provider</h1>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 text-sm">
                     <span>Your current logging provider.</span>
-                      <div v-if="providedId === 'google.com'" class="inline-flex items-center space-x-4 mt-3">
-                        <GoogleIcon class="w-7 mr-2"/>
-                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Google' }} </p>
+                      <div v-for="prov in providedId" :key="prov" class="mt-3">
+                        
+                        <div v-if="prov == 'google.com'" class="inline-flex items-center space-x-4">
+                          <GoogleIcon class="w-7"/>
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Google' }} </p>
+                        </div>
+                        
+                        <div v-if="prov == 'password'" class="inline-flex items-center space-x-4">
+                          <img alt="firebase" src="/firebase.png" width="28" height="28" />
+                          <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Firebase' }} </p>
+                        </div>
+
                       </div>
-                      <div v-if="providedId === 'password'" class="inline-flex items-center space-x-4 mt-3">
-                        <img alt="firebase" src="/firebase.png" width="28" height="28" />
-                        <p class="text-color-dark-gray-darker dark:text-color-gray-light uppercase font-semibold"> {{ 'Firebase' }} </p>
-                    </div>
-                </div>
-            </div>
+                  </div>
+              </div>
           </div>
           
         </div>

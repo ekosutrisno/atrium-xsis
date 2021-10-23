@@ -15,7 +15,7 @@ type CurrentUserSession = {
    photoUrl: string
    email: string
    emailVerified: boolean
-   providedId: string
+   providedId: string[]
 }
 
 interface AuthStoreState {
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore({
             photoUrl: user?.photoURL,
             email: user?.email,
             emailVerified: user?.emailVerified,
-            providedId: user?.providerData[0].providerId
+            providedId: user?.providerData.map((prov: any) => prov.providerId)
          } as CurrentUserSession
 
          this.currentUserSession = currentUser;
