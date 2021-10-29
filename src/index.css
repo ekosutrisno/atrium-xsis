@@ -114,6 +114,15 @@
   }
 
   @variants {
+
+    .text-color-custome{
+      @apply text-color-dark-gray-darker dark:text-color-gray-light;
+    }
+
+    .text-label{
+      @apply text-color-gray-darker dark:text-color-gray-default;
+    }
+
     .bg-pattern-dark {
       --tw-bg-opacity: 1;
       background-color: rgba(27, 43, 50, var(--tw-bg-opacity));

@@ -163,6 +163,9 @@ export interface IClient extends Info {
    clientKota?: string
    clientProvinsi?: string
    clientCountry?: string
+   clientImage?: string
+   clientDescription?: string
+   clientWebsite?: string
 }
 
 export interface IUser extends Info {

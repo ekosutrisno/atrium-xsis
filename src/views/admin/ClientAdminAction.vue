@@ -1,5 +1,12 @@
 <template>
 <div class="wrapper min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
+<!-- Slide Over -->
+  <ClientSlideOver 
+    :open="open" 
+    :client="currentSelectedClient" 
+    @on-close="toggleSlider" 
+  />
+<!-- End Slide Over -->
 
   <header class="bg-color-gray-lighter dark:bg-color-dark-gray-darker shadow sticky top-0 z-20">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -7,7 +14,7 @@
         Client Management
       </h1>
       <div class="inline-flex items-center space-x-3">
-        <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button type="button" @click="toggleSlider" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
@@ -37,6 +44,7 @@
           v-for="client in clientsFiltered" 
           :key="client.clientId" 
           :client="client"
+          @on-edit="setCurrentClient"
         />
     </div>
     <div v-else class="with-transition ">
@@ -48,12 +56,12 @@
           <p>Get started by add a new client.</p>
         </div>
         <div class="text-color-gray-lighter text-sm w-full flex items-center justify-center my-5">
-          <router-link to="#" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button type="button" @click="toggleSlider" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
               </svg>
               <span>New Client</span>
-          </router-link>
+          </button>
         </div>
     </div>
   </div>
@@ -64,17 +72,23 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import ClientCard from '../../components/cards/admin/ClientCard.vue';
+import ClientSlideOver from '../../components/cards/admin/ClientSlideOver.vue';
 import { useClientStore } from '../../services'
+import { IClient } from '../../types/InterfaceType';
 
 export default defineComponent({
-  components: { ClientCard },
+  components: { ClientCard, ClientSlideOver },
   setup () {
     const clientStore = useClientStore();
 
     const state = reactive({
       clients: computed(() => clientStore.clients),
-      filterQuery: '' as string
+      currentSelectedClient: {} as IClient,
+      filterQuery: '' as string,
+      open: false
     })
+
+    onMounted(async () => await clientStore.getAllClient());
 
     const clientsFiltered = computed(() => {
          return state.clients.filter(client => client
@@ -83,12 +97,21 @@ export default defineComponent({
           )
       })
 
+    const setCurrentClient = (client: IClient) =>{
+      toggleSlider();
+      state.currentSelectedClient = client;
+    }
 
-    onMounted(async () => await clientStore.getAllClient());
+    const toggleSlider =()=>{
+        state.open = !state.open;
+    }
+
 
     return {
       ...toRefs(state),
-      clientsFiltered
+      clientsFiltered,
+      setCurrentClient,
+      toggleSlider
     }
   }
 })
