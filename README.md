@@ -11,13 +11,14 @@
   - All My Modified Data Assets in [ExoApp](https://github.com/ExoApp/exoapp-quran-data)
 - Tech Stack
   - <img src="https://img.icons8.com/fluent/48/000000/visual-studio-code-2019.png" width="14" height="14"/> Vs Code
-  - <img alt="vue" src="https://v3.vuejs.org/logo.png" width="11" height="11" /> Vue v3.0.5 and Vite v2.4.0
-  - <img alt="firebase" src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.cb8046c163f77190406dfbf4dec89848.svg" width="14" height="14" /> TailwindCss v2.2.4
-  - <img alt="firebase" src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" width="14" height="14" /> Firebase v9-Beta-6
+  - <img alt="vue" src="https://v3.vuejs.org/logo.png" width="11" height="11" /> Vue v3.2.16 and Vite v2.6.4
+  - <img alt="firebase" src="https://tailwindcss.com/_next/static/media/tailwindcss-mark.cb8046c163f77190406dfbf4dec89848.svg" width="14" height="14" /> TailwindCss v2.2.16
+  - <img alt="firebase" src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" width="14" height="14" /> Firebase v9.1.2
+  - <img alt="firebase" src="https://d33wubrfki0l68.cloudfront.net/ddd72aa8248a5c2f77429b9496e6e3e4da2a4e26/8afc0/logo.svg" width="14" height="14" /> Pinia v2.0.0
 - Author
   - Eko Sutrisno
   - [Github](https://github.com/ekosutrisno) Or [Gitlab](https://gitlab.com/ekosutrisno1)
-  - Website [ExoMTodo](https://ekosutrisno.netlify.app)
+  - Website [Eko Sutrisno](https://ekosutrisno.netlify.app)
 
 ### <img alt="vue" src="https://v3.vuejs.org/logo.png" width="15" height="15" /> Vue Project Setup
 
@@ -28,7 +29,7 @@ npm install
 - ##### Development
 
 ```shell
-npm run serve
+npm run dev
 ```
 
 - ##### Compiles Production
@@ -37,19 +38,15 @@ npm run serve
 npm run build
 ```
 
-- ##### Lints Files
-
-```shell
-npm run lint
-```
-
 ### <img alt="firebase" src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" width="18" height="18" /> Firebase Project Setup
 
 - Required
   - Have a Google Account.
   - Go to firebase.com to use firebase.
   - Create Project.
-  - Enable auth with Google.
+  - Enable auth with Username Password and Google.
+  - If you deploy in Netlify or Vercel make sure you add host in tab auth.
   - Enable Firestore.
   - Enable Storage.
   - Enable Realtime Database.
+
