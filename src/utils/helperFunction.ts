@@ -1,5 +1,13 @@
 import dayjs from "dayjs"
-import { computed } from "vue";
+import { generatePushID } from "./generatedPushId";
+
+/**
+ * This method will return 20 random characters string
+ * @returns string
+ */
+export const generateID = (): string => {
+   return generatePushID();
+}
 
 /**
  * @param  {any} value

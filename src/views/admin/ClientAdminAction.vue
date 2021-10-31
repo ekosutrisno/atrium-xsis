@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
+<div class="wrapper min-h-screen pb-10 bg-color-gray-lighter dark:bg-color-dark-black-darker">
 <!-- Slide Over -->
   <ClientSlideOver 
     :open="open" 
@@ -14,11 +14,14 @@
         Client Management
       </h1>
       <div class="inline-flex items-center space-x-3">
-        <button type="button" @click="toggleSlider" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button v-if="!onClientDetail" type="button" @click="toggleNewClient('new_client')" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
             <span class="ml-2 hidden sm:block">New client</span> 
+        </button>
+        <button v-else type="button" @click="toggleCancel" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-gray-300 dark:border-color-gray-darkest rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-color-gray-lighter bg-white dark:bg-color-gray-darkest dark:hover:bg-color-dark-gray-darker hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               Cancel
         </button>
         <router-link to="/a/0/dashboard" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -29,22 +32,30 @@
       </div>
     </div>
   </header>
-  <div class="flex items-center max-w-screen-sm mx-auto my-4 pt-2 px-4">
-    <label for="searh-client" class="input-custom-label">Filter Query</label>
-    <input 
-      placeholder="Type client name..."
-      v-model="filterQuery"
-      type="search" name="searh-client" id="searh-client" autocomplete="off"
-      class="input-custom-default input-custom-on-edit py-3" 
+  <div v-if="onClientDetail" class="max-w-7xl with-transition mx-auto px-4 pt-6 lg:px-8">
+    <NewClientInputCard 
+      @after-save="afterSaved"
+      :status="statusCreated" 
+      :clientData="currentUpdateSelectedClient"
     />
   </div>
-  <div class="max-w-7xl mx-auto px-4 lg:px-8">
-    <div v-if="clientsFiltered.length > 0" class="py-4 grid sm:grid-cols-2 gap-4">
+  <div v-else class="max-w-7xl with-transition mx-auto px-4 lg:px-8">
+    <div class="flex items-center max-w-screen-sm mx-auto my-4 pt-2">
+      <label for="searh-client" class="input-custom-label">Filter Query</label>
+      <input 
+        placeholder="Type client name..."
+        v-model="filterQuery"
+        type="search" name="searh-client" id="searh-client" autocomplete="off"
+        class="input-custom-default input-custom-on-edit py-3" 
+      />
+    </div>
+    <div v-if="clientsFiltered.length > 0" class="pt-4 grid sm:grid-cols-2 gap-2">
         <ClientCard 
           v-for="client in clientsFiltered" 
           :key="client.clientId" 
           :client="client"
-          @on-edit="setCurrentClient"
+          @on-edit="toggleUpdateClient"
+          @on-show="setCurrentClient"
         />
     </div>
     <div v-else class="with-transition ">
@@ -73,26 +84,35 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import ClientCard from '../../components/cards/admin/ClientCard.vue';
 import ClientSlideOver from '../../components/cards/admin/ClientSlideOver.vue';
+import NewClientInputCard from '../../components/input/NewClientInputCard.vue';
 import { useClientStore } from '../../services'
 import { IClient } from '../../types/InterfaceType';
 
 export default defineComponent({
-  components: { ClientCard, ClientSlideOver },
+  components: { ClientCard, ClientSlideOver, NewClientInputCard },
   setup () {
     const clientStore = useClientStore();
 
     const state = reactive({
       clients: computed(() => clientStore.clients),
       currentSelectedClient: {} as IClient,
+      currentUpdateSelectedClient: {} as IClient,
       filterQuery: '' as string,
+      onClientDetail: false,
+      statusCreated: 'new_client',
       open: false
     })
 
     onMounted(async () => await clientStore.getAllClient());
 
+    const afterSaved = ()=>{
+       clientStore.getAllClient()
+        .then(()=> toggleCancel());
+    }
+
     const clientsFiltered = computed(() => {
          return state.clients.filter(client => client
-         .clientName.toLowerCase()
+         .name.toLowerCase()
           .includes(state.filterQuery.toLowerCase())
           )
       })
@@ -106,11 +126,31 @@ export default defineComponent({
         state.open = !state.open;
     }
 
+    const toggleNewClient = (status: string) => {
+        state.statusCreated = status;
+        state.currentUpdateSelectedClient = {} as IClient;
+        state.onClientDetail = !state.onClientDetail;
+    }
+
+    const toggleUpdateClient = (payload: {status: string, data: IClient}) => {
+        state.statusCreated = payload.status;
+        state.currentUpdateSelectedClient = payload.data;
+        state.onClientDetail = !state.onClientDetail;
+    }
+
+    const toggleCancel = ()=>{
+      state.onClientDetail = !state.onClientDetail;
+    }
+
 
     return {
       ...toRefs(state),
       clientsFiltered,
+      afterSaved,
       setCurrentClient,
+      toggleNewClient,
+      toggleUpdateClient,
+      toggleCancel,
       toggleSlider
     }
   }

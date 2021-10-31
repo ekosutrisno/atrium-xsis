@@ -68,10 +68,10 @@
                      </div>
                      <div class="flex flex-col flex-1 w-full">
                         <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                           {{ client.clientName }} 
+                           {{ client.name }} 
                         </span>
                         <span class="text-xs">
-                           {{ client.clientAddress }}, {{ client.clientProvinsi }}, {{ client.clientCountry }}.
+                           {{ client.address }}, {{ client.provinsi }}, {{ client.country }}.
                         </span>
                      </div>
                   </div>

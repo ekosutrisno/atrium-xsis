@@ -1,6 +1,6 @@
 <template>
   <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
-      <header class="w-full px-4 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
+      <header class="w-full px-8 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
             
             <div class="inline-flex items-center">
@@ -17,7 +17,7 @@
             </span>
          </div>
       </header>
-      <div class="pt-20 px-4 lg:px-0 lg:pt-14 sm:pt-14 grid sm:grid-cols-4 gap-4 max-w-7xl mx-auto">
+      <div class="pt-20 px-8 lg:px-0 lg:pt-14 sm:pt-14 grid sm:grid-cols-4 gap-4 max-w-7xl mx-auto">
          <header class="shadow w-full sm:col-span-1 p-4 sm:mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   Current User

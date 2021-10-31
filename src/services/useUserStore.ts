@@ -140,18 +140,7 @@ export const useUserStore = defineStore({
                roleName: 'Employee',
                roleDescription: 'Role as Employee'
             },
-            clients: [
-               {
-                  clientId: '6',
-                  clientName: '__BOOTCAMP__',
-                  clientAddress: 'Jl. Dr. Satrio Lt 25',
-                  clientCountry: 'Indonesia',
-                  clientKota: 'Jakarta Pusat',
-                  clientProvinsi: 'DKI Jakarta',
-                  createdDate: Date.now(),
-                  lastModifiedDate: Date.now()
-               }
-            ],
+            clients: [],
             userPreference: {
                useThemeMode: "dark",
                pushNotification: 3,

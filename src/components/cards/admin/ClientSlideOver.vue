@@ -25,38 +25,46 @@
                 <div class="mt-6 flex-1">
                   <!-- Content -->
                     <div class="px-4 sm:px-6">
-                        <div class="h-60 overflow-hidden rounded-md shadow-md">
-                            <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29tcGFueXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" :alt="client.clientId">
+                        <div v-if="client.image" class="h-60 overflow-hidden rounded-md shadow-md">
+                            <img class="h-full w-full object-cover" :src="client.image" :alt="client.clientId">
+                        </div>
+                        <div v-else class="h-60">
+                          <div class="h-full w-full flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                              <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                              <div class="flex text-sm text-gray-600">
+                                <label for="file-upload" class="relative cursor-pointer bg-white dark:bg-transparent rounded-md font-medium text-indigo-500 hover:text-indigo-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                  <span>Upload a file</span>
+                                  <input id="file-upload" name="file-upload" type="file" class="sr-only" />
+                                </label>
+                                <p class="pl-1 text-label">or drag and drop</p>
+                              </div>
+                              <p class="text-xs text-gray-500 dark:text-gray-400">
+                                PNG, JPG up to 10MB
+                              </p>
+                            </div>
+                          </div>
                         </div>
                         <div>
-                            <p class="text-2xl mt-2 font-semibold text-color-custome"> {{ client.clientName }} </p>
-                            <span class="text-label">{{client.clientCountry}}, since {{ formatDateWithMonth(client.createdDate) }}</span>
+                            <p class="text-2xl mt-2 font-semibold text-color-custome"> {{ client.name }} </p>
+                            <span class="text-label">{{client.country}}, since {{ formatDateWithMonth(client.createdDate) }}</span>
                             <div class="flex flex-col mt-3">
                                 <p class="text-sm text-label">About</p>
-                                <p class="text-color-custome">{{ client.clientDescription}} In line with its rapid growth, Erajaya aware of the importance of the principles of Good Corporate Governance (GCG), namely Transparency, Accountability, Responsibility, Independence, and Fairness in its day-to-day operations.</p>
+                                <p class="text-color-custome">{{ client.description ? client.description : 'No about info.'}}</p>
                             </div>
                             <div class="flex flex-col mt-3">
                                 <p class="text-sm text-label">Address</p>
-                                <p class="text-color-custome">{{ client.clientAddress}} {{client.clientKota}} {{client.clientProvinsi}} </p>
+                                <p class="text-color-custome">{{ client.address}} {{client.kota}} {{client.provinsi}} </p>
                             </div>
                             <div class="flex flex-col mt-3">
                                 <p class="text-sm text-label">Website</p>
                                 <p class="text-color-custome">
-                                    <a v-if="client.clientWebsite" :href="client.clientWebsite" class="text-color-custome" target="_blank" rel="noopener noreferrer">{{client.clientWebsite}}</a>
+                                    <a v-if="client.website" :href="client.website" class="text-color-custome" target="_blank" rel="noopener noreferrer">{{client.website}}</a>
                                     <span v-else>-</span>
                                 </p>
                             </div>
-                        </div>
-                         <div class="px-4 py-3 space-x-3 bg-gray-50 border-t border-gray-200 dark:border-color-gray-darkest dark:bg-color-dark-gray-darkest text-right sm:px-6">
-                            <button v-if="!isOnEdit" type="button" @click="toggleEditAction(true)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-color-dark-gray-default dark:text-white bg-color-gray-light dark:bg-color-dark-gray-darker dark:hover:bg-color-dark-gray-dark hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                Edit
-                            </button>
-                            <button v-if="isOnEdit" type="button" @click="toggleEditAction(false)" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md dark:text-white text-color-dark-gray-default hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                Cancel
-                            </button>
-                            <button v-if="isOnEdit" type="button" class="inline-flex with-transition justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Save
-                            </button>
                         </div>
                     </div>
                   <!-- /End Content -->
@@ -71,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
 import { IClient } from '../../../types/InterfaceType'
@@ -98,21 +106,10 @@ export default defineComponent ({
       }
   },
   setup(_, ctx) {
-      const state = reactive({
-          isOnEdit: false
-      })
-
       const onClose = ()=> {ctx.emit('on-close')}
-
-      const toggleEditAction =(status: boolean)=>{
-          state.isOnEdit = status;
-      }
-      
       return{
-          ...toRefs(state),
         onClose,
-        formatDateWithMonth,
-        toggleEditAction
+        formatDateWithMonth
       }
   },
 })

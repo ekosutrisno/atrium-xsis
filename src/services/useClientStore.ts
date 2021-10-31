@@ -1,7 +1,11 @@
-import { collection, doc, getDocs, setDoc } from "@firebase/firestore";
+import { collection, doc, getDocs, setDoc, updateDoc } from "@firebase/firestore";
 import { defineStore } from "pinia";
+import { useToast } from "vue-toastification";
 import { IClient } from "../types/InterfaceType";
+import { generateID } from "../utils/helperFunction";
 import { db } from "./useFirebaseService";
+
+const toast = useToast();
 
 interface ClientStoreState {
    clients: IClient[]
@@ -19,83 +23,14 @@ export const useClientStore = defineStore({
        * @returns Promise
        * Insert Default initial Client
        */
-      async insertInitClient(): Promise<void> {
-         // Database Ref
-         const dbRef = collection(db, 'tbl_clients');
+      async insertNewClient(client: IClient): Promise<void> {
+         // Set additional data
+         client.clientId = generateID();
+         client.createdDate = Date.now();
+         client.lastModifiedDate = client.createdDate;
 
-         // Default Payload
-         const clients: IClient[] = [
-            {
-               clientId: '1',
-               clientName: 'PT Erajaya Swasembada',
-               clientAddress: 'JL Bandengan Selatan',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Barat',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-            {
-               clientId: '2',
-               clientName: 'PT Astra International',
-               clientAddress: 'JL Jendral Sutrisno',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Selatan',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-            {
-               clientId: '3',
-               clientName: 'PT Telkom Indonesia',
-               clientAddress: 'JL Pangeran Antasari, SCBD',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Pusat',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-            {
-               clientId: '4',
-               clientName: 'Bank Indonesia',
-               clientAddress: 'Jl. M.H. Thamrin No.2, RT.2/RW.3, Gambir, Kecamatan Gambir',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Pusat',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-            {
-               clientId: '5',
-               clientName: '__IDLE__',
-               clientAddress: 'Jl. Dr. Satrio Lt 25',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Pusat',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-            {
-               clientId: '6',
-               clientName: '__BOOTCAMP__',
-               clientAddress: 'Jl. Dr. Satrio Lt 25',
-               clientCountry: 'Indonesia',
-               clientKota: 'Jakarta Pusat',
-               clientProvinsi: 'DKI Jakarta',
-               createdDate: Date.now(),
-               lastModifiedDate: Date.now()
-            },
-         ]
-
-         // Get all and check if data alerady exist
-         getDocs(dbRef)
-            .then(async (snapshot) => {
-
-               // Insert if data not present
-               if (snapshot.empty) {
-                  clients.forEach(async (client) => await setDoc(doc(db, 'tbl_clients', client.clientId), client))
-               }
-            })
+         setDoc(doc(db, 'tbl_clients', client.clientId), client)
+            .then(() => toast.info('New Client has been added.'))
       },
 
       async getAllClient(): Promise<void> {
@@ -112,24 +47,18 @@ export const useClientStore = defineStore({
             })
       },
 
-      async addClient(client: IClient): Promise<void> {
-
-      },
-
       async updateClient(client: IClient): Promise<void> {
+         // Database Ref
+         const dbRef = doc(db, 'tbl_clients', client.clientId);
+         client.lastModifiedDate = Date.now();
+
+         updateDoc(dbRef, client as any)
+            .then(() => toast.info('Client data has been updated.'))
 
       },
 
       async deleteClient(clientId: IClient['clientId']): Promise<void> {
 
-      },
-
-      /**
-       * Init Calling insertInitClient ()
-       */
-      async init(): Promise<void> {
-         await this.insertInitClient();
       }
-
    }
 })
