@@ -15,14 +15,9 @@
               </div>
             </div>
           </div>
-          <div class="hidden md:block">
-            <div class="ml-4 flex items-center md:ml-6">
-              <div class="bg-color-dark-gray-darkest inline-flex items-center space-x-3 p-1 rounded-full text-white">
-                <span class=""> {{ loginAsInfo.fullName }} </span>
-                <img class="h-8 w-8 rounded-full" :src="photoUrl" alt="profile-avatar" />
-              </div>
-            </div>
-          </div>
+          <span class="py-1 px-3 text-white bg-indigo-400 rounded-full text-sm font-semibold">
+              Admin View
+          </span>
         </div>
       </div>
     </Disclosure>

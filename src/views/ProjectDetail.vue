@@ -364,6 +364,7 @@ export default defineComponent({
             router.back();
          }
       }
+      
       const checkValidate = computed(()=>{
          var pName = state.project.projectName.trim().length > 0;
          var pClientName = state.project.clientName.trim().length > 0;

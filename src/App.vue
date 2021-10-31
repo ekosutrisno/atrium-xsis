@@ -17,9 +17,6 @@ export default defineComponent({
     const utilityStore = useUtilityStore();
     const authStore = useAuthStore();
     const statisticStore = useStatisticStore();
-    // const roleStore = useRoleStore();
-    // const clientStore = useClientStore();
-    // const vacancyStore = useVacancyStore();
 
     const state = reactive({
       uid: computed(() => localStorage.getItem("_uid") as string),
@@ -34,21 +31,10 @@ export default defineComponent({
       utilityStore.checkConnectifity();
 
       if (state.uid) {
-        // Check and Generate if not exist (By Year)
-        // await statisticStore.registerStatistic(state.uid, FlagUseOn.GENERATION);
-
         // Listen All Snapshot Timesheet Data
         await statisticStore.onSnapshotRealtimeUpdateStatistic();
       }
-
-      // Insert Role Master if not present
-      //roleStore.init();
-
-      // Insert Default Client Data
-      //clientStore.init();
-
-      //Insert Vacancy Default
-      //vacancyStore.insertInitVancancy();
+      
     });
   },
 });

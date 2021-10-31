@@ -158,14 +158,17 @@ export interface IOrtu extends Info {
 
 export interface IClient extends Info {
    clientId: string
-   clientName: string
-   clientAddress?: string
-   clientKota?: string
-   clientProvinsi?: string
-   clientCountry?: string
-   clientImage?: string
-   clientDescription?: string
-   clientWebsite?: string
+   name: string
+   email: string
+   telephone?: string
+   address?: string
+   kota?: string
+   provinsi?: string
+   country?: string
+   postalCode?: string
+   image?: string
+   description?: string
+   website?: string
 }
 
 export interface IUser extends Info {
