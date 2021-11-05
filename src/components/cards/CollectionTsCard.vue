@@ -13,13 +13,18 @@
          <p class="text-color-dark-gray-darker font-semibold dark:text-color-gray-light">{{ toFixedFormat(collectionTs.performance) }}</p>
       </div>
 
+      <div v-if="currentMonthOnly() === collectionTs.month" aria-hidden="true" class="absolute right-2 top-0 sm:left-3 sm:-top-2">
+         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-indigo-200" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+         </svg>
+      </div>
       <div aria-hidden="true" class="absolute -right-20 -bottom-10 w-72 h-72 bg-indigo-500 bg-opacity-10 rounded-full"></div>
    </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { IStatisticTImesheetCollectionMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, formatDateWithDayMonth, toFixedFormat } from '../../utils/helperFunction';
+import { formatDateWithMonth, formatDateWithDayMonth, toFixedFormat, currentMonthOnly } from '../../utils/helperFunction';
 
 export default defineComponent({
    props:{
@@ -29,7 +34,7 @@ export default defineComponent({
       }
    },
    setup() {
-      return{ formatDateWithMonth, formatDateWithDayMonth, toFixedFormat}
+      return{ formatDateWithMonth, formatDateWithDayMonth, toFixedFormat, currentMonthOnly}
    },
 })
 </script>
