@@ -60,7 +60,7 @@ export const userMock: IUser = {
     roleDeveloperDesc: 'Role as Bootcamp former',
     roleDeveloperSalary: 'Rp100K / Day',
   },
-  clients: [],
+  client: null,
   userPreference: {
     useThemeMode: "light",
     pushNotification: 3,

@@ -95,11 +95,7 @@ export const useStatisticStore = defineStore({
                })
          } else if (flagUseOn === FlagUseOn.REGISTRATION) {
             setDoc(docRefParent, statistic)
-               .then(async () => {
-                  // Insert All Statistic Category 
-                  insertStatisticCategory(docRefParent)
-                     .then(() => this.getUserStatistic(userId));
-               })
+               .then(async () => { this.getUserStatistic(userId)})
          }
       },
 
@@ -148,10 +144,11 @@ export const useStatisticStore = defineStore({
                   const temp: IStatisticAbsentMeta[] = [];
 
                   snap.forEach((res) => {
-                     temp.push(res.data() as any);
+                     temp.push(res.data() as IStatisticAbsentMeta);
                   })
 
-                  this.absentStatistics = temp;
+                  this.absentStatistics = temp
+                     .sort((a: IStatisticAbsentMeta, b: IStatisticAbsentMeta) => parseInt(b.month as string) - parseInt(a.month as string));
                })
                break;
             case '2':
@@ -159,10 +156,11 @@ export const useStatisticStore = defineStore({
                   const temp: IStatisticPlacementMeta[] = [];
 
                   snap.forEach((res) => {
-                     temp.push(res.data() as any);
+                     temp.push(res.data() as IStatisticPlacementMeta);
                   })
 
-                  this.placementStatistics = temp;
+                  this.placementStatistics = temp
+                     .sort((a: IStatisticPlacementMeta, b: IStatisticPlacementMeta) => parseInt(b.month as string) - parseInt(a.month as string));
                })
                break;
             case '3':
@@ -170,10 +168,11 @@ export const useStatisticStore = defineStore({
                   const temp: IStatisticTImesheetCollectionMeta[] = [];
 
                   snap.forEach((res) => {
-                     temp.push(res.data() as any);
+                     temp.push(res.data() as IStatisticTImesheetCollectionMeta);
                   })
 
-                  this.collectionStatistics = temp;
+                  this.collectionStatistics = temp
+                     .sort((a: IStatisticTImesheetCollectionMeta, b: IStatisticTImesheetCollectionMeta) => parseInt(b.month as string) - parseInt(a.month as string));
                })
                break;
             case '4':
@@ -181,10 +180,12 @@ export const useStatisticStore = defineStore({
                   const temp: IStatisticPenilaianUserMeta[] = [];
 
                   snap.forEach((res) => {
-                     temp.push(res.data() as any);
+                     temp.push(res.data() as IStatisticPenilaianUserMeta);
                   })
 
-                  this.penilaianStatistic = temp;
+                  this.penilaianStatistic = temp
+                     .sort((a: IStatisticPenilaianUserMeta, b: IStatisticPenilaianUserMeta) => parseInt(b.month as string) - parseInt(a.month as string));
+
                })
                break;
             case '5':
@@ -192,10 +193,12 @@ export const useStatisticStore = defineStore({
                   const temp: IStatisticTotalMeta[] = [];
 
                   snap.forEach((res) => {
-                     temp.push(res.data() as any);
+                     temp.push(res.data() as IStatisticTotalMeta);
                   })
 
-                  this.totalStatistics = temp;
+                  this.totalStatistics = temp
+                     .sort((a: IStatisticTotalMeta, b: IStatisticTotalMeta) => parseInt(b.month as string) - parseInt(a.month as string));
+
                })
                break;
 

@@ -191,7 +191,7 @@ export interface IUser extends Info {
    address: UserAddress
    roleDeveloper: IRoleDeveloper
    mainRole: IMainRole
-   clients: IClient[]
+   client: IClient | null
    userPreference: IUserPreference
    about?: string
 }
