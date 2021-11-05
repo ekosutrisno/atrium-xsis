@@ -67,31 +67,55 @@
 
       <p class="py-4 text-sm text-color-dark-gray-light">Details per Month</p>
 
-      <ul v-if="category === '1'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
-        <li v-for="absen in absenStatistics" :key="absen.month">
-            <AbsentCard :absen="absen"/>
-         </li>
-      </ul>
-      <ul v-if="category === '2'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
-        <li v-for="placement in placementStatistics" :key="placement.month">
-            <AbsentCard :absen="placement"/>
-         </li>
-      </ul>
-      <ul v-if="category === '3'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
-        <li v-for="coll in collectionStatistics" :key="coll.month">
-            <CollectionTsCard :collectionTs="coll"/>
-         </li>
-      </ul>
-      <ul v-if="category === '4'"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
-        <li v-for="nilai in penilaianStatistics" :key="nilai.month">
-            <PenilaianUserCard :nilai="nilai"/>
-         </li>
-      </ul>
-      <ul v-if="category === '5'"  class="grid gap-1.5 px-0.5">
-        <li v-for="performance in totalStatistics" :key="performance.month">
-            <TotalPerformanceCard :performance="performance"/>
-         </li>
-      </ul>
+      <!-- Absen -->
+      <div v-if="category === '1'" >
+         <ul v-if="absenStatistics.length"  class="grid md:grid-cols-2 gap-1.5 px-0.5">
+           <li v-for="absen in absenStatistics" :key="absen.month">
+               <AbsentCard :absen="absen"/>
+            </li>
+         </ul>
+         <BlankStatistic v-else/>
+      </div>
+
+      <!-- Placement -->
+      <div v-if="category === '2'" >
+         <ul v-if="placementStatistics.length" class="grid md:grid-cols-2 gap-1.5 px-0.5">
+           <li v-for="placement in placementStatistics" :key="placement.month">
+               <AbsentCard :absen="placement"/>
+            </li>
+         </ul>
+         <BlankStatistic v-else/>
+      </div>
+
+      <!-- Collections Timesheet -->
+      <div v-if="category === '3'">
+         <ul v-if="collectionStatistics.length" class="grid md:grid-cols-2 gap-1.5 px-0.5">
+           <li v-for="coll in collectionStatistics" :key="coll.month">
+               <CollectionTsCard :collectionTs="coll"/>
+            </li>
+         </ul>
+          <BlankStatistic v-else/>
+      </div>
+
+      <!-- Penilaian User -->
+      <div v-if="category === '4'">
+         <ul v-if="penilaianStatistics.length" class="grid md:grid-cols-2 gap-1.5 px-0.5">
+           <li  v-for="nilai in penilaianStatistics" :key="nilai.month">
+               <PenilaianUserCard :nilai="nilai"/>
+            </li>
+         </ul>
+          <BlankStatistic v-else/>
+      </div>
+
+      <!-- Total Statistic -->
+      <div v-if="category === '5'">
+         <ul v-if="totalStatistics.length" class="grid gap-1.5 px-0.5">
+           <li v-for="performance in totalStatistics" :key="performance.month">
+               <TotalPerformanceCard :performance="performance"/>
+            </li>
+         </ul>
+          <BlankStatistic v-else/>
+      </div>
    </div>
    <router-link to="/u/0/dashboard" type="button" class="sticky-btn with-transition">
      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -105,6 +129,7 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute } from 'vue-router';
 import AbsentCard from '../components/cards/AbsentCard.vue';
+import BlankStatistic from '../components/cards/BlankStatistic.vue';
 import CollectionTsCard from '../components/cards/CollectionTsCard.vue';
 import PenilaianUserCard from '../components/cards/PenilaianUserCard.vue';
 import ProjectCard from '../components/cards/ProjectCard.vue'
@@ -113,7 +138,7 @@ import Svg2 from '../components/svg/Svg2.vue';
 import { useStatisticStore, useUserStore, useUtilityStore } from '../services';
 
 export default defineComponent({
-  components: { ProjectCard, Svg2, AbsentCard, CollectionTsCard, PenilaianUserCard, TotalPerformanceCard},
+  components: { ProjectCard, Svg2, AbsentCard, CollectionTsCard, PenilaianUserCard, TotalPerformanceCard, BlankStatistic},
    setup () {
       const utilityStore = useUtilityStore();
       const userStore = useUserStore()

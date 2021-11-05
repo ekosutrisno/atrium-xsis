@@ -95,11 +95,7 @@ export const useStatisticStore = defineStore({
                })
          } else if (flagUseOn === FlagUseOn.REGISTRATION) {
             setDoc(docRefParent, statistic)
-               .then(async () => {
-                  // Insert All Statistic Category 
-                  insertStatisticCategory(docRefParent)
-                     .then(() => this.getUserStatistic(userId));
-               })
+               .then(async () => { this.getUserStatistic(userId)})
          }
       },
 

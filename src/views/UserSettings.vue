@@ -13,19 +13,17 @@
             </h1>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5"> {{currentUser.email}} </p>
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Joined on {{formatDateWithMonth(currentUser.joinAt)}} ({{formatDateFromNow(currentUser.joinAt)}})</p>
-            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects. <br class="sm:hidden"> Work on {{ currentUser.clients.length }} client.</p>
+            <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects.</p>
             <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-4 text-sm">
               <span>Current Clients</span>
-              <ul class="mt-1">
-                <li v-for="client in currentUser.clients" :key="client.clientId">
-                  <span  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
-                    {{ client.name }} 
-                  </span>
-                </li>
-              </ul>
-              <span v-if="!currentUser.clients.length"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
+              <span v-if="!currentUser.client"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
                 __LOADING__
               </span>
+              <ul v-else class="mt-1">
+                  <span  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
+                    {{ currentUser.client.name }} 
+                  </span>
+              </ul>
             </div>
          </div>
          <div class="flex-shrink-0 relative h-36 w-36 rounded-full overflow-hidden">
@@ -171,7 +169,7 @@
                   </p>
                 </div>
             </div>
-            <div v-if="currentUser.clients" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+            <div v-if="currentUser.client" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
                 <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
                     <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
                         Current Clients
@@ -181,8 +179,7 @@
                     </p>
                   </div>
                 <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
-                  <ul v-if="currentUser.clients.length" class="space-y-3">
-                    <li v-for="client in currentUser.clients" :key="client.clientId">
+                  <ul v-if="currentUser.client.clientId" class="space-y-3">
                         <div class="flex items-center w-full my-2">
                           <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,14 +188,13 @@
                           </div>
                           <div class="flex flex-col flex-1 w-full">
                               <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                                {{ client.name }} 
+                                {{ currentUser.client.name }} 
                               </span>
-                              <span class="text-xs">
-                                {{ client.address }}, {{ client.provinsi }}, {{ client.country }}.
+                              <span class="text-sm">
+                                {{ currentUser.client.address }}, {{ currentUser.client.provinsi }}, {{ currentUser.client.country }}.
                               </span>
                           </div>
                         </div>
-                    </li>
                   </ul>
                   <div v-else class="flex items-center w-full mt-2">
                     <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">

@@ -58,8 +58,7 @@
          <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Current Clients {{currentYear}}</p>
          
          <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
-            <ul v-if="clients.length > 0" class="space-y-3">
-               <li v-for="client in clients" :key="client.clientId">
+            <ul v-if="client" class="space-y-3">
                   <div class="flex items-center w-full">
                      <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,13 +69,11 @@
                         <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
                            {{ client.name }} 
                         </span>
-                        <span class="text-xs">
+                        <span class="text-sm">
                            {{ client.address }}, {{ client.provinsi }}, {{ client.country }}.
                         </span>
                      </div>
                   </div>
-               </li>
-               <button @click="createStat" class="py-3 px-4 hidden bg-gray-900">Test Statistic</button>
             </ul>
             <div v-else class="flex items-center w-full">
                <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
@@ -106,7 +103,6 @@
                </span>
             </div></header>
          <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Performance {{currentYear}}</p>
-         <!-- <PieCart1 class="w-52 max-h-60"/> -->
       </div>
   </div>
 </div>
@@ -126,7 +122,7 @@ export default defineComponent({
 
       const state = reactive({
          statistic: computed(()=> statisticStore.statistic),
-         clients: computed(()=> userStore.getUserClient),
+         client: computed(()=> userStore.getUserClient),
          currentYear: new Date().getFullYear(),
          uid: computed(()=> localStorage.getItem('_uid') as string)
       })

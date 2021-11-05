@@ -11,7 +11,7 @@
                </span>
             </div>
             <div class="text-color-gray-lighter text-sm">
-               <router-link v-if="userRole !== '6'" to="/u/0/vacancy/new_vacancy/detail" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               <router-link v-if="!notAdmin" to="/u/0/vacancy/new_vacancy/detail" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Add vacancy
                </router-link>
                <button v-else type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -70,9 +70,14 @@ export default defineComponent({
       })
 
       onMounted(()=> vacancyStore.getAllVacancy());
-
+      
+      const notAdmin = computed(()=> {
+         const exclude = ['6','7'];
+         return exclude.includes(state.userRole as string);
+      })
       return {
-         ...toRefs(state)
+         ...toRefs(state),
+         notAdmin
       }
    }
 })

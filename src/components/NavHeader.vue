@@ -57,7 +57,7 @@
                     <span>User settings</span>
                   </router-link>
                 </MenuItem>
-                <MenuItem v-if="userRole !== '6'" v-slot="{ active }">
+                <MenuItem v-if="!notAdmin" v-slot="{ active }">
                   <router-link to="/a/0/dashboard" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-gray-400 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -127,6 +127,11 @@ export default defineComponent({
       state.currentNav = current;
     }
 
+    const notAdmin = computed(()=> {
+      const exclude = ['6','7'];
+      return exclude.includes(state.userRole as string);
+    })
+
     const onLogoutAction = () => {
       localStorage.removeItem('_uid');
       authStore.onLogoutAction();
@@ -135,6 +140,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      notAdmin,
       setCurrentActiveNav,
       onLogoutAction
     }
