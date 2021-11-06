@@ -37,7 +37,7 @@
               Main Role
             </p>
           </div>
-          <ul v-if="mainRoles.length" class="py-4 grid grid-cols-3 gap-2">
+          <ul v-if="mainRoles.length" class="py-4 grid sm:grid-cols-2 md:grid-cols-3 gap-2">
             <li v-for="mainRole in mainRoles" :key="mainRole.roleId">
               <MainRoleCard :role="mainRole"/>
             </li>
@@ -54,7 +54,7 @@
               Developer Role
             </p>
           </div>
-          <ul v-if="developerRoles.length" class="py-4 grid grid-cols-3 gap-2">
+          <ul v-if="developerRoles.length" class="py-4 grid sm:grid-cols-2 md:grid-cols-3 gap-2">
             <li v-for="devRole in developerRoles" :key="devRole.roleDeveloperId">
               <DeveloperRoleCard :role="devRole"/>
             </li>

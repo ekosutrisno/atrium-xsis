@@ -2,13 +2,14 @@
   <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
       <header class="w-full px-8 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
-            
             <div class="inline-flex items-center">
                <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
                   <span class="text-indigo-300 font-semibold">AT</span>RIUM
                </router-link>
                <router-link to="/u/0/dashboard" :class="['bg-gray-900 ml-6 text-white px-3 py-2 rounded-md text-sm font-medium']">
-                  Main Dashboard
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                  </svg>
                </router-link>
             </div>
             
@@ -17,7 +18,7 @@
             </span>
          </div>
       </header>
-      <div class="pt-20 px-8 lg:px-0 lg:pt-14 sm:pt-14 grid sm:grid-cols-4 gap-4 max-w-7xl mx-auto">
+      <div class="pt-20 px-4 xl:px-0 lg:pt-14 sm:pt-14 grid md:grid-cols-4 gap-4 max-w-7xl mx-auto">
          <header class="shadow w-full sm:col-span-1 p-4 sm:mt-6 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-between">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   Current User
@@ -88,7 +89,7 @@
          </div>
 
          <!-- Layout Admin -->
-         <div class="sm:grid-cols-3 gap-4 grid w-full">
+         <div class="sm:grid-cols-2 md:grid-cols-3 gap-4 grid w-full">
            <router-link :to="`/a/0/dashboard/${tabCard.current}`" v-for="tabCard in menuTabs" :key="tabCard.id" class="shadow hover:shadow-xl w-full col-span-1 p-4 bg-white dark:bg-color-dark-gray-darker rounded-md flex flex-col justify-start hover:ring-1 hover:ring-indigo-400 hover:ring-opacity-75 transition-all">
                <div class="text-lg inline-flex items-center space-x-1 text-color-dark-gray-darkest dark:text-color-gray-light font-semibold">
                   {{ `${tabCard.text} Management` }}

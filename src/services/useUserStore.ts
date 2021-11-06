@@ -24,13 +24,7 @@ export const useUserStore = defineStore({
       gender: '',
       onLoadingStateUser: true,
       currentUser: userMock,
-      currentEro: {
-         eroId: '',
-         email: '',
-         fullName: '',
-         telephone: '',
-         eroImageAvatar: ''
-      } as ICurrentEro,
+      currentEro: {} as ICurrentEro,
       currentClient: {} as IClient,
       userList: [] as IUser[]
    }),
@@ -336,9 +330,7 @@ export const useUserStore = defineStore({
        * @returns IUser.clients
        */
       getUserClient(state): IUser['client'] {
-         return state.currentUser
-            ? state.currentUser.client == null ? null : null
-            : null
+         return state.currentUser.client
       },
 
       /**
