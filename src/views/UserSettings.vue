@@ -170,48 +170,12 @@
                 </div>
             </div>
             <div v-if="currentUser.client" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
-                <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
-                    <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
-                        Current Clients
-                    </h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
-                        Your current Clients details info
-                    </p>
-                  </div>
-                <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col text-sm">
-                  <ul v-if="currentUser.client.clientId" class="space-y-3">
-                        <div class="flex items-center w-full my-2">
-                          <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                              </svg>
-                          </div>
-                          <div class="flex flex-col flex-1 w-full">
-                              <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                                {{ currentUser.client.name }} 
-                              </span>
-                              <span class="text-sm">
-                                {{ currentUser.client.address }}, {{ currentUser.client.provinsi }}, {{ currentUser.client.country }}.
-                              </span>
-                          </div>
-                        </div>
-                  </ul>
-                  <div v-else class="flex items-center w-full mt-2">
-                    <div class="flex-none p-2 text-color-gray-darkest dark:text-color-gray-light">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-color-gray-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <div class="flex flex-col flex-1 w-full">
-                        <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                          __Loading__ 
-                        </span>
-                        <span class="text-xs">
-                          Proccess to fetching data
-                        </span>
-                    </div>
-                  </div>
-              </div>
+                <ClientInfo v-if="currentUser.client" :client="currentUser.client"/>
+                <div v-else>
+                  <p class="my-3 ml-2 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                      Currently you do not have a client, please contact the officer for more info.
+                  </p>
+                </div>
             </div>
           </div>
 
@@ -231,9 +195,10 @@ import GoogleIcon from "../components/svg/GoogleIcon.vue";
 import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
 import { useAuthStore, useProjectStore, useUserStore, useUtilityStore } from '../services';
 import { useToast } from "vue-toastification";
+import ClientInfo from "../components/ClientInfo.vue";
 
 export default defineComponent({
-  components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo},
+  components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo, ClientInfo},
   setup() {
     const utilityStore = useUtilityStore();
     const projectStore = useProjectStore();
