@@ -16,6 +16,13 @@ export interface IMainRole {
    isActive: boolean
 }
 
+export interface IRoleDeveloper extends Info {
+   roleDeveloperId: number
+   roleDeveloperName: string
+   roleDeveloperDesc?: string
+   roleDeveloperSalary?: string
+}
+
 export interface IProject extends Info {
    projectId: string
    userId: string
@@ -135,13 +142,6 @@ export interface IAddress extends Info {
    country?: string
    kabupaten?: string
    kecamatan?: string
-}
-
-export interface IRoleDeveloper extends Info {
-   roleDeveloperId: number
-   roleDeveloperName: string
-   roleDeveloperDesc?: string
-   roleDeveloperSalary?: string
 }
 
 export interface IOrtu extends Info {
