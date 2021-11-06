@@ -32,7 +32,7 @@
             <span v-else class="p-0.5 px-2 rounded-full text-xs border border-opacity-50 hover:text-color-gray-light border-green-300 hover:bg-green-500">On Progress</span>
 
          </div>
-         </div>
+      </div>
       <div>
          <span class="text-xs block text-color-gray-dark dark:text-color-gray-default">Role</span>
          <span class="p-0.5 px-2 rounded-full text-color-gray-lightest text-xs bg-indigo-600">{{ project.role }}</span>
