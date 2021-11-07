@@ -4,7 +4,7 @@
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
             <div class="inline-flex items-center">
                <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
-                  <span class="text-indigo-300 font-semibold">AT</span>RIUM
+                  <span class="text-indigo-300 font-semibold">AT</span>RIUM ADMIN
                </router-link>
                <router-link to="/u/0/dashboard" :class="['bg-gray-900 ml-6 text-white px-3 py-2 rounded-md text-sm font-medium']">
                   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -12,8 +12,7 @@
                   </svg>
                </router-link>
             </div>
-            
-            <span class="py-1 px-3 text-white bg-indigo-400 rounded-full text-sm font-semibold">
+            <span class="py-1 px-3 hidden sm:block text-white bg-indigo-400 rounded-full text-sm font-semibold">
                Admin View
             </span>
          </div>
@@ -101,7 +100,7 @@
                         {{ tabCard.description }}
                      </p>
                   </div>
-                  <Svg1 class="absolute top-[-3.5rem] -right-4 z-0"/>
+                  <Svg1 class="absolute top-[-3.4rem] -right-4 z-0"/>
                </div>
          </router-link>
          </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
+    <div class="border-b relative border-gray-200 dark:border-color-gray-darkest">
         <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
             Current Client
         </h3>
@@ -7,8 +7,8 @@
             Your current Client details info
         </p>
     </div>
-    <div class="text-color-dark-black-default relative mt-2 p-2 flex flex-col-reverse sm:flex-row items-start justify-between dark:text-color-gray-lightest">
-        <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 space-y-2">
+    <div class="text-color-dark-black-default relative mt-4 md:mt-2 flex flex-col-reverse sm:flex-row items-start justify-between dark:text-color-gray-lightest">
+        <div class="text-color-gray-darkest mt-4 dark:text-color-gray-default flex flex-col md:mt-1 space-y-3">
             <div class="flex flex-col">
                 <p class="text-sm">Client Name</p>
                 <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ client.name }}</p>
