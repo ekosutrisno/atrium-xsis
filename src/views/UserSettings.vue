@@ -1,5 +1,5 @@
 <template>
-  <div class="flex relative w-full pb-10">
+  <div class="flex relative w-full">
    <div class="flex-1">
       <header class="card-wrapper-custom relative pt-[18px] max-w-2xl flex flex-col-reverse sm:flex-row sm:justify-between">
          <div class="text-color-dark-black-default dark:text-color-gray-light">
@@ -48,8 +48,8 @@
         <!-- Left Column -->
         <div class="lg:col-span-1 space-y-6">
           
-          <!-- Switch Tabs -->
-          <div class="card-wrapper-custom-default overflow-hidden md:sticky top-6 max-h-48">
+          <!-- Switch Tabs Start -->
+          <div class="card-wrapper-custom-default hidden lg:block overflow-hidden md:sticky top-6 max-h-48">
             <div class="text-color-dark-black-default dark:text-color-gray-lightest">
               <div class="text-color-gray-darkest w-full dark:text-color-gray-default flex flex-col text-sm">
                 <button 
@@ -57,7 +57,7 @@
                   v-for="menu in menuTabs" :key="menu.id" 
                   :class="[currentTabs === menu.current ? 'border-indigo-600 font-semibold bg-indigo-50 dark:bg-color-gray-darkest': 'dark:hover:bg-color-gray-darkest']" 
                   type="button" 
-                  class="px-4 py-2 w-full text-gray-700 dark:text-color-gray-lighter inline-flex items-center cursor-default sm:cursor-pointer border-l-4 transition-opacity border-transparent"
+                  class="px-3 py-2 w-full text-gray-700 dark:text-color-gray-lighter inline-flex items-center cursor-default sm:cursor-pointer border-l-4 transition-opacity border-transparent"
                 >
                   {{ menu.text }}
                 </button>
@@ -128,6 +128,23 @@
                   </div>
               </div>
           </div>
+
+          <!-- Switch Tabs End -->
+          <div class="card-wrapper-custom-default lg:hidden overflow-hidden md:sticky top-6 max-h-48">
+            <div class="text-color-dark-black-default dark:text-color-gray-lightest">
+              <div class="text-color-gray-darkest w-full dark:text-color-gray-default flex flex-col text-sm">
+                <button 
+                  @click="switchTab(menu.current)" 
+                  v-for="menu in menuTabs" :key="menu.id" 
+                  :class="[currentTabs === menu.current ? 'border-indigo-600 font-semibold bg-indigo-50 dark:bg-color-gray-darkest': 'dark:hover:bg-color-gray-darkest']" 
+                  type="button" 
+                  class="px-3 py-2 w-full text-gray-700 dark:text-color-gray-lighter inline-flex items-center cursor-default sm:cursor-pointer border-l-4 transition-opacity border-transparent"
+                >
+                  {{ menu.text }}
+                </button>
+              </div>
+            </div>
+          </div>
           
         </div>
 
@@ -138,7 +155,7 @@
           <!-- Current Ero and Client Detail -->
           <div v-else-if="currentTabs === 'Ero_Client'" class="space-y-6">
             <div v-if="!currentUser.isEro" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
-                <div class="border-b relative p-2 border-gray-200 dark:border-color-gray-darkest">
+                <div class="border-b relative border-gray-200 dark:border-color-gray-darkest">
                     <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
                         Current ERO
                     </h3>
@@ -147,7 +164,7 @@
                     </p>
                   </div>
                 <div v-if="currentEro !== null" class="text-color-dark-black-default mt-2 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between dark:text-color-gray-lightest">
-                    <div class="text-color-gray-darkest p-2 dark:text-color-gray-default flex flex-col mt-1 space-y-2">
+                    <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-1 space-y-2">
                         <div class="flex flex-col">
                           <p class="text-sm">FullName</p>
                           <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentEro.fullName}}</p>
@@ -164,7 +181,7 @@
                     <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentEro.eroImageAvatar" alt="profile-avatar" />
                 </div>
                 <div v-else>
-                  <p class="my-3 ml-2 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                  <p class="my-3 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
                     Currently you do not have an ERO, please contact the officer for more info.
                   </p>
                 </div>
@@ -172,7 +189,7 @@
             <div v-if="currentUser.client" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
                 <ClientInfo v-if="currentUser.client" :client="currentUser.client"/>
                 <div v-else>
-                  <p class="my-3 ml-2 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                  <p class="my-3 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
                       Currently you do not have a client, please contact the officer for more info.
                   </p>
                 </div>

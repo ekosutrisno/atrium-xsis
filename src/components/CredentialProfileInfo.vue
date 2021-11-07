@@ -1,7 +1,7 @@
 <template>
    <!-- Update Password -->
    <div class="card-wrapper-general-theme overflow-hidden with-transition">
-      <div class="py-5 border-b relative p-6 border-gray-200 dark:border-color-gray-darkest">
+      <div class="py-5 border-b relative p-4 border-gray-200 dark:border-color-gray-darkest">
          <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
             Change password
          </h3>
@@ -67,7 +67,7 @@
 
    <!-- Update Email -->
    <div class="card-wrapper-general-theme overflow-hidden with-transition">
-      <div class="py-5 border-b relative p-6 border-gray-200 dark:border-color-gray-darkest">
+      <div class="py-5 border-b relative p-4 border-gray-200 dark:border-color-gray-darkest">
          <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
             Update email
          </h3>
@@ -117,7 +117,7 @@
 
    <!-- Danger Zone -->
     <div class="card-wrapper-general-theme overflow-hidden with-transition">
-      <div class="py-5 border-b relative p-6 border-gray-200 dark:border-color-gray-darkest">
+      <div class="py-5 border-b relative p-4 border-gray-200 dark:border-color-gray-darkest">
          <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
             Danger zone
          </h3>
