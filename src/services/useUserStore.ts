@@ -134,7 +134,7 @@ export const useUserStore = defineStore({
                roleName: 'Applicants',
                roleDescription: 'Role as Applicants'
             },
-            client: {} as IClient,
+            client: null,
             userPreference: {
                useThemeMode: "dark",
                pushNotification: 3,

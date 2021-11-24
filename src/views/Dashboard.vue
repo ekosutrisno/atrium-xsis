@@ -83,10 +83,10 @@
                </div>
                <div class="flex flex-col flex-1 w-full pl-2">
                   <span  class="font-semibold transition-colors text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-400 sm:cursor-pointer"> 
-                     __IDLE__  
+                     __NO_CLIENT__  
                   </span>
                   <span class="text-sm mt-1">
-                     Jl. Dr. Satrio Lt 25, DKI Jakarta, Indonesia.
+                     Currently you don't have a client
                   </span>
                </div>
             </div>
