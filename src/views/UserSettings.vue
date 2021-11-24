@@ -17,7 +17,7 @@
             <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-4 text-sm">
               <span>Current Clients</span>
               <span v-if="!currentUser.client"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
-                __LOADING__
+                __NO_CLIENT__
               </span>
               <ul v-else class="mt-1">
                   <span  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
@@ -186,7 +186,15 @@
                   </p>
                 </div>
             </div>
-            <div v-if="currentUser.client" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+            <div class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+                <div class="border-b relative border-gray-200 dark:border-color-gray-darkest">
+                    <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
+                        Current Client
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
+                        Your current Client details info
+                    </p>
+                </div>
                 <ClientInfo v-if="currentUser.client" :client="currentUser.client"/>
                 <div v-else>
                   <p class="my-3 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
