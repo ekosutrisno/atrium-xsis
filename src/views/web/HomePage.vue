@@ -12,7 +12,7 @@
         </p>
 
         <div class="flex items-center my-4">
-           <img class="h-32 w-auto mx-auto" src="/icons/android-icon-512x512.png" alt="atrium">
+           <img class="h-32 w-auto mx-auto" src="/android-chrome-512x512.png" alt="atrium">
         </div>
 
         <Loader v-if="onLoadingUserState"/>
