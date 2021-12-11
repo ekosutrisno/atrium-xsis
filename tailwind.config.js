@@ -1,9 +1,6 @@
-const path = require("path");
-const colors = require("tailwindcss/colors");
-
 module.exports = {
   mode: "jit",
-  purge: [
+  content: [
     "./public/**/*.html",
     "./src/**/*.{js,jsx,ts,tsx,vue}"
   ],
@@ -36,9 +33,6 @@ module.exports = {
         quicksand: ["Quicksand", "sans-serif"],
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [require("@tailwindcss/forms")],
 };
