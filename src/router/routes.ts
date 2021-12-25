@@ -2,6 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 
 // Views web
 import HomePage from '../views/web/HomePage.vue';
+import HelpPage from '../views/web/HelpPage.vue';
 import LoginPage from '../views/web/LoginPage.vue';
 import RegisterPage from '../views/web/RegisterPage.vue';
 import ResetPasswordPage from '../views/web/ResetPasswordPage.vue';
@@ -18,6 +19,7 @@ import Dashboard from '../views/Dashboard.vue';
 import Project from '../views/Project.vue';
 import ProjectDetail from '../views/ProjectDetail.vue';
 import VacancyDetail from '../views/VacancyDetail.vue';
+import VacancyApply from '../views/VacancyApply.vue';
 import StatisticDetail from '../views/StatisticDetail.vue';
 import Timesheet from '../views/Timesheet.vue';
 import UserSettings from '../views/UserSettings.vue';
@@ -50,6 +52,15 @@ const routes: RouteRecordRaw[] = [
             component: HomePage,
             meta: {
                title: 'Home Page',
+               requiresAuth: false
+            }
+         },
+         {
+            path: '/user/help',
+            name: 'HelpPage',
+            component: HelpPage,
+            meta: {
+               title: 'Help Page',
                requiresAuth: false
             }
          },
@@ -147,6 +158,15 @@ const routes: RouteRecordRaw[] = [
             component: VacancyDetail,
             meta: {
                title: `Vacancy Detail`,
+               requiresAuth: true
+            }
+         },
+         {
+            path: `/u/0/vacancy/:vacancyId/apply`,
+            name: `VacancyApply`,
+            component: VacancyApply,
+            meta: {
+               title: `Vacancy Apply`,
                requiresAuth: true
             }
          },

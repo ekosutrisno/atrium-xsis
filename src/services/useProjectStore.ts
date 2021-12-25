@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { IProject } from '../types/InterfaceType';
@@ -7,12 +7,16 @@ const toast = useToast();
 
 interface ProjectStoreState {
    projects: IProject[]
+   selectedProject: IProject
+   isLoading: boolean
 }
 
 export const useProjectStore = defineStore({
    id: 'useProjectStore',
    state: (): ProjectStoreState => ({
       projects: [] as IProject[],
+      selectedProject: {} as IProject,
+      isLoading: false
    }),
    actions: {
       /**
@@ -20,31 +24,35 @@ export const useProjectStore = defineStore({
        * Add Project to Collections
        */
       async addProject(project: IProject) {
-         addDoc(collection(db, "tbl_project"), project)
+         setDoc(doc(db, "tbl_project", project.projectId), project)
             .then(() => {
                toast.success('New Project has been added')
             });
       },
 
-      
+      /**
+       * @param  {IProject["projectId"]} projectId
+       * Get individual project
+       */
+      async getProject(projectId: IProject["projectId"]) {
+         getDoc(doc(db, "tbl_project", projectId))
+            .then((project) => {
+               if (project.exists()) {
+                  this.selectedProject = project.data() as IProject
+               }
+            });
+      },
+
       /**
        * @param  {IProject} project
        * Update project detail property
        */
       async updateProject(project: IProject) {
-         const collRef = collection(db, `tbl_project`);
-         const q = query(collRef, where("projectId", "==", project.projectId));
-         getDocs(q).then((data) => {
-            if (data.docs.length) {
-               const projectId = data.docs[0].id;
+         /** Last Updated Date */
+         project.lastModifiedDate = Date.now();
 
-               /** Last Updated Date */
-               project.lastModifiedDate = Date.now();
-
-               updateDoc(doc(db, 'tbl_project', projectId), project as any)
-                  .then(() => toast.info('Project has been update succesfully'));
-            }
-         })
+         updateDoc(doc(db, 'tbl_project', project.projectId), project as any)
+            .then(() => toast.info('Project has been update succesfully'));
       },
 
       /**

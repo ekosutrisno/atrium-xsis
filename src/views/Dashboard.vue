@@ -23,8 +23,8 @@
          </li>
       </ul>
    </div>
-   <div class="flex-shrink-0 p-2 max-h-60 hidden lg:flex xl:items-center justify-center card-wrapper-general-theme">
-      <!-- <PieCart class="w-52 max-h-60"/> -->
+   <div class="flex-shrink-0 p-2 max-h-60 relative hidden lg:flex xl:items-center justify-center card-wrapper-general-theme">
+      <img aria-hidden="true" class="hidden lg:block object-cover absolute inset-0" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
       <div class="w-52"></div>
    </div>
   </div>
@@ -101,8 +101,12 @@
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                </span>
-            </div></header>
+            </div>
+         </header>
          <p class="py-3 text-color-gray-dark dark:text-color-gray-default">Performance {{currentYear}}</p>
+         <div class="h-52 w-52 relative mx-auto">
+            <img aria-hidden="true" class="object-cover h-full w-full absolute inset-0" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
+         </div>
       </div>
   </div>
 </div>

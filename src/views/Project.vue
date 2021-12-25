@@ -1,5 +1,9 @@
 <template>
 <div class="flex relative w-full pb-20">
+   <div class="hidden lg:block absolute top-64 -left-44">
+      <img aria-hidden="true" class="opacity-5" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
+   </div>
+
    <div class="flex-1">
       <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker rounded-md flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
@@ -23,15 +27,15 @@
          </li>
       </ul>
       <div v-else>
-         <div class="bg-white text-color-dark-gray-darkest dark:bg-color-dark-gray-darker dark:text-white p-4 shadow-md mt-10 max-w-screen-sm mx-auto border-indigo-500 rounded-md text-sm flex flex-col items-center space-y-2">
-            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-            </svg>
-            <h3 class="font-semibold">No Projects</h3>
-            <p>Get started by creating a new project.</p>
-         </div>
-          <div class="text-color-gray-lighter with-transition text-sm w-full flex items-center justify-center my-5">
-            <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+         <div class="flex flex-col with-transition space-y-8 items-center justify-center pt-24">
+               <div class="flex flex-col items-center space-y-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  </svg>
+                  <h3 class="font-semibold dark:text-color-gray-lighter">No Projects</h3>
+                  <p class="text-sm text-gray-700 dark:text-gray-400">Get started by creating a new project.</p>
+               </div>
+            <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'} }" class="inline-flex justify-center space-x-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                </svg>
@@ -40,7 +44,7 @@
          </div>
       </div>
    </div>
-   <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'}}" type="button" class="sticky-btn with-transition">
+   <router-link :to="{name: 'ProjectDetail', params:{ projectId: 'new_project'} }" type="button" class="sticky-btn with-transition">
      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
       </svg>

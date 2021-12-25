@@ -1,7 +1,14 @@
 <template>
   <div class="min-h-screen relative font-quicksand flex items-center justify-center bg-white bg-gradient-to-br dark:from-color-dark-gray-darker dark:via-color-dark-black-default dark:to-color-dark-gray-darkest py-12 px-4 sm:px-6 lg:px-8">
+     <img 
+      aria-hidden="true" 
+      class="hidden lg:block object-cover absolute inset-0 opacity-5" 
+      src="https://www.gstatic.com/mobilesdk/200303_mobilesdk/ML_fore@2x.png" 
+      alt="img"
+    >
+    
     <!-- main Form -->
-    <div class="max-w-md with-transition w-full space-y-8">
+    <div class="max-w-md z-30 with-transition w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-color-dark-gray-darker dark:text-color-gray-lighter">
           Reset Password

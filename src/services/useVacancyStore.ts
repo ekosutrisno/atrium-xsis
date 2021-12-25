@@ -1,5 +1,5 @@
-import { collection, doc, getDocs, onSnapshot, setDoc } from "@firebase/firestore";
-import { addDoc, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, onSnapshot, setDoc } from "@firebase/firestore";
+import { updateDoc } from "firebase/firestore";
 import { defineStore } from "pinia";
 import { useToast } from "vue-toastification";
 import { IJobVacancy } from "../types/InterfaceType";
@@ -11,13 +11,17 @@ const toast = useToast();
 
 interface VacancyStoreState {
    vacancies: IJobVacancy[]
+   selectedVacancy: IJobVacancy
+   isLoading: boolean
 }
 
 export const useVacancyStore = defineStore({
    id: 'useVacancyStore',
 
    state: (): VacancyStoreState => ({
-      vacancies: []
+      vacancies: [],
+      selectedVacancy: {} as IJobVacancy,
+      isLoading: false
    }),
 
    actions: {
@@ -42,8 +46,8 @@ export const useVacancyStore = defineStore({
        * @param  {IJobVacancy} vacancy
        * Add Project to Collections
        */
-      async addProject(vacancy: IJobVacancy) {
-         addDoc(collection(db, "tbl_vacancies"), vacancy)
+      async addVacancy(vacancy: IJobVacancy) {
+         setDoc(doc(db, "tbl_vacancies", vacancy.vacancyId), vacancy)
             .then(() => {
                toast.success('New Project has been added')
             });
@@ -68,24 +72,30 @@ export const useVacancyStore = defineStore({
       },
 
       async updateVacancy(vacancy: IJobVacancy) {
-         const collRef = collection(db, `tbl_vacancies`);
-         const q = query(collRef, where("vacancyId", "==", vacancy.vacancyId));
-         getDocs(q).then((data) => {
-            if (data.docs.length) {
-               const vacancyId = data.docs[0].id;
+         /** Last Updated Date */
+         vacancy.lastModifiedDate = Date.now();
 
-               /** Last Updated Date */
-               vacancy.lastModifiedDate = Date.now();
+         updateDoc(doc(db, 'tbl_vacancies', vacancy.vacancyId), vacancy as any)
+            .then(() => toast.info('Vacancy has been update succesfully'));
+      },
 
-               updateDoc(doc(db, 'tbl_vacancies', vacancyId), vacancy as any)
-                  .then(() => toast.info('Vacancy has been update succesfully'));
-            }
-         })
+      async getVacancy(vacancyId: IJobVacancy['vacancyId']) {
+         const dbRef = doc(db, `tbl_vacancies`, vacancyId);
 
+         // Loading
+         this.isLoading = true;
+
+         getDoc(dbRef)
+            .then(snapshot => {
+               if (snapshot.exists()) {
+                  this.selectedVacancy = snapshot.data() as IJobVacancy;
+                  this.isLoading = false;
+               }
+            }).finally(() => this.isLoading = false)
       },
 
       async deactiveVacancy(vacancyId: IJobVacancy['vacancyId']) {
-         // Set and Update vacancy properti isOpen to false TODO
+         // TODO Set and Update vacancy properti isOpen to false
 
       }
 

@@ -1,5 +1,9 @@
 <template>
 <div class="flex relative w-full pb-20 md:pb-0">
+   <div class="hidden lg:block absolute top-64 -left-44">
+   <img aria-hidden="true" class="opacity-5" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
+   </div>
+   
    <div class="flex-1 rounded-lg">
       <header :class="[useBlur ? 'custom-backdrop bg-opacity-90' : '']" class="shadow-sm p-4 pt-[18px] sticky -top-1 z-10 bg-color-dark-gray-darker rounded-md flex justify-between">
          <div class="text-2xl inline-flex items-center space-x-1 text-color-gray-light font-semibold">
@@ -242,7 +246,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import ProjectCard from '../components/cards/ProjectCard.vue'
 import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
@@ -259,10 +263,12 @@ export default defineComponent({
       const vacancyStore =  useVacancyStore();
       const utilityStore = useUtilityStore();
 
+      onMounted(()=> vacancyStore.getVacancy(route.params.vacancyId as string))
+
       const state = reactive({
          vacancy: route.params.vacancyId == 'new_vacancy' 
             ? {
-               vacancyId: `${Date.now()}-${localStorage.getItem('_uid') as string}`,
+               vacancyId: `${Date.now()}`,
                vacancyCode: "",
                vacancyName: "",
                vacancyType: "",
@@ -277,7 +283,7 @@ export default defineComponent({
                isFullTimeJob: true,
                isRemoteJob: false
             } as IJobVacancy
-            : computed(()=> vacancyStore.vacancies.filter(vac=> vac.vacancyId === route.params.vacancyId)[0]),
+            : computed(()=> vacancyStore.selectedVacancy),
          isOnEdit: route.params.vacancyId == 'new_vacancy' ? true : false,
          onAddTags: false,
          newTech: '',
@@ -297,7 +303,7 @@ export default defineComponent({
 
       const onSubmitAction = ()=> {
          if(state.isNewProject && checkValidate.value) {
-            vacancyStore.addProject(state.vacancy);
+            vacancyStore.addVacancy(state.vacancy);
             toggleEditAction(false);
             router.back();
           } else { 

@@ -20,7 +20,7 @@ const auth = getAuth(app)
 auth.useDeviceLanguage();
 
 const db = getFirestore(app);
-const dbRealtime = getDatabase(app, 'https://atrium-xsis-default-rtdb.asia-southeast1.firebasedatabase.app')
+const dbRealtime = getDatabase(app)
 const storage = getStorage(app);
 
 /** Sign With Google Provider */

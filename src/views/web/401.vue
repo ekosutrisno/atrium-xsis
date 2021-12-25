@@ -1,6 +1,12 @@
 <template>
-  <div class="flex bg-color-gray-lighter dark:bg-color-dark-black-default flex-col font-quicksand items-center justify-center h-full min-h-screen">
-    <div class="flex with-transition items-start divide-x divide-color-dark-gray-darker space-x-4">
+  <div class="flex relative bg-color-gray-lighter dark:bg-color-dark-black-default flex-col font-quicksand items-center justify-center h-full min-h-screen">
+     <img 
+      aria-hidden="true" 
+      class="hidden lg:block object-cover absolute inset-0 opacity-5" 
+      src="https://www.gstatic.com/mobilesdk/200303_mobilesdk/ML_fore@2x.png" 
+      alt="img"
+    >
+    <div class="flex z-30 with-transition items-start divide-x divide-color-dark-gray-darker space-x-4">
       <div class="text-indigo-400 text-4xl font-semibold">401</div>
       <div class="pl-4">
         <h3 class="dark:text-color-gray-light text-color-dark-gray-darker text-4xl font-semibold">UnAuthorized</h3>
