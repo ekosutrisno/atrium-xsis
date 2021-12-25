@@ -36,7 +36,7 @@
       </span>
 
       <span class="ml-3">
-        <button type="button" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button @click="goToVacancyApply" type="button" class="inline-flex items-center px-4 py-2 cursor-default sm:cursor-pointer border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <CheckIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
           Apply
         </button>
@@ -89,9 +89,17 @@ export default defineComponent({
         );
       }
 
+      const goToVacancyApply = ()=>{
+        router.push({
+          name: 'VacancyApply', 
+          params:{ vacancyId: props.vacancy.vacancyId}}
+        );
+      }
+
       return{
         formatDateWithMonth,
-        goToVacancyDetail
+        goToVacancyDetail,
+        goToVacancyApply
       }
     }
 })

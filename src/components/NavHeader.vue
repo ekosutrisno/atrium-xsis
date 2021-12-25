@@ -22,10 +22,28 @@
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button class="bg-gray-800 p-1 rounded-full cursor-default sm:cursor-pointer text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
-            <span class="sr-only">View notifications</span>
-            <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+          <!-- Notification dropdown -->
+          <Menu as="div" class="ml-3 relative z-50">
+            <div>
+              <MenuButton class="bg-gray-800 p-1 rounded-full cursor-default sm:cursor-pointer text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
+                <span class="sr-only">View notifications</span>
+                <BellIcon class="h-6 w-6" aria-hidden="true" />
+              </MenuButton>
+            </div>
+            <transition enter-active-class="transition ease-out duration-100" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+              <MenuItems class="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
+                <MenuItem v-slot="{ active }">
+                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <BellIcon class="h-6 w-6" aria-hidden="true" />
+                    <span class="text-xs">Your joba application on review</span>
+                  </router-link>
+                </MenuItem>
+
+                <!-- TODO integrate with notification service-->
+
+              </MenuItems>
+            </transition>
+          </Menu>
 
           <!-- Profile dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
@@ -38,13 +56,21 @@
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
               <MenuItems class="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
                 <MenuItem>
-                  <div :class="['p-4 relative h-full flex flex-col space-y-2 items-center justify-center bg-color-gray-light dark:bg-color-dark-gray-darkest text-color-dark-gray-darkest dark:text-color-gray-light']">
+                  <div :class="['p-4 relative h-full flex flex-col space-y-2 items-center justify-center bg-color-gray-lightest border-b border-b-color-gray-light dark:border-b-transparent dark:bg-color-dark-gray-darkest text-color-dark-gray-darkest dark:text-color-gray-light']">
                      <img class="w-14 h-14 object-cover border border-gray-300 dark:border-gray-600 rounded-full" :src="photoUrl" alt="avatar-drop-menu">
                      <div class="text-center">
                        <p class=""> {{ loginAsInfo.fullName }} </p>
                        <p class="text-sm"> {{ loginAsInfo.email }} </p>
                      </div>
                      <Svg2 aria-hidden="true" class="absolute -top-2"/>
+                     <button type="button" class="absolute top-2 right-5">
+                        <svg v-if="theme == 'dark'" @click="togleDarkLightMode('light')" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9a6fc3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <svg v-if="theme == 'light'" @click="togleDarkLightMode('dark')" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9a6fc3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                     </button>
                   </div>
                 </MenuItem>
 
@@ -63,6 +89,14 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                     <span>Admin Views</span>
+                  </router-link>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                  <router-link to="/user/help" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-gray-400 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Help</span>
                   </router-link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
@@ -86,7 +120,7 @@
 import { computed, reactive, toRefs, defineComponent } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { BellIcon } from '@heroicons/vue/outline'
-import { useAuthStore, useUserStore } from '../services'
+import { useAuthStore, useUserStore, useUtilityStore } from '../services'
 import { useRouter } from 'vue-router'
 import Svg2 from './svg/Svg2.vue'
 
@@ -112,6 +146,7 @@ export default defineComponent({
   setup() {
     const userStore = useUserStore();
     const authStore = useAuthStore();
+    const utilityStore = useUtilityStore();
     const router = useRouter();
 
     const state = reactive({
@@ -120,12 +155,17 @@ export default defineComponent({
       open: false,
       photoUrl:computed(()=> userStore.getPhotoUrl),
       loginAsInfo: computed(()=>userStore.getLoginAsInfo),
-      userRole: computed(() => localStorage.getItem('_role'))
+      userRole: computed(() => localStorage.getItem('_role')),
+      theme: computed(() => utilityStore.theme),
     })
 
     const setCurrentActiveNav = (current: number): void => {
       state.currentNav = current;
     }
+
+    const togleDarkLightMode = (value: string): void => {
+      utilityStore.setToggleTheme(value);
+    };
 
     const notAdmin = computed(()=> {
       const exclude = ['6','7'];
@@ -142,6 +182,7 @@ export default defineComponent({
       ...toRefs(state),
       notAdmin,
       setCurrentActiveNav,
+      togleDarkLightMode,
       onLogoutAction
     }
   },

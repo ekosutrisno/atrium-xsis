@@ -262,7 +262,7 @@
                                  {{ tech }}
                               </div>
                            </div>
-                           <span class="text-xs dark:text-color-gray-default">This project use {{ project.projectTechologi.length }} technologies.</span>
+                           <span class="text-xs dark:text-color-gray-default">This project use {{ project.projectTechologi?.length }} technologies.</span>
                         </dd>
                      </div>
                   </dl>
@@ -297,7 +297,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import ProjectCard from '../components/cards/ProjectCard.vue'
 import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
@@ -313,11 +313,12 @@ export default defineComponent({
 
       const projectStore =  useProjectStore();
       const utilityStore = useUtilityStore();
+      onMounted(()=> projectStore.getProject(route.params.projectId as string))
 
       const state = reactive({
          project: route.params.projectId == 'new_project' 
             ?  {
-                  projectId: `${Date.now()}-${localStorage.getItem('_uid') as string}`,
+                  projectId: `${Date.now()}`,
                   userId: localStorage.getItem('_uid') as string,
                   clientName: "",
                   location: "",
@@ -334,7 +335,7 @@ export default defineComponent({
                   createdDate: Date.now(),
                   lastModifiedDate: Date.now()
                } as IProject
-            :  computed(()=>projectStore.projects.filter(pro=> pro.projectId === route.params.projectId)[0]),
+            :  computed(()=>projectStore.selectedProject),
          isOnEdit: route.params.projectId == 'new_project' ? true : false,
          onAddTags: false,
          newTech: '',

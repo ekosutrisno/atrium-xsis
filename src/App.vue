@@ -27,9 +27,6 @@ export default defineComponent({
       // Check Theme Selected
       utilityStore.wathcThemeSelected();
 
-      // Check Connectivity
-      utilityStore.checkConnectifity();
-
       if (state.uid) {
         // Listen All Snapshot Timesheet Data
         await statisticStore.onSnapshotRealtimeUpdateStatistic();
