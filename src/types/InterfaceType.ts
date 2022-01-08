@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
 export interface AnyObject {
@@ -234,3 +235,14 @@ export type UserAddress = {
    addressAsli: IAddress
    addressDomisili: IAddress
 } & Info
+
+
+export interface FileAttachment extends Info{
+   userId: string
+   name: string
+   size: number
+   sizeText: string
+   url: string
+   uploadedAt: number
+   type: string
+}
