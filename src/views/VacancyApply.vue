@@ -151,7 +151,7 @@
                               <div class="w-0 flex-1 flex items-center">
                                  <PaperClipIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                                  <span class="ml-2 flex-1 w-0 truncate">
-                                    {{ file.name }} <span class="text-[10px] hidden md:inline p-0.5 px-1.5 ml-2 bg-indigo-500 dark:bg-indigo-600 text-white rounded-full">{{ file.sizeText }}</span>
+                                    <span>{{ file.name }}</span> <span class="text-[10px] hidden lg:inline p-0.5 px-1.5 ml-2 bg-indigo-500 dark:bg-indigo-600 text-white rounded-full">{{ file.sizeText }}</span>
                                  </span>
                               </div>
                               <div class="ml-4 flex-shrink-0 inline-flex space-x-3">
@@ -225,9 +225,9 @@ export default defineComponent({
          fileStore.getFile(state.uid);
       })
 
-      const onUploadFile = async (event: any, dragDrop: boolean) => {
+      const onUploadFile = async (event: any, dragDrop?: boolean) => {
 
-         const files: FileList = dragDrop 
+         const files: FileList = dragDrop
             ? event.dataTransfer.files 
             : event.target.files;
 
