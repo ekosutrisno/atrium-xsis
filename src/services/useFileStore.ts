@@ -1,5 +1,5 @@
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
-import { getDownloadURL, ref, StorageReference, uploadBytesResumable } from 'firebase/storage';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { deleteObject, getDownloadURL, ref, StorageReference, uploadBytesResumable } from 'firebase/storage';
 import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { FileAttachment, IUser } from '../types/InterfaceType';
@@ -9,14 +9,19 @@ import { formatBytes } from '../utils/helperFunction';
 
 const toast = useToast();
 interface FileStoreState {
-    files: FileAttachment[],
+    files: FileAttachment[]
     statusUpload: number
+    fileUploadStatus: {
+        fileName: string
+        progress: number
+    }[]
 }
 
 export const useFileStore = defineStore("useFileStore", {
     state: (): FileStoreState => ({
         files: [],
-        statusUpload: 0
+        statusUpload: 0,
+        fileUploadStatus: []
     }),
     actions: {
         /**
@@ -40,7 +45,10 @@ export const useFileStore = defineStore("useFileStore", {
 
             }
         },
-
+        /**
+         * @param  {IUser['userId']} userId
+         * @param  {FileAttachment['name']} fileName
+         */
         async downloadFile(userId: IUser['userId'], fileName: FileAttachment['name']) {
             const storageRef = ref(storage, `attachments/${userId}/${fileName}`);
 
@@ -63,9 +71,33 @@ export const useFileStore = defineStore("useFileStore", {
                     xhr.send();
                 })
         },
+        /**
+         * @param  {IUser['userId']} userId
+         * @param  {FileAttachment['name']} fileName
+         */
+        async removeFile(userId: IUser['userId'], fileName: FileAttachment['name']) {
+            const desertRef = ref(storage, `attachments/${userId}/${fileName}`);
 
-        removeFile() { },
+            // Delete the file
+            deleteObject(desertRef).then(() => {
+                const storageRef = doc(db, `tbl_attachments`, `${userId}`);
+                const collectionFile = collection(storageRef, 'attachments');
+                const q = query(collectionFile, where('name', '==', fileName));
 
+                getDocs(q)
+                    .then((snapshot) => {
+                        if (!snapshot.empty) {
+                            deleteDoc(doc(storageRef, "attachments", snapshot.docs[0].id));
+                            toast.success(`File ${fileName} has been deleted!`);
+                        }
+                    })
+            }).catch((error) => {
+                console.log(error.message);
+            });
+        },
+        /**
+         * @param  {IUser["userId"]} userId
+         */
         async getFile(userId: IUser["userId"]) {
             const storageRef = doc(db, `tbl_attachments`, `${userId}`);
             const collectionFile = collection(storageRef, 'attachments');
@@ -88,10 +120,17 @@ export const useFileStore = defineStore("useFileStore", {
         async onUpload(storageRef: StorageReference, file: File, userId: IUser["userId"]) {
             const uploadTask = uploadBytesResumable(storageRef, file);
 
+            const data: { fileName: string, progress: number } = {
+                fileName: file.name,
+                progress: 0
+            }
+            this.fileUploadStatus.push(data);
+
             uploadTask.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    this.statusUpload = progress;
+                    this.fileUploadStatus
+                        .filter(f => f.fileName == snapshot.ref.name)[0].progress = progress;
                 },
                 (error) => {
                     switch (error.code) {
@@ -116,9 +155,9 @@ export const useFileStore = defineStore("useFileStore", {
                         const docRef = collection(docRefParent, "attachments");
 
                         // Query to check if data already exist with the same name
-                        const q = query(docRef, where('userId', '==', userId), where('name', '==', file.name));
+                        const q = query(docRef, where('name', '==', file.name));
                         getDocs(q)
-                            .then((snapshot) => {
+                            .then(async (snapshot) => {
                                 if (snapshot.empty) {
                                     const payload: FileAttachment = {
                                         name: file.name,
@@ -132,15 +171,14 @@ export const useFileStore = defineStore("useFileStore", {
                                         type: file.type
                                     };
 
-                                    addDoc(docRef, payload).then(() => {
-                                        toast.info(`Your attachment has been uploaded.`);
-                                    });
+                                    await addDoc(docRef, payload);
+
                                 } else {
                                     const data = snapshot.docs[0].data() as FileAttachment;
                                     data.lastModifiedDate = Date.now();
-                                    
-                                    // TODO update the lastModifiedDate
-                                    console.log(data);
++
+                                    updateDoc(doc(docRefParent, "attachments", snapshot.docs[0].id), data as any);
+                                    toast.success(`File ${file.name} has been updated!`);
                                 }
                             })
 

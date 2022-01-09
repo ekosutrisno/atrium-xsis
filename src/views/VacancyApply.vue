@@ -98,18 +98,33 @@
                   </div>
                   <div class="input-custom-wrapper-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                      <dt class="text-sm font-medium input-custom-dt">
-                        Attachments {{ statusUpload }}
+                        Attachments
                      </dt>
                      <dd class="mt-1 text-sm input-custom-dd sm:mt-0 sm:col-span-2">
+                        <!-- Progress Upload -->
+                        <ul v-if="fileUploadStatus.length" class="space-y-2 with-transition">
+                           <li v-for="(stat, idx) in fileUploadStatus" :key="idx">
+                              <div class="flex items-center justify-between bg-green-200 dark:bg-green-500 p-2 rounded-md">
+                                 <span>{{stat.fileName}}</span>
+                                 <span v-if="stat.progress < 100">{{stat.progress.toFixed()}} %</span>
+                                 <span v-else>
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-green-500 dark:text-green-200" viewBox="0 0 20 20" fill="currentColor">
+                                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                 </span>
+                              </div>
+                           </li>
+                        </ul>
+
                         <!-- Upload File -->
                         <div class="mb-4">
-                           <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 hover:border-indigo-400 dark:border-gray-700 dark:hover:border-indigo-400  border-dashed rounded-md">
+                           <div @dragover="dragover" @dragleave="dragleave" @drop="drop" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 dark:border-gray-700 border-dashed rounded-md">
                               <div class="space-y-1 text-center">
                                  <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                  </svg>
                                  <div class="flex text-sm text-gray-600">
-                                    <label for="file-upload-attachment" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                    <label for="file-upload-attachment" class="relative cursor-pointer rounded-md font-medium text-indigo-500 hover:text-indigo-400 dark:text-indigo-500 dark:hover:text-indigo-400">
                                        <span>Upload a file</span>
                                        <input 
                                           id="file-upload-attachment" 
@@ -131,17 +146,24 @@
                         </div>
                         <!-- End Upload File -->
 
-                        <ul role="list" class="border border-gray-200 dark:border-gray-700 rounded-md divide-y divide-gray-200 dark:divide-gray-700">
+                        <ul role="list" :class="[attachments.length ? `border border-gray-200 dark:border-gray-700 ` : ``]" class="rounded-md divide-y divide-gray-200 dark:divide-gray-700">
                            <li v-for="file in attachments" :key="file.uploadedAt" class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
                               <div class="w-0 flex-1 flex items-center">
                                  <PaperClipIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                                  <span class="ml-2 flex-1 w-0 truncate">
-                                    {{ file.name }}
+                                    {{ file.name }} <span class="text-[10px] hidden md:inline p-0.5 px-1.5 ml-2 bg-indigo-500 dark:bg-indigo-600 text-white rounded-full">{{ file.sizeText }}</span>
                                  </span>
                               </div>
-                              <div class="ml-4 flex-shrink-0">
+                              <div class="ml-4 flex-shrink-0 inline-flex space-x-3">
                                  <a href="" @click.prevent="onDownloadFile(file.name)" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                 Download
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                       <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                 </a>
+                                 <a href="" @click.prevent="onDeleteFile(file.name)" class="font-medium text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                       <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
                                  </a>
                               </div>
                            </li>
@@ -195,7 +217,7 @@ export default defineComponent({
          useBlur: computed(()=> utilityStore.useBlur),
          isLoginProcess: computed(()=> vacancyStore.isLoading),
          attachments: computed(()=> fileStore.files),
-         statusUpload: computed(()=> fileStore.statusUpload)
+         fileUploadStatus: computed(()=> fileStore.fileUploadStatus)
       })
 
       onMounted(()=> {
@@ -203,15 +225,51 @@ export default defineComponent({
          fileStore.getFile(state.uid);
       })
 
-      const onUploadFile = async (event: any) => {
-         const files: FileList = event.target.files;
-         await fileStore.uploadFile(files, state.uid);
-      
+      const onUploadFile = async (event: any, dragDrop: boolean) => {
+
+         const files: FileList = dragDrop 
+            ? event.dataTransfer.files 
+            : event.target.files;
+
+         fileStore.uploadFile(files, state.uid)
+            .then(()=>{
+               setTimeout(() => {
+                  fileStore.$patch((store)=> store.fileUploadStatus = []);
+               }, 5000);
+            });
       }
 
       const onDownloadFile = async (fileName: string) => {
          await fileStore.downloadFile(state.uid, fileName);
-      
+      }
+
+      const onDeleteFile = async (fileName: string) => {
+         await fileStore.removeFile(state.uid, fileName);
+      }
+
+      const dragover = (event: any) => {
+         event.preventDefault();
+         if (!event.currentTarget.classList.contains('border-indigo-400')) {
+            event.currentTarget.classList.remove('border-gray-200');
+            event.currentTarget.classList.remove('dark:border-gray-700');
+            event.currentTarget.classList.add('border-indigo-400');
+         }
+      }
+
+      const dragleave = (event: any)=> {
+         event.currentTarget.classList.remove('border-indigo-400');
+         event.currentTarget.classList.add('border-gray-300');
+         event.currentTarget.classList.add('dark:border-gray-700');
+      }
+
+      const drop = (event: any) => {
+         event.preventDefault();
+
+         onUploadFile(event, true);
+
+         event.currentTarget.classList.remove('border-indigo-400');
+         event.currentTarget.classList.add('border-gray-300');
+         event.currentTarget.classList.add('dark:border-gray-700');
       }
 
       return {
@@ -219,7 +277,11 @@ export default defineComponent({
          formatDateWithMonth,
          formatDateFromNow,
          onUploadFile,
-         onDownloadFile
+         onDownloadFile,
+         onDeleteFile,
+         dragover,
+         dragleave,
+         drop,
       }
    }
 })
