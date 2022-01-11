@@ -123,8 +123,8 @@
                                  <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                  </svg>
-                                 <div class="flex text-sm text-gray-600">
-                                    <label for="file-upload-attachment" class="relative cursor-pointer rounded-md font-medium text-indigo-500 hover:text-indigo-400 dark:text-indigo-500 dark:hover:text-indigo-400">
+                                 <div class="flex text-sm justify-center text-gray-600">
+                                    <label for="file-upload-attachment" class="relative cursor-pointer rounded-md font-medium text-indigo-500 hover:text-indigo-400 dark:text-indigo-300 dark:hover:text-indigo-200">
                                        <span>Upload a file</span>
                                        <input 
                                           id="file-upload-attachment" 
@@ -133,13 +133,13 @@
                                           type="file" 
                                           class="sr-only"
                                           accept="application/pdf"
-                                           @change="onUploadFile" 
+                                          @change="onUploadFile" 
                                        />
                                     </label>
-                                    <p class="pl-1 dark:text-gray-400">or drag and drop</p>
+                                    <p class="pl-1 hidden md:block dark:text-gray-400">or drag and drop</p>
                                  </div>
                                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                                    PDF up to 10MB
+                                    PDF up to 10MB with file name format Your_Name_CV.pdf
                                  </p>
                               </div>
                            </div>

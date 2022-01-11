@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia';
-import { useToast } from 'vue-toastification';
 import { ref, onValue } from "firebase/database";
 import { dbRealtime } from './useFirebaseService';
 
-const toast = useToast();
 interface UtilityStoreState {
    theme: string,
    useBlur: boolean,
@@ -41,8 +39,6 @@ export const useUtilityStore = defineStore({
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light')
          }
-
-         toast.success(`Use Preference ${theme} mode.`)
       },
 
       /**
@@ -84,8 +80,6 @@ export const useUtilityStore = defineStore({
             localStorage.setItem('blur', 'true');
             info = 'active'
          }
-
-         toast.success(`Use Blur ${info}.`)
       },
 
       /**

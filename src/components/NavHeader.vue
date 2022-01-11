@@ -25,17 +25,25 @@
           <!-- Notification dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
             <div>
-              <MenuButton class="bg-gray-800 p-1 rounded-full cursor-default sm:cursor-pointer text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
+              <MenuButton class="bg-gray-800 p-1 relative rounded-full cursor-default sm:cursor-pointer text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-400">
                 <span class="sr-only">View notifications</span>
                 <BellIcon class="h-6 w-6" aria-hidden="true" />
+                <div 
+                  v-if="haveNotification.length" 
+                  class="bg-indigo-500 text-white absolute -top-0.5 -right-2 rounded-full h-4 w-4 p-1 flex items-center justify-center text-xs">
+                    {{haveNotification.length <= 3 ? haveNotification.length : `3+`}}
+                </div>
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
               <MenuItems class="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg overflow-hidden bg-color-gray-lightest dark:bg-color-dark-gray-dark ring-1 ring-color-gray-dark dark:ring-color-dark-black-default ring-opacity-5 focus:outline-none">
-                <MenuItem v-slot="{ active }">
-                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-center space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
-                    <BellIcon class="h-6 w-6" aria-hidden="true" />
-                    <span class="text-xs">Your joba application on review</span>
+                <MenuItem v-for="notif in haveNotification" :key="notif.timestamp" v-slot="{ active }">
+                  <router-link to="/u/0/settings" :class="[active ? 'bg-gray-100 dark:bg-color-dark-gray-darker' : '', 'inline-flex items-start space-x-2 w-full px-4 py-3 text-color-gray-darkest dark:text-color-gray-light']">
+                    <BellIcon class="h-6 w-6 text-indigo-300" aria-hidden="true" />
+                    <div class="flex flex-col">
+                      <span class="text-xs font-semibold">{{ notif.text }}</span>
+                      <span class="text-xs text-gray-300">{{ notif.data }}</span>
+                    </div>
                   </router-link>
                 </MenuItem>
 
@@ -48,7 +56,7 @@
           <!-- Profile dropdown -->
           <Menu as="div" class="ml-3 relative z-50">
             <div>
-              <MenuButton class="dark:bg-gray-800 z-0 flex cursor-default sm:cursor-pointer text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-[#25BDAE]">
+              <MenuButton class="dark:bg-gray-800 z-0 flex cursor-default sm:cursor-pointer text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-400">
                 <span class="sr-only">Open user menu</span>
                 <img class="h-8 w-8 rounded-full" :src="photoUrl" alt="profile-avatar" />
               </MenuButton>
@@ -120,7 +128,7 @@
 import { computed, reactive, toRefs, defineComponent } from 'vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { BellIcon } from '@heroicons/vue/outline'
-import { useAuthStore, useUserStore, useUtilityStore } from '../services'
+import { useAuthStore, useNotificationStore, useUserStore, useUtilityStore } from '../services'
 import { useRouter } from 'vue-router'
 import Svg2 from './svg/Svg2.vue'
 
@@ -147,16 +155,18 @@ export default defineComponent({
     const userStore = useUserStore();
     const authStore = useAuthStore();
     const utilityStore = useUtilityStore();
+    const notificationStore = useNotificationStore();
     const router = useRouter();
 
     const state = reactive({
-      navigation: navigation,
-      currentNav: 1,
       open: false,
-      photoUrl:computed(()=> userStore.getPhotoUrl),
+      currentNav: 1,
+      navigation: navigation,
+      theme: computed(() => utilityStore.theme),
+      photoUrl: computed(()=> userStore.getPhotoUrl),
       loginAsInfo: computed(()=>userStore.getLoginAsInfo),
       userRole: computed(() => localStorage.getItem('_role')),
-      theme: computed(() => utilityStore.theme),
+      haveNotification:  computed(()=> notificationStore.notifications),
     })
 
     const setCurrentActiveNav = (current: number): void => {

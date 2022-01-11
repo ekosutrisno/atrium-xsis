@@ -67,7 +67,6 @@ import { useRouter } from 'vue-router';
 import { auth } from '../../services/useFirebaseService';
 import { useAuthStore, useStatisticStore, useTimesheetStore, useUserStore, useUtilityStore } from '../../services';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
-import { useToast } from 'vue-toastification';
 import { FlagUseOn } from '../../types/EnumType';
 import { isMatchPassword } from '../../utils/helperFunction';
 import { LockClosedIcon } from '@heroicons/vue/solid';
@@ -85,7 +84,6 @@ export default defineComponent({
       const statisticStore = useStatisticStore();
       const utilityStore = useUtilityStore();
       const timesheetStore = useTimesheetStore();
-      const toast = useToast();
 
       const state = reactive({
          auth:{
@@ -122,9 +120,6 @@ export default defineComponent({
                   /** Set isRegister to false and Redirect to Dashboard page. */
                   state.isRegisterProcess = false;
                   router.replace('/u/0/dashboard');
-
-                  /** Show Notification if login sucessfully. */
-                  toast.success(`Welcome ${user.email} to Atrium.`);
               })
               .catch((error) => {
                   const errorCode = error.code;

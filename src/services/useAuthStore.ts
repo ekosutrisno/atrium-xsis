@@ -68,10 +68,8 @@ export const useAuthStore = defineStore({
          signOut(auth).then(() => {
             localStorage.removeItem('_uid');
             localStorage.removeItem('_role');
-            toast.info("You has been logout.")
          }).catch((error) => {
             this.setErrorData(error);
-            toast.error(`Failed, ${error.code}`);
          });
       },
 

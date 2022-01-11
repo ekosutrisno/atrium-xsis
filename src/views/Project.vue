@@ -1,7 +1,7 @@
 <template>
 <div class="flex relative w-full pb-20">
-   <div class="hidden lg:block absolute top-64 -left-44">
-      <img aria-hidden="true" class="opacity-5" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
+   <div class="hidden lg:block absolute -z-0 top-64 -left-44">
+      <img aria-hidden="true" class="dark:opacity-5 opacity-25" src="https://www.gstatic.com/mobilesdk/180824_mobilesdk/alertsDrawerEmptyState@2x.png" alt="img">
    </div>
 
    <div class="flex-1">
@@ -21,7 +21,7 @@
             </router-link>
          </div>
       </header>
-      <ul v-if="projects.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-0.5">
+      <ul v-if="projects.length" class="grid relative sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-0.5">
          <li v-for="project in projects" :key="project.projectId">
             <ProjectCard :project="project"/>
          </li>

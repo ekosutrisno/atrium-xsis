@@ -8,6 +8,7 @@ import { useAuthStore } from './useAuthStore';
 import { useRoleStore } from './useRoleStore';
 import { useClientStore } from './useClientStore';
 import { useFileStore } from './useFileStore';
+import { useNotificationStore } from './useNotificationStore';
 
 export {
    useProjectStore,
@@ -19,5 +20,6 @@ export {
    useAuthStore,
    useRoleStore,
    useClientStore,
-   useFileStore
+   useFileStore,
+   useNotificationStore
 }

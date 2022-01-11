@@ -246,3 +246,10 @@ export interface FileAttachment extends Info{
    uploadedAt: number
    type: string
 }
+
+export interface Notification extends Info {
+   type: string
+   text: string
+   timestamp: number
+   data: null | any
+}
