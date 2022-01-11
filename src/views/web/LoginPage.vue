@@ -86,7 +86,6 @@ import { useRouter } from 'vue-router';
 import { signInWithEmailAndPassword, signInWithPopup } from '@firebase/auth';
 import { auth, gProvider } from '../../services/useFirebaseService';
 import { useAuthStore, useUserStore, useUtilityStore } from '../../services';
-import { useToast } from 'vue-toastification';
 import { LockClosedIcon } from '@heroicons/vue/solid';
 import Spinner from '../../components/modal/Spinner.vue';
 import GoogleIcon from '../../components/svg/GoogleIcon.vue';
@@ -102,7 +101,6 @@ export default defineComponent({
       const authStore = useAuthStore();
       const userStore = useUserStore();
       const utilityStore = useUtilityStore();
-      const toast = useToast();
 
       const state = reactive({
          auth:{
@@ -129,9 +127,6 @@ export default defineComponent({
               /** Stop Loading and Redirect in to Dashboard. */
               state.isLoginProcess =  false;
               router.replace('/u/0/dashboard');
-
-              /** Show notification login succesfully. */
-              toast.success("Welcome back " + user.email);
           })
           .catch((error) => {
               const errorCode = error.code;
@@ -159,9 +154,6 @@ export default defineComponent({
                         authStore.onLoginAction(user);
                         
                         router.replace('/u/0/dashboard')
-                        
-                        /** Show notification login succesfully. */
-                        toast.success("Welcome back " + user.email);
                     });
 
             }).catch((error) => {
