@@ -11,9 +11,7 @@ interface ClientStoreState {
    clients: IClient[]
 }
 
-export const useClientStore = defineStore({
-   id: 'useClientStore',
-
+export const useClientStore = defineStore('useClientStore', {
    state: (): ClientStoreState => ({
       clients: [] as IClient[],
    }),

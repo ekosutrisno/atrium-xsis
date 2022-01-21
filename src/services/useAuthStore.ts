@@ -29,8 +29,7 @@ interface AuthStoreState {
    emailNotRegiter: boolean
 }
 
-export const useAuthStore = defineStore({
-   id: 'useAuthStore',
+export const useAuthStore = defineStore('useAuthStore', {
    state: (): AuthStoreState => ({
       isLoggedIn: false,
       isRegisterProcess: false,

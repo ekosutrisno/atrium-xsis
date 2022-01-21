@@ -18,8 +18,7 @@ interface UserStoreState {
    onLoadingStateUser: boolean
 }
 
-export const useUserStore = defineStore({
-   id: 'useUserStore',
+export const useUserStore = defineStore('useUserStore', {
    state: (): UserStoreState => ({
       gender: '',
       onLoadingStateUser: true,

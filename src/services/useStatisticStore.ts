@@ -15,8 +15,7 @@ interface StatisticStoreState {
    totalStatistics: IStatisticTotalMeta[]
 }
 
-export const useStatisticStore = defineStore({
-   id: 'useStatisticStore',
+export const useStatisticStore = defineStore('useStatisticStore', {
    state: (): StatisticStoreState => ({
       statistic: statistics,
       absentStatistics: [],
@@ -95,7 +94,7 @@ export const useStatisticStore = defineStore({
                })
          } else if (flagUseOn === FlagUseOn.REGISTRATION) {
             setDoc(docRefParent, statistic)
-               .then(async () => { this.getUserStatistic(userId)})
+               .then(async () => { this.getUserStatistic(userId) })
          }
       },
 
