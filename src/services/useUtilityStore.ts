@@ -11,8 +11,7 @@ interface UtilityStoreState {
    isOffline: boolean
 }
 
-export const useUtilityStore = defineStore({
-   id: 'useUtilityStore',
+export const useUtilityStore = defineStore('useUtilityStore', {
    state: (): UtilityStoreState => ({
       theme: '',
       useBlur: localStorage.getItem('blur') === 'true' ? true : false,

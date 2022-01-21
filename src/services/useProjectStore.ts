@@ -11,8 +11,7 @@ interface ProjectStoreState {
    isLoading: boolean
 }
 
-export const useProjectStore = defineStore({
-   id: 'useProjectStore',
+export const useProjectStore = defineStore('useProjectStore', {
    state: (): ProjectStoreState => ({
       projects: [] as IProject[],
       selectedProject: {} as IProject,

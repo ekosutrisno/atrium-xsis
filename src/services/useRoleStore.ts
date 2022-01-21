@@ -8,9 +8,7 @@ interface RoleStoreState {
    developerRole: IRoleDeveloper[]
 }
 
-export const useRoleStore = defineStore({
-   id: "useRoleStore",
-
+export const useRoleStore = defineStore('useRoleStore', {
    state: (): RoleStoreState => ({
       mainRole: [] as IMainRole[],
       developerRole: [] as IRoleDeveloper[]

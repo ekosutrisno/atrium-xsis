@@ -18,8 +18,7 @@ interface TimesheetStoreState {
    currentMonthExist: boolean
 }
 
-export const useTimesheetStore = defineStore({
-   id: 'useTimesheetStore',
+export const useTimesheetStore = defineStore('useTimesheetStore',{
    state: (): TimesheetStoreState => ({
       timehseets: [] as ITimesheet[],
       timehseetsNonFiltered: [] as ITimesheet[],

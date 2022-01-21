@@ -15,9 +15,7 @@ interface VacancyStoreState {
    isLoading: boolean
 }
 
-export const useVacancyStore = defineStore({
-   id: 'useVacancyStore',
-
+export const useVacancyStore = defineStore('useVacancyStore', {
    state: (): VacancyStoreState => ({
       vacancies: [],
       selectedVacancy: {} as IJobVacancy,
