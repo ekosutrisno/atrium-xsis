@@ -16,12 +16,12 @@
             <p class="text-color-gray-darkest dark:text-color-gray-default mt-1.5">Created {{ projectTotal }} projects.</p>
             <div class="text-color-gray-darkest dark:text-color-gray-default flex flex-col mt-4 text-sm">
               <span>Current Clients</span>
-              <span v-if="!currentUser.client"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
+              <span v-if="!currentClient"  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
                 __NO_CLIENT__
               </span>
               <ul v-else class="mt-1">
                   <span  class="font-semibold text-indigo-600 dark:text-indigo-300 "> 
-                    {{ currentUser.client.name }} 
+                    {{ currentClient.name }} 
                   </span>
               </ul>
             </div>
@@ -35,8 +35,8 @@
             <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="onUpdateAvatar">
            <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
          </div>
-         <div :class="[currentUser.roleDeveloper.roleDeveloperId == 7 ? 'dark:bg-[#28a3a3] bg-[#54b3b3]' : 'dark:bg-[#9a6fc3] bg-[#a87cd1]']" class="absolute p-1 text-xs font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
-           {{currentUser.roleDeveloper.roleDeveloperName }}
+         <div :class="[currentUserDeveloperRole.roleDeveloperId == 7 ? 'dark:bg-[#28a3a3] bg-[#54b3b3]' : 'dark:bg-[#9a6fc3] bg-[#a87cd1]']" class="absolute p-1 text-xs font-semibold -bottom-3 right-3 rounded text-color-gray-lightest dark:text-white shadow-lg">
+           {{currentUserDeveloperRole.roleDeveloperName }}
          </div>
       </header>
       
@@ -154,7 +154,7 @@
        
           <!-- Current Ero and Client Detail -->
           <div v-else-if="currentTabs === 'Ero_Client'" class="space-y-6">
-            <div v-if="!currentUser.isEro" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+            <div v-if="currentUser.isEro" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
                 <div class="border-b relative border-gray-200 dark:border-color-gray-darkest">
                     <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
                         Current ERO
@@ -195,7 +195,7 @@
                         Your current Client details info
                     </p>
                 </div>
-                <ClientInfo v-if="currentUser.client" :client="currentUser.client"/>
+                <ClientInfo v-if="currentClient" :client="currentClient"/>
                 <div v-else>
                   <p class="my-3 max-w-2xl text-sm text-gray-500 dark:text-color-gray-default">
                       Currently you do not have a client, please contact the officer for more info.
@@ -237,6 +237,8 @@ export default defineComponent({
       useBlur: localStorage.getItem('blur') == 'true' ? true : false,
       currentUser: computed(()=> userStore.currentUser),
       currentEro: computed(()=> userStore.currentEro),
+      currentUserDeveloperRole: computed(()=> userStore.currentUserDeveloperRole),
+      currentClient: computed(()=> userStore.currentClient),
       providedId: computed(()=> authStore.currentUserSession.providedId),
       menuTabs:[
         {

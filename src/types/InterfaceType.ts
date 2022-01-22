@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { DocumentReference } from "firebase/firestore";
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
 export interface AnyObject {
@@ -174,7 +175,7 @@ export interface IClient extends Info {
 
 export interface IUser extends Info {
    userId: string
-   eroId?: string
+   eroId?: DocumentReference | null
    isEro?: boolean
    nationality?: string
    isActive: boolean
@@ -189,10 +190,10 @@ export interface IUser extends Info {
    hobby?: string
    joinAt: Date | any
    religion?: Religion | string
-   address: UserAddress
-   roleDeveloper: IRoleDeveloper
-   mainRole: IMainRole
-   client: null | IClient
+   address: DocumentReference
+   roleDeveloper: DocumentReference
+   mainRole: DocumentReference
+   client: DocumentReference
    userPreference: IUserPreference
    about?: string
 }
@@ -230,11 +231,11 @@ export interface IUserPreference extends Info {
    }
 }
 
-export type UserAddress = {
+export interface UserAddress extends Info{
    userId: string
    addressAsli: IAddress
    addressDomisili: IAddress
-} & Info
+}
 
 
 export interface FileAttachment extends Info{

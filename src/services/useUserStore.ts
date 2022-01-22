@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { IAddress, IClient, ICurrentEro, IUser, IUserPreference } from '../types/InterfaceType';
+import { IAddress, IClient, ICurrentEro, IMainRole, IRoleDeveloper, IUser, IUserPreference, UserAddress } from '../types/InterfaceType';
 import { userMock } from '../utils/mockDataAPI';
-import { collection, doc, getDoc, getDocs, onSnapshot, setDoc, updateDoc, } from 'firebase/firestore';
+import { collection, doc, DocumentReference, getDoc, getDocs, onSnapshot, setDoc, updateDoc, } from 'firebase/firestore';
 import { db, storage } from '../services/useFirebaseService';
 import { useToast } from 'vue-toastification';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -12,8 +12,11 @@ const toast = useToast();
 interface UserStoreState {
    gender: string
    currentUser: IUser
+   currentUserDeveloperRole: IRoleDeveloper
+   currentUserMainRole: IMainRole
    userList: IUser[]
    currentClient: IClient | null
+   currentUserAddress: UserAddress | null
    currentEro: ICurrentEro | null
    onLoadingStateUser: boolean
 }
@@ -23,8 +26,11 @@ export const useUserStore = defineStore('useUserStore', {
       gender: '',
       onLoadingStateUser: true,
       currentUser: userMock,
-      currentEro: {} as ICurrentEro,
-      currentClient: {} as IClient,
+      currentUserDeveloperRole: {} as IRoleDeveloper,
+      currentUserMainRole: {} as IMainRole,
+      currentEro: null,
+      currentUserAddress: null,
+      currentClient: null,
       userList: [] as IUser[]
    }),
    actions: {
@@ -70,7 +76,7 @@ export const useUserStore = defineStore('useUserStore', {
 
          const newUser: IUser = {
             userId: newData.userId,
-            eroId: '',
+            eroId: null,
             isEro: false,
             nationality: "",
             isActive: googleNewData?.oauth ? googleNewData.user.emailVerified : false,
@@ -90,50 +96,10 @@ export const useUserStore = defineStore('useUserStore', {
             joinAt: Date.now(),
             religion: "",
             about: "",
-            address: {
-               userId: newData.userId,
-               addressAsli: {
-                  userId: newData.userId,
-                  isDomisili: false,
-                  jalan: "",
-                  kota: "",
-                  provinsi: "",
-                  kodePos: "",
-                  desa: "",
-                  country: "",
-                  kabupaten: "",
-                  kecamatan: "",
-                  createdDate: Date.now(),
-                  lastModifiedDate: Date.now(),
-               },
-               addressDomisili: {
-                  userId: newData.userId,
-                  isDomisili: true,
-                  jalan: "",
-                  kota: "",
-                  provinsi: "",
-                  kodePos: "",
-                  desa: "",
-                  country: "",
-                  kabupaten: "",
-                  kecamatan: "",
-                  createdDate: Date.now(),
-                  lastModifiedDate: Date.now(),
-               },
-            },
-            roleDeveloper: {
-               roleDeveloperId: 11,
-               roleDeveloperName: 'Applicants',
-               roleDeveloperDesc: 'Role as Applicants',
-               roleDeveloperSalary: 'Rp0K',
-            },
-            mainRole: {
-               roleId: 7,
-               isActive: true,
-               roleName: 'Applicants',
-               roleDescription: 'Role as Applicants'
-            },
-            client: null,
+            address: doc(db, 'tbl_address', newData.userId),
+            roleDeveloper: doc(db, 'tbl_developer_role', '11'),
+            mainRole: doc(db, 'tbl_main_role', '7'),
+            client: doc(db, 'tbl_clients', 'zKrmP1vkUwqvAhuNEVlJ'),
             userPreference: {
                useThemeMode: "dark",
                pushNotification: 3,
@@ -161,20 +127,18 @@ export const useUserStore = defineStore('useUserStore', {
          onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                const data: IUser = docSnap.data() as IUser;
-               // Set User Role
-               localStorage.setItem('_role', data.mainRole.roleId.toString());
 
                // Set The Current User
                this.currentUser = data;
 
-               // Get First CLient Only
-               this.currentClient = data.client;
+               // Parse all reference data
+               this.parseFromReference(data);
 
                // Stop the loading indicator
                this.onLoadingStateUser = false;
 
-               if (!data.isEro && data.eroId)
-                  this.fetchCurrentEro(data.eroId as IUser['userId']);
+               if (data.isEro && data.eroId)
+                  this.fetchCurrentEro(data.eroId);
                else
                   this.currentEro = null;
             }
@@ -185,9 +149,8 @@ export const useUserStore = defineStore('useUserStore', {
        * @param  {IUser['userId']} userId
        * @description Get Current Ero by EroId Key and if isEro = false
        */
-      async fetchCurrentEro(userId: IUser['userId']) {
-         const docRef = doc(db, "tbl_users", userId);
-         const docSnap = await getDoc(docRef);
+      async fetchCurrentEro(eroRefId: DocumentReference) {
+         const docSnap = await getDoc(eroRefId);
          if (docSnap.exists()) {
             const data: IUser = docSnap.data() as IUser;
             this.currentEro = {
@@ -205,26 +168,7 @@ export const useUserStore = defineStore('useUserStore', {
        * @description Update All Detail User Data Property
        */
       async updateCurrentUserData(user: IUser) {
-         var userId = user.userId;
-         user.client =
-            {
-               website: "https://www.telkom.co.id/sites",
-               lastModifiedDate: 1635859320438,
-               address: "Telkom Landmark Tower, 39-nd floor Jl. Jendral Gatot Subroto Kav. 52 RT.6/RW.1, Kuningan Barat, Mampang Prapatan",
-               name: "PT Baskom Indonesia",
-               clientId: "-MnLhwdWF5NeiaYy6bcI",
-               description: "© 2020 PT Baskom Indonesia (Persero) Tbk. Hak Cipta Dilindungi Undang-Undang",
-               telephone: "+62 21 - 808 63539",
-               provinsi: "DKI Jakarta", "kota": "Jakarta Selatan",
-               email: "corporate_comm@baskom.co.id",
-               postalCode: "12711",
-               country: "Indonesia",
-               image: "https://images.unsplash.com/photo-1462206092226-f46025ffe607?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Y29tcGFueXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-               createdDate: 1635689941601
-            } as IClient
-
-
-         const docRef = doc(db, "tbl_users", userId);
+         const docRef = doc(db, "tbl_users", user.userId);
          setDoc(docRef, user, { merge: true })
             .then(() => {
                toast.info(`Profile data has been updated.`)
@@ -235,19 +179,16 @@ export const useUserStore = defineStore('useUserStore', {
        * @param  {IAddress} address
        * Update for specific UserAddress Asli or Domisili
        */
-      async updateCurrentUserAddress(address: IAddress) {
-         var userId = address.userId;
-         const docRef = doc(db, "tbl_users", userId);
-
+      async updateCurrentUserAddress(addressRef: DocumentReference, address: IAddress) {
          if (address.isDomisili) {
-            updateDoc(docRef, {
-               "address.addressDomisili": address
+            updateDoc(addressRef, {
+               addressDomisili: address
             }).then(() => {
                toast.info(`Address Domisili updated.`)
             });
          } else {
-            updateDoc(docRef, {
-               "address.addressAsli": address
+            updateDoc(addressRef, {
+               addressAsli: address
             }).then(() => {
                toast.info(`Address Asli updated.`)
             });
@@ -313,7 +254,34 @@ export const useUserStore = defineStore('useUserStore', {
                }
             );
          }
+      },
+
+      /**
+       * @param  {IUser} ref
+       * This method will parse all data reference from User
+       */
+      parseFromReference(ref: IUser) {
+         getDoc(ref.mainRole)
+            .then(mainRole => {
+
+               if (mainRole.exists()) {
+                  // Set User Role
+                  localStorage.setItem('_role', mainRole.data().roleId.toString());
+
+                  this.currentUserMainRole = mainRole.data() as IMainRole
+               }
+            });
+
+         getDoc(ref.roleDeveloper)
+            .then(devRole => this.currentUserDeveloperRole = devRole.data() as IRoleDeveloper);
+
+         getDoc(ref.client)
+            .then(client => this.currentClient = client.data() as IClient);
+
+         getDoc(ref.address)
+            .then(address => this.currentUserAddress = address.data() as UserAddress);
       }
+      
    },
    getters: {
       /**
@@ -322,14 +290,6 @@ export const useUserStore = defineStore('useUserStore', {
        */
       getPhotoUrl(state): IUser['photoUrl'] {
          return state.currentUser ? state.currentUser.photoUrl : '';
-      },
-
-      /**
-       * @param  {} state
-       * @returns IUser.clients
-       */
-      getUserClient(state): IUser['client'] {
-         return state.currentUser.client
       },
 
       /**

@@ -51,7 +51,7 @@
             <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
             
             <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-8 right-0 rounded text-color-gray-lightest dark:text-white shadow-lg">
-                {{currentUser.roleDeveloper.roleDeveloperName }}
+                {{currentUserDeveloperRole.roleDeveloperName }}
             </div>
             
            <router-link to="/u/0/settings" class="z-10 absolute -top-8 -right-0">
@@ -150,6 +150,7 @@ export default defineComponent({
          category: computed(()=>route.params.category as string),
          uid: computed(() => localStorage.getItem('_uid') as string),
          currentUser: computed(() => userStore.currentUser),
+         currentUserDeveloperRole: computed(() => userStore.currentUserDeveloperRole),
          absenStatistics: computed(()=> statisticStore.absentStatistics),
          placementStatistics: computed(()=> statisticStore.placementStatistics),
          collectionStatistics: computed(()=> statisticStore.collectionStatistics),
