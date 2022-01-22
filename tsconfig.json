@@ -13,6 +13,9 @@
       "esnext",
       "dom"
     ],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": [
       "vite-plugin-pwa/client",
       "vite/client",

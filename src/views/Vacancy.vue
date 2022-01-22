@@ -54,8 +54,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import InternalVacancyCard from '../components/cards/InternalVacancyCard.vue'
-import { useUtilityStore, useVacancyStore } from '../services'
+import InternalVacancyCard from '@/components/cards/InternalVacancyCard.vue'
+import { useUtilityStore, useVacancyStore } from '@/services'
 
 export default defineComponent({
   components: { InternalVacancyCard },

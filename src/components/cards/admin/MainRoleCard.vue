@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent,  } from 'vue'
-import { IMainRole } from '../../../types/InterfaceType'
+import { IMainRole } from '@/types/InterfaceType'
 
 export default defineComponent({
     props:{

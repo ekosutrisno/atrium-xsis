@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IClient } from '../../../types/InterfaceType'
+import { IClient } from '@/types/InterfaceType'
 import Svg2 from '../../svg/Svg2.vue'
 
 export default defineComponent({

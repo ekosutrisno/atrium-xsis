@@ -176,9 +176,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useTimesheetStore } from '../../services';
-import { ITimesheet, IUser } from '../../types/InterfaceType';
-import { formatDateFromNow, formatDateWithMonth, isToday } from '../../utils/helperFunction';
+import { useTimesheetStore } from '@/services';
+import { ITimesheet, IUser } from '@/types/InterfaceType';
+import { formatDateFromNow, formatDateWithMonth, isToday } from '@/utils/helperFunction';
 import Svg1 from '../svg/Svg1.vue';
 import Svg2 from '../svg/Svg2.vue';
 

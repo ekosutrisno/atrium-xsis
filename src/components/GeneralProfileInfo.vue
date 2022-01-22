@@ -263,10 +263,10 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { useUserStore, useUtilityStore } from '../services';
-import { IUserPreference } from '../types/InterfaceType';
+import { IUserPreference } from '@/types/InterfaceType';
 import AddressFormCard from './cards/AddressFormCard.vue';
 import GeneralProfileHeader from './GeneralProfileHeader.vue';
-import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
+import { formatDateFromNow, formatDateWithMonth } from '@/utils/helperFunction';
 import GenderList from './input/GenderList.vue';
 
 export default defineComponent({

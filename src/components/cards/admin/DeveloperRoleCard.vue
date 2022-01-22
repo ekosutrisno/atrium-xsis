@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent,  } from 'vue'
-import { IRoleDeveloper } from '../../../types/InterfaceType'
+import { IRoleDeveloper } from '@/types/InterfaceType'
 
 export default defineComponent({
     props:{

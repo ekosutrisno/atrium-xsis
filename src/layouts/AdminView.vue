@@ -115,10 +115,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue";
-import Svg1 from "../components/svg/Svg1.vue";
-import Svg2 from "../components/svg/Svg2.vue";
-import Svg3 from "../components/svg/Svg3.vue";
-import { useUserStore } from "../services";
+import Svg1 from "@/components/svg/Svg1.vue";
+import Svg2 from "@/components/svg/Svg2.vue";
+import Svg3 from "@/components/svg/Svg3.vue";
+import { useUserStore } from "@/services";
 
 export default defineComponent({
   components: { Svg2, Svg3, Svg1 },

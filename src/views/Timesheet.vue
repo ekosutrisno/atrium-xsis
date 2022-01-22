@@ -120,9 +120,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { useTimesheetStore, useUtilityStore } from '../services';
-import Spinner from '../components/modal/Spinner.vue';
-import TimesheetTable from '../components/TimesheetTable.vue';
+import { useTimesheetStore, useUtilityStore } from '@/services';
+import Spinner from '@/components/modal/Spinner.vue';
+import TimesheetTable from '@/components/TimesheetTable.vue';
 
 export default defineComponent({
   components: { TimesheetTable, Spinner },

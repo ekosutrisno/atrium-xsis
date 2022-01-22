@@ -114,8 +114,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import StatisticCard from '../components/cards/StatisticCard.vue'
-import { useStatisticStore, useUserStore } from '../services';
+import StatisticCard from '@/components/cards/StatisticCard.vue'
+import { useStatisticStore, useUserStore } from '@/services';
 
 export default defineComponent({
   components: { StatisticCard },

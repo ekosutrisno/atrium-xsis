@@ -57,8 +57,8 @@ import {
   PencilIcon,
   QrcodeIcon
 } from '@heroicons/vue/solid';
-import { IJobVacancy } from '../../types/InterfaceType';
-import { formatDateWithMonth } from '../../utils/helperFunction';
+import { IJobVacancy } from '@/types/InterfaceType';
+import { formatDateWithMonth } from '@/utils/helperFunction';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({

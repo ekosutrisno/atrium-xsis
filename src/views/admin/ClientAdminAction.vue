@@ -82,11 +82,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import ClientCard from '../../components/cards/admin/ClientCard.vue';
-import ClientSlideOver from '../../components/cards/admin/ClientSlideOver.vue';
-import NewClientInputCard from '../../components/input/NewClientInputCard.vue';
-import { useClientStore } from '../../services'
-import { IClient } from '../../types/InterfaceType';
+import ClientCard from '@/components/cards/admin/ClientCard.vue';
+import ClientSlideOver from '@/components/cards/admin/ClientSlideOver.vue';
+import NewClientInputCard from '@/components/input/NewClientInputCard.vue';
+import { useClientStore } from '@/services'
+import { IClient } from '@/types/InterfaceType';
 
 export default defineComponent({
   components: { ClientCard, ClientSlideOver, NewClientInputCard },

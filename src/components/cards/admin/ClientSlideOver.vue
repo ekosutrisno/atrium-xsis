@@ -82,8 +82,8 @@
 import { defineComponent} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
-import { IClient } from '../../../types/InterfaceType'
-import { formatDateWithMonth } from '../../../utils/helperFunction';
+import { IClient } from '@/types/InterfaceType'
+import { formatDateWithMonth } from '@/utils/helperFunction';
 
 export default defineComponent ({
   components: {

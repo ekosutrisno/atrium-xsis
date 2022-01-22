@@ -26,8 +26,8 @@
 <script lang="ts">
 import dayjs from 'dayjs';
 import {computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { useTimesheetStore, useUserStore, useUtilityStore } from '../services';
-import { isWeekend, currentMonthAndYear } from '../utils/helperFunction';
+import { useTimesheetStore, useUserStore, useUtilityStore } from '@/services';
+import { isWeekend, currentMonthAndYear } from '@/utils/helperFunction';
 import TimesheetCard from './cards/TimesheetCard.vue';
 
 export default defineComponent({

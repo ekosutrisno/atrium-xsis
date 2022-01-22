@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IClient } from '../types/InterfaceType'
+import { IClient } from '@/types/InterfaceType'
 
 export default defineComponent({
     props:{

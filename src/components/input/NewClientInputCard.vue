@@ -209,9 +209,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useClientStore, useUtilityStore } from '../../services'
-import { IClient } from '../../types/InterfaceType';
-import { formatDateFromNow, formatDateWithMonth } from '../../utils/helperFunction';
+import { useClientStore, useUtilityStore } from '@/services'
+import { IClient } from '@/types/InterfaceType';
+import { formatDateFromNow, formatDateWithMonth } from '@/utils/helperFunction';
 
 export default defineComponent({
     props:{

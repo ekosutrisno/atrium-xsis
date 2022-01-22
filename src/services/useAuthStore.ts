@@ -4,7 +4,7 @@ import { useToast } from "vue-toastification";
 import { auth, db } from '../services/useFirebaseService';
 import { useUserStore } from "./useUserStore";
 import { IUser } from "../types/InterfaceType";
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "@firebase/firestore";
+import { collection, doc, getDocs, query, updateDoc, where } from "@firebase/firestore";
 import { validateEmail } from "../utils/helperFunction";
 
 const toast = useToast();

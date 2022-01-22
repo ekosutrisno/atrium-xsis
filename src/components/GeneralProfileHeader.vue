@@ -19,8 +19,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useUtilityStore } from '../services'
-import { AnyObject } from '../types/InterfaceType'
+import { useUtilityStore } from '@/services'
+import { AnyObject } from '@/types/InterfaceType'
 
 interface InfoHeaderProp extends AnyObject{
    title: string

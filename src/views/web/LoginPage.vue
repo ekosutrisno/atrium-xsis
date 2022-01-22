@@ -84,11 +84,11 @@
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { signInWithEmailAndPassword, signInWithPopup } from '@firebase/auth';
-import { auth, gProvider } from '../../services/useFirebaseService';
-import { useAuthStore, useUserStore, useUtilityStore } from '../../services';
+import { auth, gProvider } from '@/services/useFirebaseService';
+import { useAuthStore, useUserStore, useUtilityStore } from '@/services';
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import Spinner from '../../components/modal/Spinner.vue';
-import GoogleIcon from '../../components/svg/GoogleIcon.vue';
+import Spinner from '@/components/modal/Spinner.vue';
+import GoogleIcon from '@/components/svg/GoogleIcon.vue';
 
 export default defineComponent({
    components: {
