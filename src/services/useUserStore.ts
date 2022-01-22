@@ -114,7 +114,41 @@ export const useUserStore = defineStore('useUserStore', {
             lastModifiedDate: Date.now(),
          };
 
+         const address: UserAddress = {
+            userId: newData.userId,
+            addressAsli: {
+               userId: newData.userId,
+               isDomisili: false,
+               jalan: "",
+               kota: "",
+               provinsi: "",
+               kodePos: "",
+               desa: "",
+               country: "",
+               kabupaten: "",
+               kecamatan: "",
+               createdDate: Date.now(),
+               lastModifiedDate: Date.now(),
+            },
+            addressDomisili: {
+               userId: newData.userId,
+               isDomisili: true,
+               jalan: "",
+               kota: "",
+               provinsi: "",
+               kodePos: "",
+               desa: "",
+               country: "",
+               kabupaten: "",
+               kecamatan: "",
+               createdDate: Date.now(),
+               lastModifiedDate: Date.now(),
+            },
+         };
+
+
          await setDoc(doc(db, 'tbl_users', newData.userId), newUser);
+         await setDoc(newUser.address, address);
       },
 
       /**
@@ -137,7 +171,7 @@ export const useUserStore = defineStore('useUserStore', {
                // Stop the loading indicator
                this.onLoadingStateUser = false;
 
-               if (data.isEro && data.eroId)
+               if (data.eroId)
                   this.fetchCurrentEro(data.eroId);
                else
                   this.currentEro = null;
@@ -281,7 +315,7 @@ export const useUserStore = defineStore('useUserStore', {
          getDoc(ref.address)
             .then(address => this.currentUserAddress = address.data() as UserAddress);
       }
-      
+
    },
    getters: {
       /**

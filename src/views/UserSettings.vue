@@ -154,7 +154,7 @@
        
           <!-- Current Ero and Client Detail -->
           <div v-else-if="currentTabs === 'Ero_Client'" class="space-y-6">
-            <div v-if="currentUser.isEro" class="card-wrapper-custom with-transition max-h-full pt-[18px]">
+            <div class="card-wrapper-custom with-transition max-h-full pt-[18px]">
                 <div class="border-b relative border-gray-200 dark:border-color-gray-darkest">
                     <h3 class="text-lg leading-6 font-medium text-color-dark-gray-darkest dark:text-color-gray-lighter">
                         Current ERO
