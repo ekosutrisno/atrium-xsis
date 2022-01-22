@@ -1,6 +1,6 @@
 <template>
 <form @submit.prevent="onSubmitAction">
-   <div :class="[!address.isDomisili ? 'bg-gray-50 dark:bg-color-dark-gray-darkest': 'bg-white dark:bg-color-dark-gray-darker']" class="shadow pt-3 overflow-hidden sm:rounded-md">
+   <div :class="[!address.isDomisili ? 'bg-gray-50 dark:bg-color-dark-gray-darkest': 'bg-white dark:bg-color-dark-gray-darker']" class="shadow pt-3 overflow-hidden sm:rounded-md with-transition">
       <div class="px-2 py-1 ml-4 text-sm rounded bg-indigo-600 w-max dark:text-color-gray-lightest text-white" >
          {{ address.isDomisili ? 'Alamat Domisili' : 'Alamat KTP' }}
          <span class="block text-[11px] text-gray-200">Last updated {{ formatDateFromNow(address.lastModifiedDate) }}</span>
@@ -125,7 +125,7 @@ export default defineComponent({
 
       const onSubmitAction = () => {
          props.address.lastModifiedDate = Date.now();
-         userStore.updateCurrentUserAddress(props.address);
+         userStore.updateCurrentUserAddress( userStore.currentUser.address, props.address);
          toggleEditAction(false);
             
       }

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, onValue } from "firebase/database";
-import { dbRealtime } from './useFirebaseService';
+import { auth, dbRealtime } from './useFirebaseService';
+import { useUserStore } from '.';
 
 interface UtilityStoreState {
    theme: string,
@@ -29,6 +30,11 @@ export const useUtilityStore = defineStore('useUtilityStore', {
       setToggleTheme(theme: string): void {
          localStorage.setItem('theme', theme);
          this.theme = theme;
+
+         // This will update theme user preference
+         const userStore = useUserStore();
+         userStore.currentUser.userPreference.useThemeMode = theme;
+         userStore.updateUserPreference(auth.currentUser?.uid as string, userStore.currentUser.userPreference);
 
          if (theme == 'dark') {
             document.documentElement.classList.remove('light');

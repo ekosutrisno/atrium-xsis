@@ -43,7 +43,7 @@ export default defineComponent({
       currentMonthExist: computed(()=> timesheetStore.currentMonthExist),
       isWeekend: computed(()=> isWeekend(new Date())),
       uid: computed(() => localStorage.getItem('_uid') as string),
-      client: computed(()=> userStore.getUserClient)
+      client: computed(()=> userStore.currentClient)
     })
 
     const generateTimesheet = () => {
