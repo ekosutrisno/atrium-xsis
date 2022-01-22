@@ -34,8 +34,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IStatisticTotalMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, toFixedFormat, currentMonthOnly } from '../../utils/helperFunction';
+import { IStatisticTotalMeta } from '@/types/InterfaceType'
+import { formatDateWithMonth, toFixedFormat, currentMonthOnly } from '@/utils/helperFunction';
 
 export default defineComponent({
    props:{

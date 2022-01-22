@@ -26,8 +26,8 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { IStatisticAbsentMeta, IStatisticPlacementMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, calculatePerformaceAbsent, toFixedFormat, currentMonthOnly } from '../../utils/helperFunction';
+import { IStatisticAbsentMeta, IStatisticPlacementMeta } from '@/types/InterfaceType'
+import { formatDateWithMonth, calculatePerformaceAbsent, toFixedFormat, currentMonthOnly } from '@/utils/helperFunction';
 
 export default defineComponent({
    props:{

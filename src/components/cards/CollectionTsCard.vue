@@ -22,8 +22,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { IStatisticTImesheetCollectionMeta } from '../../types/InterfaceType'
-import { formatDateWithMonth, formatDateWithDayMonth, toFixedFormat, currentMonthOnly } from '../../utils/helperFunction';
+import { IStatisticTImesheetCollectionMeta } from '@/types/InterfaceType'
+import { formatDateWithMonth, formatDateWithDayMonth, toFixedFormat, currentMonthOnly } from '@/utils/helperFunction';
 
 export default defineComponent({
    props:{

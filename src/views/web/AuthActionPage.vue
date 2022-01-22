@@ -48,9 +48,9 @@ import { confirmPasswordReset, verifyPasswordResetCode } from "@firebase/auth";
 import { computed, defineComponent, reactive, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-import { useAuthStore } from "../../services";
-import { auth } from "../../services/useFirebaseService";
-import { isMatchPassword } from "../../utils/helperFunction";
+import { useAuthStore } from "@/services";
+import { auth } from "@/services/useFirebaseService";
+import { isMatchPassword } from "@/utils/helperFunction";
 
 export default defineComponent({
   setup() {

@@ -66,10 +66,10 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import { useRouter } from 'vue-router';
-import { IProject } from '../../types/InterfaceType';
+import { IProject } from '@/types/InterfaceType';
 import DeleteProjectModal from '../modal/DeleteProjectModal.vue';
-import { formatDateWithMonth } from '../../utils/helperFunction';
-import { useProjectStore } from '../../services';
+import { formatDateWithMonth } from '@/utils/helperFunction';
+import { useProjectStore } from '@/services';
 
 export default defineComponent({
   components: { DeleteProjectModal },

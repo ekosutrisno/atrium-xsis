@@ -16,8 +16,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import NavBottom from '../components/NavBottom.vue'
-import NavHeader from '../components/NavHeader.vue'
+import NavBottom from '@/components/NavBottom.vue'
+import NavHeader from '@/components/NavHeader.vue'
 
 export default defineComponent({
   components: { NavHeader, NavBottom },

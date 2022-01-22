@@ -54,8 +54,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import ProjectCard from '../components/cards/ProjectCard.vue'
-import { useProjectStore, useUtilityStore } from '../services';
+import ProjectCard from '@/components/cards/ProjectCard.vue'
+import { useProjectStore, useUtilityStore } from '@/services';
 export default defineComponent({
   components: { ProjectCard},
    setup () {

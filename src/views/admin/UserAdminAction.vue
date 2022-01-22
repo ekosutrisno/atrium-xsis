@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import { useUserStore } from '../../services'
+import { useUserStore } from '@/services'
 
 export default defineComponent({
   setup () {

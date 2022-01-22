@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import { IStatisticInfo } from '../../types/InterfaceType'
-import { toFixedFormat } from '../../utils/helperFunction';
+import { IStatisticInfo } from '@/types/InterfaceType'
+import { toFixedFormat } from '@/utils/helperFunction';
 
 
 

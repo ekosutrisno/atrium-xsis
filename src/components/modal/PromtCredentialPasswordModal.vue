@@ -48,7 +48,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
-import { useUtilityStore } from '../../services'
+import { useUtilityStore } from '@/services'
 
 export default defineComponent({
   components: {

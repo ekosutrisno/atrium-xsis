@@ -31,7 +31,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/vue'
 import { BellIcon } from '@heroicons/vue/outline'
-import { useUserStore } from '../services';
+import { useUserStore } from '@/services';
 
 const navigation = [
   { name: 'Main Dashboard', href: '/u/0/dashboard', current: true }

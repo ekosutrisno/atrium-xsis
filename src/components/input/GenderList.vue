@@ -66,8 +66,8 @@ import {
   ListboxOption,
 } from '@headlessui/vue'
 import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
-import { useUserStore } from '../../services';
-import { Gender } from '../../types/EnumType';
+import { useUserStore } from '@/services';
+import { Gender } from '@/types/EnumType';
 
 export default defineComponent({
    components: {

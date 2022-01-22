@@ -102,9 +102,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useUserStore, useUtilityStore } from '../../services'
-import { IAddress } from '../../types/InterfaceType';
-import { formatDateFromNow } from '../../utils/helperFunction';
+import { useUserStore, useUtilityStore } from '@/services'
+import { IAddress } from '@/types/InterfaceType';
+import { formatDateFromNow } from '@/utils/helperFunction';
 
 export default defineComponent({
    props:{

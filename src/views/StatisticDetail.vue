@@ -128,14 +128,14 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute } from 'vue-router';
-import AbsentCard from '../components/cards/AbsentCard.vue';
-import BlankStatistic from '../components/cards/BlankStatistic.vue';
-import CollectionTsCard from '../components/cards/CollectionTsCard.vue';
-import PenilaianUserCard from '../components/cards/PenilaianUserCard.vue';
-import ProjectCard from '../components/cards/ProjectCard.vue'
-import TotalPerformanceCard from '../components/cards/TotalPerformanceCard.vue';
-import Svg2 from '../components/svg/Svg2.vue';
-import { useStatisticStore, useUserStore, useUtilityStore } from '../services';
+import AbsentCard from '@/components/cards/AbsentCard.vue';
+import BlankStatistic from '@/components/cards/BlankStatistic.vue';
+import CollectionTsCard from '@/components/cards/CollectionTsCard.vue';
+import PenilaianUserCard from '@/components/cards/PenilaianUserCard.vue';
+import ProjectCard from '@/components/cards/ProjectCard.vue'
+import TotalPerformanceCard from '@/components/cards/TotalPerformanceCard.vue';
+import Svg2 from '@/components/svg/Svg2.vue';
+import { useStatisticStore, useUserStore, useUtilityStore } from '@/services';
 
 export default defineComponent({
   components: { ProjectCard, Svg2, AbsentCard, CollectionTsCard, PenilaianUserCard, TotalPerformanceCard, BlankStatistic},

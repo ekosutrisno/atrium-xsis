@@ -140,9 +140,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useAuthStore } from '../services'
+import { useAuthStore } from '@/services'
 import PromtCredentialEmailModal from './modal/PromtCredentialEmailModal.vue';
-import { validateEmail, isMatchPassword } from '../utils/helperFunction';
+import { validateEmail, isMatchPassword } from '@/utils/helperFunction';
 import PromtCredentialPasswordModal from './modal/PromtCredentialPasswordModal.vue';
 
 export default defineComponent({

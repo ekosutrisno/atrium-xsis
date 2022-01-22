@@ -248,11 +248,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import ProjectCard from '../components/cards/ProjectCard.vue'
-import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
-import { useUtilityStore, useVacancyStore } from '../services';
-import { IJobVacancy } from '../types/InterfaceType';
-import { formatDateWithMonth, formatDateFromNow } from '../utils/helperFunction';
+import ProjectCard from '@/components/cards/ProjectCard.vue'
+import GeneralProfileHeader from '@/components/GeneralProfileHeader.vue';
+import { useUtilityStore, useVacancyStore } from '@/services';
+import { IJobVacancy } from '@/types/InterfaceType';
+import { formatDateWithMonth, formatDateFromNow } from '@/utils/helperFunction';
 
 export default defineComponent({
   components: { ProjectCard, GeneralProfileHeader},

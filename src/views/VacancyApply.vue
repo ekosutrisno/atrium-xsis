@@ -192,12 +192,12 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import { useFileStore, useUserStore, useUtilityStore, useVacancyStore } from '../services';
-import { formatDateWithMonth, formatDateFromNow } from '../utils/helperFunction';
+import { useFileStore, useUserStore, useUtilityStore, useVacancyStore } from '@/services';
+import { formatDateWithMonth, formatDateFromNow } from '@/utils/helperFunction';
 import { PaperClipIcon } from '@heroicons/vue/solid'
-import ProjectCard from '../components/cards/ProjectCard.vue'
-import GeneralProfileHeader from '../components/GeneralProfileHeader.vue';
-import Spinner from '../components/modal/Spinner.vue';
+import ProjectCard from '@/components/cards/ProjectCard.vue'
+import GeneralProfileHeader from '@/components/GeneralProfileHeader.vue';
+import Spinner from '@/components/modal/Spinner.vue';
 
 export default defineComponent({
   components: { ProjectCard, GeneralProfileHeader, PaperClipIcon, Spinner},

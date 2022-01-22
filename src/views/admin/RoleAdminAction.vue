@@ -92,10 +92,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue'
-import DeveloperRoleCard from '../../components/cards/admin/DeveloperRoleCard.vue';
-import MainRoleCard from '../../components/cards/admin/MainRoleCard.vue';
-import Spinner from '../../components/modal/Spinner.vue';
-import { useRoleStore } from '../../services'
+import DeveloperRoleCard from '@/components/cards/admin/DeveloperRoleCard.vue';
+import MainRoleCard from '@/components/cards/admin/MainRoleCard.vue';
+import Spinner from '@/components/modal/Spinner.vue';
+import { useRoleStore } from '@/services'
 export default defineComponent({
   components: { MainRoleCard, DeveloperRoleCard, Spinner },
   setup () {

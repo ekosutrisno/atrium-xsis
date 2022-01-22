@@ -214,13 +214,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue";
-import CredentialProfileInfo from "../components/CredentialProfileInfo.vue";
-import GeneralProfileInfo from "../components/GeneralProfileInfo.vue";
-import GoogleIcon from "../components/svg/GoogleIcon.vue";
-import { formatDateFromNow, formatDateWithMonth } from '../utils/helperFunction';
-import { useAuthStore, useProjectStore, useUserStore, useUtilityStore } from '../services';
+import CredentialProfileInfo from "@/components/CredentialProfileInfo.vue";
+import GeneralProfileInfo from "@/components/GeneralProfileInfo.vue";
+import GoogleIcon from "@/components/svg/GoogleIcon.vue";
+import { formatDateFromNow, formatDateWithMonth } from '@/utils/helperFunction';
+import { useAuthStore, useProjectStore, useUserStore, useUtilityStore } from '@/services';
 import { useToast } from "vue-toastification";
-import ClientInfo from "../components/ClientInfo.vue";
+import ClientInfo from "@/components/ClientInfo.vue";
 
 export default defineComponent({
   components: { GeneralProfileInfo, GoogleIcon, CredentialProfileInfo, ClientInfo},

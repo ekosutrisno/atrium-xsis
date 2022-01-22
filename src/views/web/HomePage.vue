@@ -59,10 +59,10 @@
 import { signInWithPopup } from '@firebase/auth';
 import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
-import Loader from '../../components/modal/Loader.vue';
-import GoogleIcon from '../../components/svg/GoogleIcon.vue';
-import { useAuthStore, useUserStore } from '../../services';
-import { auth, gProvider } from '../../services/useFirebaseService';
+import Loader from '@/components/modal/Loader.vue';
+import GoogleIcon from '@/components/svg/GoogleIcon.vue';
+import { useAuthStore, useUserStore } from '@/services';
+import { auth, gProvider } from '@/services/useFirebaseService';
 export default defineComponent({
   components: { Loader, GoogleIcon },
   setup(){

@@ -41,7 +41,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue";
 import { useAuthStore, useUtilityStore } from "../../services";
-import { validateEmail } from "../../utils/helperFunction";
+import { validateEmail } from "@/utils/helperFunction";
 
 export default defineComponent({
   setup() {
