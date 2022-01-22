@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 var firebaseConfig = {
    apiKey: "AIzaSyCU_BTquhMOq50kdi9eeppZazypPQtIoTw",
@@ -19,6 +20,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 auth.useDeviceLanguage();
 
+const analytics = getAnalytics(app);
+logEvent(analytics, 'notification_received');
+
 const db = getFirestore(app);
 const dbRealtime = getDatabase(app)
 const storage = getStorage(app);
@@ -31,5 +35,7 @@ export {
    db,
    gProvider,
    dbRealtime,
-   storage
+   storage,
+   analytics
 }
+
