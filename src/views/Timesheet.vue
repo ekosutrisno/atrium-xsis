@@ -18,7 +18,15 @@
                </svg>
             </span>
          </div>
-         <div class="text-color-gray-lighter hidden sm:block text-sm">
+         <div class="text-color-gray-lighter text-sm sm:inline-flex items-center space-x-2">
+            <div v-if="isPlacementPriode" class="flex items-center justify-between sm:space-x-2 text-green-50 bg-green-500 p-2 rounded-md">
+               <span class="hidden sm:inline">Your timesheet period is tody</span>
+               <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-green-50" viewBox="0 0 20 20" fill="currentColor">
+                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+               </span>
+            </div>
             <button
                @click="sendTimesheet" 
                :disabled="timesheetStatusReady" 
@@ -27,13 +35,13 @@
                   ? 'bg-gray-600 cursor-not-allowed hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' 
                   : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
                ]" 
-               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white"
+               class="hidden sm:inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white"
             >
                Send timehseet
             </button>
          </div>
       </header>
-
+     
       <!-- Lite Date -->
       <div class="card-wrapper-no-rounded rounded-md mb-3 mt-6">
          <div class="flex relative w-full flex-col sm:flex-row items-start sm:items-center justify-between">
@@ -120,7 +128,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { useTimesheetStore, useUtilityStore } from '@/services';
+import { useTimesheetStore, useUserStore, useUtilityStore } from '@/services';
 import Spinner from '@/components/modal/Spinner.vue';
 import TimesheetTable from '@/components/TimesheetTable.vue';
 
@@ -129,6 +137,7 @@ export default defineComponent({
    setup () {
       const timehseetStore = useTimesheetStore();
       const utilityStore = useUtilityStore();
+      const userStore = useUserStore();
 
       const state = reactive({
          isOnFilter: false,
@@ -152,6 +161,8 @@ export default defineComponent({
       onMounted(()=>{
          timehseetStore.checkCurrentMonthTimesheet();
       });
+
+      const isPlacementPriode = computed(()=>userStore.currentUser.placementPriode == new Date().getDate())
 
       const onSearchAction = ()=> {
 
@@ -201,6 +212,7 @@ export default defineComponent({
       return {
          ...toRefs(state),
          timesheetStatusReady,
+         isPlacementPriode,
          onSearchAction,
          sendTimesheet,
          toggleSearch,

@@ -38,6 +38,7 @@ const routes: RouteRecordRaw[] = [
       component: () => import("../views/web/404.vue"),
       meta: {
          title: 'Not Found Page',
+         description: 'The page you are looking for is not available or not found.',
          requiresAuth: false
       }
    },
@@ -52,6 +53,7 @@ const routes: RouteRecordRaw[] = [
             component: HomePage,
             meta: {
                title: 'Home Page',
+               description: 'Welcome to the Atrium app.',
                requiresAuth: false
             }
          },
@@ -61,6 +63,7 @@ const routes: RouteRecordRaw[] = [
             component: HelpPage,
             meta: {
                title: 'Help Page',
+               description: 'Is a help page, if there are problems in the process of using the Atrium application.',
                requiresAuth: false
             }
          },
@@ -70,6 +73,7 @@ const routes: RouteRecordRaw[] = [
             component: LoginPage,
             meta: {
                title: 'Login',
+               description: 'Login page, after logging in you will be able to carry out activities in the application.',
                requiresAuth: false
             }
          },
@@ -79,6 +83,7 @@ const routes: RouteRecordRaw[] = [
             component: RegisterPage,
             meta: {
                title: 'Register',
+               description: `You don't have me Atrium? if not, let's register immediately and enjoy all the features and conveniences.`,
                requiresAuth: false
             }
          },
@@ -88,6 +93,7 @@ const routes: RouteRecordRaw[] = [
             component: ResetPasswordPage,
             meta: {
                title: 'Reset Password',
+               description: `Please enter your new password, and don't forget it again.`,
                requiresAuth: false
             }
          },
@@ -97,6 +103,7 @@ const routes: RouteRecordRaw[] = [
             component: () => import("../views/web/401.vue"),
             meta: {
                title: 'UnAuthorize',
+               description: `Oops, sorry it looks like you are not authorized to access this page.`,
                requiresAuth: true
             }
          },
@@ -106,6 +113,7 @@ const routes: RouteRecordRaw[] = [
             component: () => import("../views/web/AuthActionPage.vue"),
             meta: {
                title: 'Auth Action',
+               description: `If you've forgotten your password, this is the place to fix it.`,
                requiresAuth: false
             }
          },
@@ -122,6 +130,7 @@ const routes: RouteRecordRaw[] = [
             component: Dashboard,
             meta: {
                title: `Dashboard`,
+               description: 'This is the main dashboard page, which contains an overview of your performance.',
                requiresAuth: true
             }
          },
@@ -131,6 +140,7 @@ const routes: RouteRecordRaw[] = [
             component: Project,
             meta: {
                title: `Project`,
+               description: 'Project page to record all the project portfolios that you have worked on so far.',
                requiresAuth: true
             }
          },
@@ -140,6 +150,7 @@ const routes: RouteRecordRaw[] = [
             component: ProjectDetail,
             meta: {
                title: `Project Detail`,
+               description: 'Here you can see the details and also make updates if needed.',
                requiresAuth: true
             }
          },
@@ -149,6 +160,7 @@ const routes: RouteRecordRaw[] = [
             component: Vacancy,
             meta: {
                title: `Vacancy`,
+               description: 'All internal job openings are attached here, so please if you are interested in applying.',
                requiresAuth: true
             }
          },
@@ -158,6 +170,7 @@ const routes: RouteRecordRaw[] = [
             component: VacancyDetail,
             meta: {
                title: `Vacancy Detail`,
+               description: 'To see more details about the internals of the currently open job.',
                requiresAuth: true
             }
          },
@@ -167,6 +180,7 @@ const routes: RouteRecordRaw[] = [
             component: VacancyApply,
             meta: {
                title: `Vacancy Apply`,
+               description: 'You can apply for jobs here, and prepare your best CV.',
                requiresAuth: true
             }
          },
@@ -176,6 +190,7 @@ const routes: RouteRecordRaw[] = [
             component: Timesheet,
             meta: {
                title: `Timesheet`,
+               description: 'This is where you write down all your daily activities.',
                requiresAuth: true
             }
          },
@@ -185,6 +200,7 @@ const routes: RouteRecordRaw[] = [
             component: UserSettings,
             meta: {
                title: `UserSettings`,
+               description: 'Where you can update your profile and preferences.',
                requiresAuth: true
             }
          },
@@ -194,6 +210,7 @@ const routes: RouteRecordRaw[] = [
             component: StatisticDetail,
             meta: {
                title: `Statistic Detail`,
+               description: 'On this page you will be able to see in detail your performance statistics.',
                requiresAuth: true
             }
          },
@@ -205,6 +222,7 @@ const routes: RouteRecordRaw[] = [
       component: AdminView,
       meta: {
          title: 'Admin View',
+         description: 'Main dashboard page exclusively for admins.',
          requiresAuth: true,
          requiresAdmin: true
       }
@@ -220,6 +238,7 @@ const routes: RouteRecordRaw[] = [
             component: UserAdminAction,
             meta: {
                title: `User Admin Action`,
+               description: 'Pages for managing all users',
                requiresAuth: true,
                requiresAdmin: true
             }
@@ -230,6 +249,7 @@ const routes: RouteRecordRaw[] = [
             component: TimesheetAdminAction,
             meta: {
                title: `Timesheet Admin Action`,
+               description: 'Pages for managing all timesheets',
                requiresAuth: true,
                requiresAdmin: true
             }
@@ -240,6 +260,7 @@ const routes: RouteRecordRaw[] = [
             component: StatisticAdminAction,
             meta: {
                title: `Statistic Admin Action`,
+               description: 'Pages for managing all users statistics',
                requiresAuth: true,
                requiresAdmin: true
             }
@@ -250,6 +271,7 @@ const routes: RouteRecordRaw[] = [
             component: ClientAdminAction,
             meta: {
                title: `Client Admin Action`,
+               description: 'Pages for managing all company client',
                requiresAuth: true,
                requiresAdmin: true
             }
@@ -260,6 +282,7 @@ const routes: RouteRecordRaw[] = [
             component: RoleAdminAction,
             meta: {
                title: `Role Admin Action`,
+               description: 'Pages for managing all roles',
                requiresAuth: true,
                requiresAdmin: true
             }

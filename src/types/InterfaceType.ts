@@ -1,4 +1,3 @@
-import { User } from "firebase/auth";
 import { DocumentReference } from "firebase/firestore";
 import { Gender, Religion, StatusAbsensi } from "./EnumType";
 
@@ -196,6 +195,7 @@ export interface IUser extends Info {
    client: DocumentReference
    userPreference: IUserPreference
    about?: string
+   placementPriode?: number
 }
 
 export interface ICurrentEro extends Info {
