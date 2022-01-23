@@ -11,10 +11,9 @@
               <router-link 
                   v-for="item in navigation" 
                   :key="item.name" 
-                  :to="item.href" 
-                  @click="setCurrentActiveNav(item.currentId)"
-                  :class="[item.currentId === currentNav ? 'bg-color-dark-gray-darkest text-white' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
-                  :aria-current="item.currentId === currentNav ? 'page' : undefined"
+                  :to="item.href"
+                  active-class="bg-color-dark-gray-darkest text-white"
+                  :class="[ $route.name == item.name ? '' : 'text-gray-300 hover:bg-color-dark-gray-dark hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" 
               >
               {{ item.name }}
               </router-link>
@@ -133,10 +132,10 @@ import { useRouter } from 'vue-router'
 import Svg2 from './svg/Svg2.vue'
 
 const navigation = [
-  { name: 'Dashboard', href: '/u/0/dashboard', currentId: 1 },
-  { name: 'Projects', href: '/u/0/project', currentId: 2 },
-  { name: 'Timesheets', href: '/u/0/timesheet', currentId: 3 },
-  { name: 'Vacancy', href: '/u/0/vacancy', currentId: 4 }
+  { name: 'Dashboard', href: '/u/0/dashboard' },
+  { name: 'Project', href: '/u/0/project' },
+  { name: 'Timesheet', href: '/u/0/timesheet' },
+  { name: 'Vacancy', href: '/u/0/vacancy' }
 ]
 
 export default defineComponent({
@@ -160,7 +159,6 @@ export default defineComponent({
 
     const state = reactive({
       open: false,
-      currentNav: 1,
       navigation: navigation,
       theme: computed(() => utilityStore.theme),
       photoUrl: computed(()=> userStore.getPhotoUrl),
@@ -168,10 +166,6 @@ export default defineComponent({
       userRole: computed(() => localStorage.getItem('_role')),
       haveNotification:  computed(()=> notificationStore.notifications),
     })
-
-    const setCurrentActiveNav = (current: number): void => {
-      state.currentNav = current;
-    }
 
     const togleDarkLightMode = (value: string): void => {
       utilityStore.setToggleTheme(value);
@@ -191,7 +185,6 @@ export default defineComponent({
     return {
       ...toRefs(state),
       notAdmin,
-      setCurrentActiveNav,
       togleDarkLightMode,
       onLogoutAction
     }

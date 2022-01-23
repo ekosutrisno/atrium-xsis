@@ -65,7 +65,7 @@
                      <div class="flex flex-col">
                         <p class="text-sm text-color-gray-default dark:text-color-gray-default">Status</p>
                         <p class="text-color-dark-gray-darker dark:text-color-gray-light">
-                           <span class="p-1 text-xs dark:bg-[#71c5b0] bg-[#7cd1c6] font-semibold rounded text-color-gray-lightest dark:text-white shadow-lg">
+                           <span class="p-1 text-xs dark:bg-[#28a3a3] bg-[#54b3b3] font-semibold rounded text-color-gray-lightest dark:text-white shadow-lg">
                               {{ currentUserMainRole.isActive ? 'Active' : 'InActive' }}
                            </span>
                         </p>
@@ -73,7 +73,7 @@
                   </div>
                   <img class="h-36 w-36 rounded-full border-color-dark-gray-lightest dark:border-color-gray-darkest shadow-sm border-2 dark:border-opacity-30" :src="currentUser.photoUrl" alt="profile-avatar" />
 
-                  <div class="absolute p-1 text-xs dark:bg-[#9a6fc3] bg-[#a87cd1] font-semibold -bottom-8 right-0 rounded text-color-gray-lightest dark:text-white shadow-lg">
+                  <div class="absolute p-1 text-xs dark:bg-[#28a3a3] bg-[#54b3b3] font-semibold -bottom-8 right-0 rounded text-color-gray-lightest dark:text-white shadow-lg">
                      {{currentUserMainRole.roleName }}
                   </div>
                   <Svg2 class="absolute top-[-3.25rem] -right-4 z-0"/>
