@@ -243,7 +243,7 @@ export const useUserStore = defineStore('useUserStore', {
             updateDoc(docRef, {
                "userPreference": userPreference
             }).then(() => {
-               toast.info(`Notification preference updated.`)
+               toast.info(`User preference updated.`)
             });
       },
 

@@ -8,7 +8,9 @@
         
         <p class="md:text-lg text-base mt-2 mb-10 p-2 text-gray-400">
           Organize and manage your timesheet report easily using 
-            <span class="text-indigo-300 font-semibold">At</span><span class="text-indigo-50 font-semibold">Rium</span>
+            <span class="text-indigo-50 font-semibold">OPEN </span>
+            <span class="text-indigo-300 font-semibold">AT</span>
+            <span class="text-indigo-50 font-semibold">RIUM</span>
         </p>
 
         <div class="flex items-center my-4">

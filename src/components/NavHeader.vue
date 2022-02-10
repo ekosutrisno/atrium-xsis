@@ -4,7 +4,7 @@
       <div class="relative flex items-center justify-between h-16">
         <div class="flex-1 flex items-center sm:items-stretch sm:justify-start">
           <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
-             <span class="text-indigo-300 font-semibold">AT</span>RIUM
+             <span class="mr-2">OPEN</span> <span class="text-indigo-300 font-semibold">AT</span>RIUM
           </router-link>
           <div class="hidden sm:block sm:ml-6 with-transition">
             <div class="flex space-x-4">
