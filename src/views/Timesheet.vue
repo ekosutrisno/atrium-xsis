@@ -28,13 +28,9 @@
                </span>
             </div>
             <button
-               @click="sendTimesheet" 
-               :disabled="timesheetStatusReady" 
+               @click="toggleShowTimesheetRange" 
                type="button"
-               :class="[timesheetStatusReady 
-                  ? 'bg-gray-600 cursor-not-allowed hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500' 
-                  : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' 
-               ]" 
+               :class="['bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']" 
                class="hidden sm:inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white"
             >
                Send timehseet
@@ -117,12 +113,18 @@
       </div>
       <TimesheetTable/>
    </div>
-   <button type="button" @click="sendTimesheet" :disabled="timesheetStatusReady" :class="[timesheetStatusReady ? 'sticky-btn-disabled' : 'sticky-btn']" class=" with-transition">
+   <button v-if="!showTimesheetRange" type="button" @click="toggleShowTimesheetRange" class="sticky-btn with-transition">
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
       </svg>
    </button>
+
+   <SendTimesheetRange 
+      :open="showTimesheetRange" 
+      @close-modal="toggleShowTimesheetRange"
+      @submit-timesheet="sendTimesheet"
+   />
 </div>
 </template>
 
@@ -131,9 +133,10 @@ import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import { useTimesheetStore, useUserStore, useUtilityStore } from '@/services';
 import Spinner from '@/components/modal/Spinner.vue';
 import TimesheetTable from '@/components/TimesheetTable.vue';
+import SendTimesheetRange from '@/components/modal/SendTimesheetRange.vue';
 
 export default defineComponent({
-  components: { TimesheetTable, Spinner },
+  components: { TimesheetTable, Spinner, SendTimesheetRange },
    setup () {
       const timehseetStore = useTimesheetStore();
       const utilityStore = useUtilityStore();
@@ -141,6 +144,7 @@ export default defineComponent({
 
       const state = reactive({
          isOnFilter: false,
+         showTimesheetRange: false,
          filterPerMonth: false,
          uid: computed(()=> localStorage.getItem('_uid') as string),
          search: {
@@ -181,9 +185,9 @@ export default defineComponent({
 
       const timesheetStatusReady = computed(()=> state.timesheetSize > 0 || state.timesheetNotReady);
 
-      const sendTimesheet = ()=>{
+      const sendTimesheet = (search: {from: string, to: string}) => {
          timehseetStore
-            .checkTimesheetAlreadyAndUpdate(state.uid, timesheetStatusReady.value);
+            .checkTimesheetAlreadyAndUpdate(state.uid, search, isPlacementPriode.value);
       }
 
       const onRefresh = ()=>{
@@ -209,12 +213,17 @@ export default defineComponent({
          state.search.perMonth = '';
       }
 
+      const toggleShowTimesheetRange = ()=>{
+         state.showTimesheetRange = !state.showTimesheetRange;
+      }
+
       return {
          ...toRefs(state),
          timesheetStatusReady,
          isPlacementPriode,
          onSearchAction,
          sendTimesheet,
+         toggleShowTimesheetRange,
          toggleSearch,
          toglePerMonth,
          toggleCancel,
