@@ -32,7 +32,16 @@ export const formatDateWithMonth = (value: any): string => {
  */
 export const formatDateWithDayMonth = (value: any): string => {
    return dayjs(value)
-      .format('dddd, MMMM D, YYYY')
+      .format('dddd, MMMM D, YYYY');
+}
+
+/**
+ * @param  {any} value
+ * @returns string
+ */
+ export const formatDateMont = (value: any): string => {
+   return dayjs(value)
+      .format('YYYY-MM-DD');
 }
 
 /**

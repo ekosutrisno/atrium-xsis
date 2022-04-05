@@ -20,7 +20,7 @@
          </div>
          <div class="text-color-gray-lighter text-sm sm:inline-flex items-center space-x-2">
             <div v-if="isPlacementPriode" class="flex items-center justify-between sm:space-x-2 text-green-50 bg-green-500 p-2 rounded-md">
-               <span class="hidden sm:inline">Your timesheet period is tody</span>
+               <span class="hidden sm:inline">Your timesheet period is today</span>
                <span>
                   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-5 text-green-50" viewBox="0 0 20 20" fill="currentColor">
                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -147,11 +147,7 @@ export default defineComponent({
          showTimesheetRange: false,
          filterPerMonth: false,
          uid: computed(()=> localStorage.getItem('_uid') as string),
-         search: {
-            from: '',
-            to: '',
-            perMonth: ''
-         },
+         search: { from: '', to: '', perMonth: ''},
          timesheetSize: computed(()=> timehseetStore.timehseets.length),
          isSendProgress: computed(()=> timehseetStore.isSendProgress),
          useBlur: computed(()=> utilityStore.useBlur),
@@ -166,7 +162,7 @@ export default defineComponent({
          timehseetStore.checkCurrentMonthTimesheet();
       });
 
-      const isPlacementPriode = computed(()=>userStore.currentUser.placementPriode == new Date().getDate())
+      const isPlacementPriode = computed(()=> userStore.currentUser.placementPriode == new Date().getDate())
 
       const onSearchAction = ()=> {
 
@@ -178,14 +174,13 @@ export default defineComponent({
          };
 
          timehseetStore
-            .filterAndSearchTimesheet(state.uid, params).then(()=> {
-               toggleCancel();
-            })
+            .filterAndSearchTimesheet(state.uid, params).then(()=> toggleCancel());
       }
 
       const timesheetStatusReady = computed(()=> state.timesheetSize > 0 || state.timesheetNotReady);
 
       const sendTimesheet = (search: {from: string, to: string}) => {
+         
          timehseetStore
             .checkTimesheetAlreadyAndUpdate(state.uid, search, isPlacementPriode.value);
       }
