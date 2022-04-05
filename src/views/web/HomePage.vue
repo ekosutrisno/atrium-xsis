@@ -1,13 +1,12 @@
 <template>
-  <div class="h-full min-h-screen flex-1 pt-16 bg-gray-800 bg-custom">
-    <div class="flex h-full flex-col items-center justify-between p-4 text-center">
+  <div class="h-full min-h-screen flex flex-col justify-between pt-16 bg-gray-800 bg-custom">
       <div class="flex flex-col items-center justify-between">
-        <h1 class="md:text-6xl font-semibold text-indigo-50 text-3xl">
-        Manage Your Timesheet
+        <h1 class="md:text-6xl font-semibold text-indigo-50 text-2xl">
+        Timesheets Manager
         </h1>
         
-        <p class="md:text-lg text-base mt-2 mb-10 p-2 text-gray-400">
-          Organize and manage your timesheet report easily using 
+        <p class="md:text-lg text-base text-center mt-2 mb-10 p-2 text-gray-300">
+          <span class="hidden md:inline">Organize and manage your timesheet report easily using </span>
             <span class="text-indigo-50 font-semibold">OPEN </span>
             <span class="text-indigo-300 font-semibold">AT</span>
             <span class="text-indigo-50 font-semibold">RIUM</span>
@@ -45,12 +44,9 @@
         </div>
 
       </div>
-
-
       <p class="text-center text-xs text-gray-300 my-5 lg:mt-8">
         &copy;Eko Sutrisno {{new Date().getFullYear()}}
       </p>
-    </div>
   </div>
 </template>
 
