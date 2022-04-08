@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { useStatisticStore } from '.';
 import { ITimesheet, ITimesheetCollectionMeta, IUser } from '../types/InterfaceType';
-import { currentMonth, isWeekend } from '../utils/helperFunction';
+import { currentMonth, extractCurrentMonthYear, formatDateMonth, formatDateWithDayMonth, isWeekend } from '../utils/helperFunction';
 import { db } from './useFirebaseService';
 import { useUserStore } from './useUserStore';
 
@@ -140,21 +140,15 @@ export const useTimesheetStore = defineStore('useTimesheetStore', {
        * @param  {IUser['userId']} userId
        * Check if timesheet already fill properly and then send
        */
-      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId'], search: { from: string, to: string }, isCurrentPriode: boolean) {
-         if (isCurrentPriode) {
-            toast.warning(`From ${search.from} to ${search.to}`);
-            // this.sendTimesheet(userId);
-         }
-         else
-            toast.warning(`From ${search.from} to ${search.to}`);
-
+      async checkTimesheetAlreadyAndUpdate(userId: IUser['userId'], search: { from: string, to: string }) {
+         this.sendTimesheet(userId, search);
       },
 
       /**
        * @param  {IUser['userId']} userId
        * Send Timesheet to Ero/HR/Manager
        */
-      async sendTimesheet(userId: IUser['userId']) {
+      async sendTimesheet(userId: IUser['userId'], search: { from: string, to: string }) {
          const userStore = useUserStore();
 
          if (userStore.currentEro !== null) {
@@ -165,31 +159,49 @@ export const useTimesheetStore = defineStore('useTimesheetStore', {
             const docRef = doc(db, `tbl_timesheet`, eroId);
             const docSnapToEro = doc(docRef, 'tbl_emp_timesheet', userId);
 
-            this.timehseets.forEach(async (timesheet) => {
-               /** Set isDone to True */
-               timesheet.isDone = true;
+            var from = dayjs(search.from).toDate().getTime();
+            var to = dayjs(search.to).toDate().getTime();
+            const docSnapSearch = collection(docRef, `timesheet`);
 
-               /** Prepare Update Employee Timesheet References*/
-               const docRef = doc(db, `tbl_timesheet`, `${userId}`);
-               const docSnap = doc(docRef, `TS-${currentMonth()}`, timesheet.absensiId);
-               const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
+            const q = query(docSnapSearch, where("createdDate", ">=", from), where('createdDate', '<=', to));
 
-               /** Update to specific month */
-               await updateDoc(docSnap, timesheet);
+            getDocs(q).then((snapshot) => {
+               snapshot.forEach(async (sheet) => {
 
-               /** Update to All Backup */
-               await updateDoc(docSnapSearch, timesheet);
+                  const timesheet = sheet.data() as ITimesheet;
+                  const currentMonth = extractCurrentMonthYear(timesheet.absensiId);
 
-               /** Sent in to tbl_emp_timesheet in ERO Collections Data */
-               const docSnapUser = doc(docSnapToEro, `TS-${currentMonth()}`, timesheet.absensiId);
-               await setDoc(docSnapUser, timesheet);
+                  /** Set isDone to True */
+                  timesheet.isDone = true;
+
+                  /** Prepare Update Employee Timesheet References*/
+                  const docRef = doc(db, `tbl_timesheet`, `${userId}`);
+                  const docSnap = doc(docRef, `TS-${currentMonth}`, timesheet.absensiId);
+                  const docSnapSearch = doc(docRef, `timesheet`, timesheet.absensiId);
+
+                  /** Update to specific month */
+                  await updateDoc(docSnap, timesheet as any);
+
+                  /** Update to All Backup */
+                  await updateDoc(docSnapSearch, timesheet as any);
+
+                  /** Sent in to tbl_emp_timesheet in ERO Collections Data */
+                  const docSnapUser = doc(docSnapToEro, `PS-${formatDateMonth(new Date())}`, timesheet.absensiId);
+                  await setDoc(docSnapToEro, {
+                     lastUpdatedDate: Date.now(),
+                     lastUpdatedDateString: formatDateWithDayMonth(Date.now()),
+                     userId: userId
+                  })
+                  await setDoc(docSnapUser, timesheet);
+               });
+
+
+               /** Off loading State*/
+               this.isSendProgress = false;
+
+               /** Notification */
+               toast.info(`Timesheet has been sent to ERO.`);
             })
-
-            /** Off loading State*/
-            this.isSendProgress = false;
-
-            /** Notification */
-            toast.info(`Timesheet has been sent to ERO.`);
          }
       },
 

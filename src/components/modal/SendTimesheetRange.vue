@@ -24,7 +24,7 @@
                     <p class="text-sm text-gray-700">
                       Please choose the timesheet range you want to send.
                     </p>
-                    <div v-if="currentUser.placementPriode != new Date().getDate()" class="flex flex-col w-full items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
+                    <div v-if="!currentTimesheetPriode" class="flex flex-col w-full items-start space-y-2 justify-between sm:flex-row sm:items-end sm:space-x-2">
                         <dd class="input-custom-dd with-transition w-full space-y-2">
                           <label for="search-from" class="text-xs sm:text-sm font-medium text-gray-700">From</label>
                           <input
@@ -45,9 +45,9 @@
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm" @click="sendTimesheet">
+              <button type="button" @click="sendTimesheet" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
                 <span class="mr-1">Submit</span>
-                <span v-if="currentUser.placementPriode == new Date().getDate()">Current Priode</span>
+                <span v-if="currentTimesheetPriode">Current Priode</span>
               </button>
               <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="closeModal" ref="cancelButtonRef">
                 Cancel
@@ -64,6 +64,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore, useUtilityStore } from '@/services'
+import { formatDateMonth } from '@/utils/helperFunction';
 
 export default defineComponent({
   components: {
@@ -100,14 +101,32 @@ export default defineComponent({
     }
 
     const sendTimesheet = ()=> {
-      if(state.search.from && state.search.to){
-        ctx.emit('submit-timesheet', state.search);
+      if(currentTimesheetPriode.value){
+
+        let currentMonthDate = new Date();
+        
+        ctx.emit('submit-timesheet', { 
+          from: formatDateMonth(currentMonthDate.setMonth(currentMonthDate.getMonth() - 1)), 
+          to: formatDateMonth(new Date().setDate(new Date().getDate() - 1))
+        });
+       
         closeModal();
+
+      } else { 
+        if(state.search.from && state.search.to){
+          ctx.emit('submit-timesheet', state.search);
+          closeModal();
+        }
       }
     }
 
+    const currentTimesheetPriode = computed(()=>{
+      return state.currentUser.placementPriode == new Date().getDate();
+    })
+
     return {
       ...toRefs(state),
+      currentTimesheetPriode,
       closeModal,
       sendTimesheet
     }

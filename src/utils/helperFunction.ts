@@ -10,29 +10,38 @@ export const generateID = (): string => {
 }
 
 /**
- * @param  {any} value
+ * @param  {any} date
  * @returns string
  */
-export const formatDateFromNow = (value: any): string => {
-   return dayjs(value).fromNow();
+export const formatDateFromNow = (date: any): string => {
+   return dayjs(date).fromNow();
 }
 
 /**
- * @param  {any} value
+ * @param  {any} date
  * @returns string
  */
-export const formatDateWithMonth = (value: any): string => {
-   return dayjs(value)
+export const formatDateWithMonth = (date: any): string => {
+   return dayjs(date)
       .format('LL')
 }
 
 /**
- * @param  {any} value
+ * @param  {any} date
  * @returns string
  */
-export const formatDateWithDayMonth = (value: any): string => {
-   return dayjs(value)
-      .format('dddd, MMMM D, YYYY')
+export const formatDateWithDayMonth = (date: any): string => {
+   return dayjs(date)
+      .format('dddd, MMMM D, YYYY');
+}
+
+/**
+ * @param  {any} date
+ * @returns string
+ */
+export const formatDateMonth = (date: any): string => {
+   return dayjs(date)
+      .format('YYYY-MM-DD');
 }
 
 /**
@@ -40,7 +49,17 @@ export const formatDateWithDayMonth = (value: any): string => {
  * @returns string
  */
 export const currentMonth = (): string => {
-   return `${dayjs().year()}-${dayjs().month() + 1}`
+   const currentDate = dayjs();
+   return `${currentDate.year()}-${currentDate.month() + 1}`
+}
+
+/**
+ * Get Extract Year-Month format
+ * @returns string
+ */
+export const extractCurrentMonthYear = (date: any): string => {
+   const currentDate = dayjs(date);
+   return `${currentDate.year()}-${currentDate.month() + 1}`
 }
 
 /**
@@ -56,7 +75,8 @@ export const currentMonthOnly = (): string => {
  * @returns boolean
  */
 export const isWeekend = (date: any): boolean => {
-   return dayjs(date).day() === 0 || dayjs(date).day() === 6
+   const currentDate = dayjs(date);
+   return currentDate.day() === 0 || currentDate.day() === 6
 }
 
 /**
