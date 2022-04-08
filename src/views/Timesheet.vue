@@ -182,7 +182,7 @@ export default defineComponent({
       const sendTimesheet = (search: {from: string, to: string}) => {
          
          timehseetStore
-            .checkTimesheetAlreadyAndUpdate(state.uid, search, isPlacementPriode.value);
+            .checkTimesheetAlreadyAndUpdate(state.uid, search);
       }
 
       const onRefresh = ()=>{

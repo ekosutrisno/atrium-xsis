@@ -64,7 +64,7 @@
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore, useUtilityStore } from '@/services'
-import { formatDateMont } from '@/utils/helperFunction';
+import { formatDateMonth } from '@/utils/helperFunction';
 
 export default defineComponent({
   components: {
@@ -106,8 +106,8 @@ export default defineComponent({
         let currentMonthDate = new Date();
         
         ctx.emit('submit-timesheet', { 
-          from: formatDateMont(currentMonthDate.setMonth(currentMonthDate.getMonth() - 1)), 
-          to: formatDateMont(new Date().setDate(new Date().getDate() - 1))
+          from: formatDateMonth(currentMonthDate.setMonth(currentMonthDate.getMonth() - 1)), 
+          to: formatDateMonth(new Date().setDate(new Date().getDate() - 1))
         });
        
         closeModal();
