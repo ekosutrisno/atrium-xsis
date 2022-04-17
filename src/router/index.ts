@@ -8,7 +8,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to: RouteLocationNormalized) => {
-   document.title = `Atrium - ${to.meta.title}`;
+   document.title = `Open Atrium - ${to.meta.title}`;
 
    const isLogedInUserUID = localStorage.getItem('_uid');
    const exclude = ['6','7'];

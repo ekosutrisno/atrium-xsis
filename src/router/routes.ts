@@ -10,6 +10,8 @@ import ResetPasswordPage from '../views/web/ResetPasswordPage.vue';
 // View Admin
 import UserAdminAction from '../views/admin/UserAdminAction.vue';
 import TimesheetAdminAction from '../views/admin/TimesheetAdminAction.vue';
+import TimesheetAdminNeedApproveAction from '../views/admin/TimesheetAdminNeedApproveAction.vue';
+import TimesheetAdminNeedApproveDetail from '../views/admin/TimesheetAdminNeedApproveDetail.vue';
 import ClientAdminAction from '../views/admin/ClientAdminAction.vue';
 import StatisticAdminAction from '../views/admin/StatisticAdminAction.vue';
 import RoleAdminAction from '../views/admin/RoleAdminAction.vue';
@@ -250,6 +252,28 @@ const routes: RouteRecordRaw[] = [
             meta: {
                title: `Timesheet Admin Action`,
                description: 'Pages for managing all timesheets',
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/timesheet_management/need_approve`,
+            name: `TimesheetAdminNeedApproveAction`,
+            component: TimesheetAdminNeedApproveAction,
+            meta: {
+               title: ` Need Approve Timesheet Admin Action`,
+               description: 'Pages for managing specific timesheet actions',
+               requiresAuth: true,
+               requiresAdmin: true
+            }
+         },
+         {
+            path: `/a/0/dashboard/timesheet_management/need_approve/:userId/detail`,
+            name: `TimesheetAdminNeedApproveDetail`,
+            component: TimesheetAdminNeedApproveDetail,
+            meta: {
+               title: ` Need Approve Timesheet Admin Detail Action`,
+               description: 'Pages for managing specific timesheet details',
                requiresAuth: true,
                requiresAdmin: true
             }

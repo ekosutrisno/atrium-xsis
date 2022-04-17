@@ -1,6 +1,6 @@
 <template>
   <div class="font-quicksand min-h-screen bg-color-gray-lighter dark:bg-color-dark-black-darker">
-      <header class="w-full px-8 lg:px-0 fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
+      <header class="w-full fixed z-20 top-0 h-auto bg-color-dark-gray-darkest border-b border-color-dark-gray-darker shadow">
          <div class="flex items-center justify-between py-4 max-w-7xl mx-auto">
             <div class="inline-flex items-center">
                <router-link to="/" class="flex-shrink-0 font-semibold text-color-gray-lightest flex items-center text-2xl">
@@ -59,7 +59,7 @@
                         <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentUserMainRole.roleName}}</p>
                      </div>
                      <div class="flex flex-col">
-                        <p class="text-sm text-color-gray-default dark:text-color-gray-default">Role Descrition</p>
+                        <p class="text-sm text-color-gray-default dark:text-color-gray-default">Role Description</p>
                         <p class="text-color-dark-gray-darker dark:text-color-gray-light">{{ currentUserMainRole.roleDescription }}</p>
                      </div>
                      <div class="flex flex-col">
