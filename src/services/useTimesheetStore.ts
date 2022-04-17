@@ -171,9 +171,6 @@ export const useTimesheetStore = defineStore('useTimesheetStore', {
                   const timesheet = sheet.data() as ITimesheet;
                   const currentMonth = extractCurrentMonthYear(timesheet.absensiId);
 
-                  /** Set isDone to True */
-                  timesheet.isDone = true;
-
                   /** Prepare Update Employee Timesheet References*/
                   const docRef = doc(db, `tbl_timesheet`, `${userId}`);
                   const docSnap = doc(docRef, `TS-${currentMonth}`, timesheet.absensiId);
@@ -190,8 +187,11 @@ export const useTimesheetStore = defineStore('useTimesheetStore', {
                   await setDoc(docSnapToEro, {
                      lastUpdatedDate: Date.now(),
                      lastUpdatedDateString: formatDateWithDayMonth(Date.now()),
-                     userId: userId
+                     userId: userId,
+                     userFullName: userStore.currentUser.fullName,
+                     isApprove: false
                   })
+
                   await setDoc(docSnapUser, timesheet);
                });
 

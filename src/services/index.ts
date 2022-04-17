@@ -9,6 +9,7 @@ import { useRoleStore } from './useRoleStore';
 import { useClientStore } from './useClientStore';
 import { useFileStore } from './useFileStore';
 import { useNotificationStore } from './useNotificationStore';
+import { useTimesheetStoreAdmin } from './useTimesheetStoreAdmin';
 
 export {
    useProjectStore,
@@ -16,6 +17,7 @@ export {
    useUtilityStore,
    useUserStore,
    useTimesheetStore,
+   useTimesheetStoreAdmin,
    useVacancyStore,
    useAuthStore,
    useRoleStore,
